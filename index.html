@@ -96,15 +96,18 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
   $.getJSON("test.geojson", function(data) {
     // Define a custom icon (optional)
     var markerIcon = L.icon({
-      iconSize: [30, 30],
-	minZoom: 5, 
-    	maxZoom: 13 
-    }); 
-    
+        iconUrl: 'darkmark.png',  // Specify the path to your icon image
+        iconSize: [30, 30]  // Size of the icon
+    });
+	  
+
     L.geoJSON(data, {
       pointToLayer: function(feature, latlng) {
         // Create a marker with the custom icon
-        var marker = L.marker(latlng, { icon: markerIcon });
+        var marker = L.marker(latlng, { icon: markerIcon,	
+	minZoom: 5, 
+    	maxZoom: 13  
+});
         // Bind the popup with a feature property (adjust based on your GeoJSON structure)
         marker.bindPopup(feature.properties.name); 
 
