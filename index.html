@@ -1,1 +1,148 @@
-'hello Europe'
+<html>
+  <head> <!--this is metadata -->
+    <title>Test</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="jquery-2.1.1.min.js"></script> 
+    <style>
+	 html, body {
+            height: 100%;
+            margin: 0;
+            font-family: Brush Script MT, sans-serif;
+        }
+
+        header {
+            position: fixed; /* Keep the header fixed at the top */
+            top: 0;
+            left: 0;
+            width: 100%; /* Full width */
+            background-color: yellow; /* Background color */
+            padding: 10px; /* Space inside the header */
+            box-sizing: border-box;
+            z-index: 1000; /* Ensure it stays above other content */
+        }
+
+        body {
+            padding-top: 60px; /* Offset body content by header height */
+            display: flex;
+		flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+	#top-div {
+            width: 900px;
+            height: 550px;
+            background-color: white;
+	}   
+	    #map {
+            width: 900px;
+            height: 550px;
+            background-color: #eee; /* Background color for visibility */
+        }	
+	    #bottom-div {
+            width: 900px;
+            height: 250px;
+            background-color: yellow;
+	}	
+        h1 {
+            color: black;
+            font-family: Brush Script MT, sans-serif;
+            font-size: 400%;
+            text-align: center;
+            margin: 0;
+        }
+	    
+	h2 {
+            color: black;
+            font-family: Brush Script MT, sans-serif;
+            font-size: 250%;
+            text-align: center;
+            margin: 0;
+        }
+	p {
+            color: black;
+            font-family: Brush Script MT, sans-serif;
+	}
+    </style>
+  </head>
+ 
+  <body>
+    <header>
+      <h1>This is a test</h1>
+    </header>
+    <!-- The map container -->
+    <div id="top-div">
+	    <div id="map"></div>
+	</div>
+    <script>
+  // Initialize the map and set its view to the center of Europe with an appropriate zoom level
+  var map = L.map('map').setView([48.1657, 9.4515], 5);
+	
+  
+  //Add the OpenStreetMap tile layer
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>',
+	maxZoom: 12,
+      	minZoom: 5
+}).addTo(map);
+
+
+//L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  //}).addTo(map);
+  
+  // Load GeoJSON from an external file and add GeoJSON layer to the map once the file is loaded
+  $.getJSON("test.geojson", function(data) {
+    // Define a custom icon (optional)
+    var markerIcon = L.icon({
+      iconUrl: 'bee.png',
+      iconSize: [30, 30]
+    }); 
+    
+    L.geoJSON(data, {
+      pointToLayer: function(feature, latlng) {
+        // Create a marker with the custom icon
+        var marker = L.marker(latlng, { icon: markerIcon });
+        // Bind the popup with a feature property (adjust based on your GeoJSON structure)
+        marker.bindPopup(feature.properties.name); 
+
+	// Open popup on hover
+        marker.on('mouseover', function(e) {
+        this.openPopup();
+        });
+            
+        // Close popup when the mouse leaves the marker
+        marker.on('mouseout', function(e) {
+        this.closePopup();
+        });
+        return marker;
+      }
+    }).addTo(map);
+  });
+
+//adding hexpolygons
+$.getJSON("hex_test_reproject.geojson", function(data) {
+  L.geoJSON(data, {
+    style: function(feature) {
+	var fillColor,
+          density = feature.properties.NUMPOINTS;
+      if ( density >= 8.0 ) fillColor = "#ff841f";
+      else if ( density >= 4.0 ) fillColor = "#ffb61f";
+      else if ( density >= 3.0 ) fillColor = "#ffe91f";
+      else if ( density >= 2.0 ) fillColor = "#ffff6a";
+      else if ( density >= 1.0 ) fillColor = "#ffff9b";
+      else fillColor = "#000000";  // no data
+      return { color: "yellow", weight: 3, fillColor: fillColor, fillOpacity: 0.7 };
+
+    }
+  }).addTo(map);
+});
+</script>
+<div id="bottom-div">
+	  
+	<h2><br>This is still a test</h2>
+	  
+	<p>test, buzz buzz </p>
+</div>  	  
+  </body>
+</html>
