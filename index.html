@@ -110,8 +110,9 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
   $.getJSON("test.geojson", function(data) {
     // Define a custom icon (optional)
     var markerIcon = L.icon({
-      iconUrl: 'darkmark.png',
-      iconSize: [30, 30]
+      iconSize: [30, 30],
+	minZoom: 5, 
+    	maxZoom: 13 
     }); 
     
     L.geoJSON(data, {
