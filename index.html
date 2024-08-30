@@ -98,25 +98,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
     // add GeoJSON layer to the map once the file is loaded
     L.geoJson(data).addTo(map);
   });
- 
-
-//adding hexpolygons
-$.getJSON("hex_test_reproject.geojson", function(data) {
-  L.geoJSON(data, {
-    style: function(feature) {
-	var fillColor,
-          density = feature.properties.NUMPOINTS;
-      if ( density >= 8.0 ) fillColor = "#ff841f";
-      else if ( density >= 4.0 ) fillColor = "#ffb61f";
-      else if ( density >= 3.0 ) fillColor = "#ffe91f";
-      else if ( density >= 2.0 ) fillColor = "#ffff6a";
-      else if ( density >= 1.0 ) fillColor = "#ffff9b";
-      else fillColor = "#000000";  // no data
-      return { color: "yellow", weight: 3, fillColor: fillColor, fillOpacity: 0.7 };
-
-    }
-  }).addTo(map);
-});
+	    
 </script>
 <div id="bottom-div">
 	  
