@@ -76,14 +76,14 @@
 
   /* Change the color of the popup tip (the little triangle) */
   .leaflet-popup-tip {
-      background-color: solid transparent; /* Match the border color */
+      background-color: solid blue; /* Match the border color */
       /* border: 2px solid black; */
 	/* width: 0;
 	    height: 0;
 	    border-left: 30px solid black;  /* Adjust this value for the left side */
-	    border-right: 30px solid black; /* Adjust this value for the right side */
-	    border-top: 30px solid yellow;  /* The color and size of the top part of the tip */
-	    border-bottom: 0px;  /* No bottom border, adjust to a thicker value to make a trapezoid */
+	    /*border-right: 30px solid black; /* Adjust this value for the right side */
+	    /*border-top: 30px solid yellow;  /* The color and size of the top part of the tip */
+	    /*border-bottom: 0px;  /* No bottom border, adjust to a thicker value to make a trapezoid */
 }
   }
 
@@ -153,6 +153,23 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
       }
     }).addTo(map);
   });
+
+function updateLayerVisibility() {
+    var zoom = map.getZoom();
+    
+    if (zoom < 6) {
+        map.removeLayer(marker);
+    } else if (zoom >= 6 && zoom < 8) {
+        map.removeLayer(marker);
+    } else {
+        map.removeLayer(marker);
+    }
+}
+
+map.on('zoomend', updateLayerVisibility);
+
+// Initialize visibility on map load
+updateLayerVisibility();
 	    
 </script>
 <div id="bottom-div">
