@@ -63,13 +63,33 @@
             color: black;
             font-family: Brush Script MT, sans-serif;
 	}
+	/* Change the popup background color and text color */
+  .leaflet-popup-content-wrapper {
+      background-color: #d69a02; 
+      color: #333; /* Dark text */
+      border-radius: 5px; /* Rounded corners */
+  }
 
+  /* Change the popup border */
+  .leaflet-popup-content-wrapper {
+      border: 2px solid #555; /* Dark grey border */
+  }
+
+  /* Change the color of the popup tip (the little triangle) */
+  .leaflet-popup-tip {
+      background-color: #d69a02; /* Match the border color */
+  }
+
+  /* Optional: style the text inside the popup */
+  .leaflet-popup-content {
+      font-weight: bold; /* Bold text */
+  }
     </style>
   </head>
  
   <body>
     <header>
-      <h1>This is a test</h1>
+      <h1>This is a test of popups</h1>
     </header>
     <!-- The map container -->
     <div id="top-div">
