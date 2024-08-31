@@ -69,14 +69,15 @@
       border-radius: 5px; /* Rounded corners */
       border: 2px solid black; /* Dark grey border */
         text-align: center;  /* Center the content */
-	color: black; /* Dark text */
+	color: blue; /* Dark text */
 	font-size: 12pt;
 	font-weight: bold; /* Bold text */
   }
 
   /* Change the color of the popup tip (the little triangle) */
   .leaflet-popup-tip {
-      background-color: solid transparent; /* Match the border color */
+      display: none;
+	/*  background-color: solid transparent; /* Match the border color */
       /* border: 2px solid black; */
 	/* width: 0;
 	    height: 0;
@@ -91,7 +92,7 @@
   .leaflet-popup-content {
           text-align: center;  /* Center the content */
 	  color: black; /* Dark text */
-	  font-size: 40pt;
+	  font-size: 20pt;
 	  font-weight: bold; /* Bold text */
   }
     </style>
@@ -124,61 +125,78 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
   
   // Load GeoJSON from an external file and add GeoJSON layer to the map once the file is loaded
 // load GeoJSON from an external file
- $.getJSON("orte.geojson", function(data) {
-    // Define a custom icon (optional)
-    var markerIcon = L.icon({
-      iconUrl: 'beeIcon.png',//attribution: <a href="https://www.flaticon.com/free-icons/bee" title="bee icons">Bee icons created by juicy_fish - Flaticon</a>
-      iconSize: [50, 50]
-    }); 
-    
+ // Define a custom icon (optional)
+var markerIcon = L.icon({
+  iconUrl: 'beeIcon.png', // Attribution: <a href="https://www.flaticon.com/free-icons/bee" title="bee icons">Bee icons created by juicy_fish - Flaticon</a>
+  iconSize: [50, 50]
+});
+
+// Function to update layer visibility based on zoom level
+function updateLayerVisibility() {
+  var zoom = map.getZoom();
+  
+  if (zoom <= 5) {
+    // Hide markers for zoom levels less than 6
+    map.eachLayer(function(layer) {
+      if (layer instanceof L.Marker) {
+        layer.removeFrom(map);
+      }
+    });
+  } else {
+    // Show markers for zoom levels 6 and above
     L.geoJSON(data, {
       pointToLayer: function(feature, latlng) {
-        // Create a marker with the custom icon
         var marker = L.marker(latlng, { icon: markerIcon });
-        // Bind the popup with a feature property (adjust based on your GeoJSON structure)
 
-	function updateLayerVisibility() {
-    		var zoom = map.getZoom();
-    
-    		if (zoom < 6) {
-        		map.removeLayer(marker);
-    		} else if (zoom >= 6 && zoom < 8) {
-        		map.removeLayer(marker);
-    		} else {
-        		map.removeLayer(marker);
-    }
-}
-
-map.on('zoomend', updateLayerVisibility);
-
-// Initialize visibility on map load
-updateLayerVisibility();
-
-
-
-
-
-
-
-	      
         var popupContent = feature.properties.name;
-		marker.bindPopup(popupContent, {closeButton: false  // Disable the close button
-	});
+        marker.bindPopup(popupContent, { closeButton: false });
 
-	// Open popup on hover
-        marker.on('mouseover', function(e) {
-        this.openPopup();
+        // Open popup on hover
+        marker.on('mouseover', function() {
+          this.openPopup();
         });
-            
+
         // Close popup when the mouse leaves the marker
-        marker.on('mouseout', function(e) {
-        this.closePopup();
+        marker.on('mouseout', function() {
+          this.closePopup();
         });
+
         return marker;
       }
     }).addTo(map);
-  });
+  }
+}
 
+// Fetch GeoJSON data and add layers to the map
+$.getJSON("orte.geojson", function(data) {
+  // Add GeoJSON data to the map
+  L.geoJSON(data, {
+    pointToLayer: function(feature, latlng) {
+      var marker = L.marker(latlng, { icon: markerIcon });
+
+      var popupContent = feature.properties.name;
+      marker.bindPopup(popupContent, { closeButton: false });
+
+      // Open popup on hover
+      marker.on('mouseover', function() {
+        this.openPopup();
+      });
+
+      // Close popup when the mouse leaves the marker
+      marker.on('mouseout', function() {
+        this.closePopup();
+      });
+
+      return marker;
+    }
+  }).addTo(map);
+
+  // Initialize visibility on map load
+  updateLayerVisibility();
+});
+
+// Update layer visibility on zoom end
+map.on('zoomend', updateLayerVisibility);
 
 	    
 </script>
