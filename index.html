@@ -100,7 +100,14 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
       	iconUrl: 'beeIcon.png',//attribution: <a href="https://www.flaticon.com/free-icons/bee" title="bee icons">Bee icons created by juicy_fish - Flaticon</a>
       	iconSize: [30, 30]
     }); 
-    L.geoJson(data).addTo(map);
+	  
+L.geoJSON(data, {
+      pointToLayer: function(feature, latlng) {
+        // Create a marker with the custom icon
+        var marker = L.marker(latlng, { icon: markerIcon });
+        // Bind the popup with a feature property (adjust based on your GeoJSON structure)
+    }
+L.geoJson(data).addTo(map);
   });
 	    
 </script>
