@@ -98,7 +98,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
     // Define a custom icon (optional)
     var markerIcon = L.icon({
       iconUrl: 'beeIcon.png',//attribution: <a href="https://www.flaticon.com/free-icons/bee" title="bee icons">Bee icons created by juicy_fish - Flaticon</a>
-      iconSize: [30, 30]
+      iconSize: [50, 50]
     }); 
     
     L.geoJSON(data, {
@@ -106,7 +106,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
         // Create a marker with the custom icon
         var marker = L.marker(latlng, { icon: markerIcon });
         // Bind the popup with a feature property (adjust based on your GeoJSON structure)
-        marker.bindPopup(feature.properties.name); 
+        marker.bindPopup(feature.properties.name{closeButton = false}); 
 
 	// Open popup on hover
         marker.on('mouseover', function(e) {
