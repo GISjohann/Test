@@ -94,7 +94,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
   
   // Load GeoJSON from an external file and add GeoJSON layer to the map once the file is loaded
 // load GeoJSON from an external file
-  $.getJSON("places.geojson",function(data){
+  $.getJSON("orte.geojson",function(data){
     // add GeoJSON layer to the map once the file is loaded
     L.geoJson(data).addTo(map);
   });
