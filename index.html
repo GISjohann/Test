@@ -126,78 +126,57 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
   // Load GeoJSON from an external file and add GeoJSON layer to the map once the file is loaded
 // load GeoJSON from an external file
  // Define a custom icon (optional)
+// Define a custom icon (optional)
 var markerIcon = L.icon({
   iconUrl: 'beeIcon.png', // Attribution: <a href="https://www.flaticon.com/free-icons/bee" title="bee icons">Bee icons created by juicy_fish - Flaticon</a>
   iconSize: [50, 50]
 });
 
+// Declare a variable to store the GeoJSON layer
+var geoJsonLayer;
+
 // Function to update layer visibility based on zoom level
 function updateLayerVisibility() {
   var zoom = map.getZoom();
   
-  if (zoom <= 5) {
-    // Hide markers for zoom levels less than 6
-    map.eachLayer(function(layer) {
-      if (layer instanceof L.Marker) {
-        layer.removeFrom(map);
-      }
-    });
+  if (zoom < 6) {
+    if (geoJsonLayer) {
+      map.removeLayer(geoJsonLayer);
+    }
   } else {
-    // Show markers for zoom levels 6 and above
-    L.geoJSON(data, {
-      pointToLayer: function(feature, latlng) {
-        var marker = L.marker(latlng, { icon: markerIcon });
+    if (!geoJsonLayer) {
+      geoJsonLayer = L.geoJSON(data, {
+        pointToLayer: function(feature, latlng) {
+          var marker = L.marker(latlng, { icon: markerIcon });
 
-        var popupContent = feature.properties.name;
-        marker.bindPopup(popupContent, { closeButton: false });
+          var popupContent = feature.properties.name;
+          marker.bindPopup(popupContent, { closeButton: false });
 
-        // Open popup on hover
-        marker.on('mouseover', function() {
-          this.openPopup();
-        });
+          // Open popup on hover
+          marker.on('mouseover', function() {
+            this.openPopup();
+          });
 
-        // Close popup when the mouse leaves the marker
-        marker.on('mouseout', function() {
-          this.closePopup();
-        });
+          // Close popup when the mouse leaves the marker
+          marker.on('mouseout', function() {
+            this.closePopup();
+          });
 
-        return marker;
-      }
-    }).addTo(map);
+          return marker;
+        }
+      }).addTo(map);
+    }
   }
 }
 
 // Fetch GeoJSON data and add layers to the map
-$.getJSON("orte.geojson", function(data) {
-  // Add GeoJSON data to the map
-  L.geoJSON(data, {
-    pointToLayer: function(feature, latlng) {
-      var marker = L.marker(latlng, { icon: markerIcon });
-
-      var popupContent = feature.properties.name;
-      marker.bindPopup(popupContent, { closeButton: false });
-
-      // Open popup on hover
-      marker.on('mouseover', function() {
-        this.openPopup();
-      });
-
-      // Close popup when the mouse leaves the marker
-      marker.on('mouseout', function() {
-        this.closePopup();
-      });
-
-      return marker;
-    }
-  }).addTo(map);
-
-  // Initialize visibility on map load
-  updateLayerVisibility();
+$.getJSON("orte.geojson", function(loadedData) {
+  data = loadedData; // Store the data in a global variable
+  updateLayerVisibility(); // Initialize visibility based on initial zoom level
 });
 
 // Update layer visibility on zoom end
 map.on('zoomend', updateLayerVisibility);
-
 	    
 </script>
 <div id="bottom-div">
