@@ -150,7 +150,7 @@ function updateLayerVisibility() {
         pointToLayer: function(feature, latlng) {
           var marker = L.marker(latlng, { icon: markerIcon });
 
-          var popupContent = feature.properties.name + <img src="beeIcon.png" alt="Description" width="200px" />;
+          var popupContent = feature.properties.name + '<img src="beeIcon.png" alt="Description" width="200px" />';
           marker.bindPopup(popupContent, { closeButton: false });
 
           // Open popup on hover
