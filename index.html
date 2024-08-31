@@ -96,6 +96,10 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
 // load GeoJSON from an external file
   $.getJSON("orte.geojson",function(data){
     // add GeoJSON layer to the map once the file is loaded
+	var markerIcon = L.icon({
+      	iconUrl: 'beeIcon.png',//attribution: <a href="https://www.flaticon.com/free-icons/bee" title="bee icons">Bee icons created by juicy_fish - Flaticon</a>
+      	iconSize: [30, 30]
+    }); 
     L.geoJson(data).addTo(map);
   });
 	    
