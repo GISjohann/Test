@@ -141,10 +141,9 @@ var geoJsonLayer;
 function addGeoJsonLayer() {
   geoJsonLayer = L.geoJSON(geoJsonData, {
     pointToLayer: function(feature, latlng) {
-      var marker = L.marker(latlng, { icon: markerIcon });
-
-      	var popupContent = feature.properties.name + '<img src="fotos/'+ feature.properties.fotoID+'" alt="Foto nicht gefunden" width = 100px  style="width: 80px; height: auto;>"';   
-      	marker.bindPopup(popupContent, { closeButton: false });
+      var marker = L.marker(latlng, { icon: markerIcon });   
+      	var popupContent = feature.properties.name + '<img src="fotos/' + feature.properties.fotoID + '" alt="Foto nicht gefunden" style="width: 80px; height: auto;">';
+	    marker.bindPopup(popupContent, { closeButton: false });
 
       // Open popup on hover
       marker.on('mouseover', function() {
