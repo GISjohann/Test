@@ -143,7 +143,7 @@ function addGeoJsonLayer() {
     pointToLayer: function(feature, latlng) {
       var marker = L.marker(latlng, { icon: markerIcon });
 
-      var popupContent = feature.properties.name + '<img src="${fotos/B.jpeg}" alt="Image description" width="50px" />';   
+      var popupContent = feature.properties.name + 'n\' + <img src="fotos/B.jpeg" alt="Description of the image" width="50px" >;   
       marker.bindPopup(popupContent, { closeButton: false });
 
       // Open popup on hover
