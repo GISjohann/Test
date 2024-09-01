@@ -133,47 +133,54 @@ var markerIcon = L.icon({
   iconSize: [50, 50]
 });
 
-// Declare a variable to store the GeoJSON layer
+// Declare a variable to store the GeoJSON data globally
+var geoJsonData;
 var geoJsonLayer;
+
+// Function to add the GeoJSON layer to the map
+function addGeoJsonLayer() {
+  geoJsonLayer = L.geoJSON(geoJsonData, {
+    pointToLayer: function(feature, latlng) {
+      var marker = L.marker(latlng, { icon: markerIcon });
+
+      var popupContent = feature.properties.name + 'fotos/B.jpeg';
+      marker.bindPopup(popupContent, { closeButton: false });
+
+      // Open popup on hover
+      marker.on('mouseover', function() {
+        this.openPopup();
+      });
+
+      // Close popup when the mouse leaves the marker
+      marker.on('mouseout', function() {
+        this.closePopup();
+      });
+
+      return marker;
+    }
+  }).addTo(map);
+}
 
 // Function to update layer visibility based on zoom level
 function updateLayerVisibility() {
   var zoom = map.getZoom();
   
-  if (zoom < 6) {
-    if (geoJsonLayer) {
-      map.removeLayer(geoJsonLayer);
-    }
-  } else {
-    if (!geoJsonLayer) {
-      geoJsonLayer = L.geoJSON(data, {
-        pointToLayer: function(feature, latlng) {
-          var marker = L.marker(latlng, { icon: markerIcon });
-
-          var popupContent = feature.properties.name + '<img src="beeIcon.png" alt="Description" width="200px" />';
-          marker.bindPopup(popupContent, { closeButton: false });
-
-          // Open popup on hover
-          marker.on('mouseover', function() {
-            this.openPopup();
-          });
-
-          // Close popup when the mouse leaves the marker
-          marker.on('mouseout', function() {
-            this.closePopup();
-          });
-
-          return marker;
-        }
-      }).addTo(map);
-    }
+  if (zoom < 6 && geoJsonLayer) {
+    // Remove the layer if the zoom level is less than 6
+    map.removeLayer(geoJsonLayer);
+    geoJsonLayer = null;
+  } else if (zoom >= 6 && !geoJsonLayer) {
+    // Re-add the layer if the zoom level is 6 or higher and the layer doesn't exist
+    addGeoJsonLayer();
   }
 }
 
-// Fetch GeoJSON data and add layers to the map
+// Fetch GeoJSON data and store it globally
 $.getJSON("orte.geojson", function(loadedData) {
-  data = loadedData; // Store the data in a global variable
-  updateLayerVisibility(); // Initialize visibility based on initial zoom level
+  geoJsonData = loadedData; // Store the data globally
+
+  // Initialize visibility based on the initial zoom level
+  updateLayerVisibility();
 });
 
 // Update layer visibility on zoom end
