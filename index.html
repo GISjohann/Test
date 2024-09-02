@@ -161,7 +161,7 @@ function addGeoJsonLayer() {
     }).addTo(map);
 	}
 	    
-var HoverPopupContent = feature.properties.name
+var HoverPopupContent = feature.properties.name;
 var ClickPopupContent = '<img src="fotos/' + feature.properties.fotoID + '" alt="Foto nicht gefunden" style="width: 200px; height: auto;">' + 
     '<br>' + feature.properties.name;
 	    marker.bindTooltip(HoverPopupContentpopupContent, { permanent: false });
