@@ -158,9 +158,7 @@ function addGeoJsonLayer() {
       var marker = L.marker(latlng, { icon: markerIcon });
       return marker;
     }
-    }).addTo(map);
-	}
-	    
+
 var HoverPopupContent = feature.properties.name;
 var ClickPopupContent = '<img src="fotos/' + feature.properties.fotoID + '" alt="Foto nicht gefunden" style="width: 200px; height: auto;">' + 
     '<br>' + feature.properties.name;
@@ -179,6 +177,11 @@ var ClickPopupContent = '<img src="fotos/' + feature.properties.fotoID + '" alt=
         this.unbindTooltip();  // Optionally unbind the tooltip if you don't want it to appear after clicking
         this.bindPopup(ClickPopupContent).openPopup();// Show the detailed popup on click
       });
+	
+    }).addTo(map);
+	}
+	    
+
   
 
 
