@@ -156,20 +156,23 @@ function addGeoJsonLayer() {
   geoJsonLayer = L.geoJSON(geoJsonData, {
     pointToLayer: function(feature, latlng) {
       var marker = L.marker(latlng, { icon: markerIcon });   
-      	var popupContent = '<img src="fotos/' + feature.properties.fotoID + '" alt="Foto nicht gefunden" style="width: 200px; height: auto;">' + 
+      	var HoverPopupContent = feature.properties.name
+	var ClickPopupContent = '<img src="fotos/' + feature.properties.fotoID + '" alt="Foto nicht gefunden" style="width: 200px; height: auto;">' + 
     '<br>' + feature.properties.name;
-	    marker.bindPopup(popupContent, { closeButton: false });
+	    marker.bindTooltip(HoverPopupContentpopupContent, { permanent: false });
 
       // Open popup on hover
       marker.on('mouseover', function() {
-        this.openPopup();
+        this.openTooltip();
       });
 
       // Close popup when the mouse leaves the marker
       marker.on('mouseout', function() {
-        this.closePopup();
+        this.closeTooltip();
       });
-
+      marker.on('click', function() {
+        this.unbindTooltip();  // Optionally unbind the tooltip if you don't want it to appear after clicking
+        this.bindPopup(ClickPopupContent).openPopup();  // Show the detailed popup on click
       return marker;
     }
   }).addTo(map);
@@ -179,11 +182,11 @@ function addGeoJsonLayer() {
 function updateLayerVisibility() {
   var zoom = map.getZoom();
   
-  if (zoom < 6 && geoJsonLayer) {
+  if (zoom < 7 && geoJsonLayer) {
     // Remove the layer if the zoom level is less than 6
     map.removeLayer(geoJsonLayer);
     geoJsonLayer = null;
-  } else if (zoom >= 6 && !geoJsonLayer) {
+  } else if (zoom >= 7 && !geoJsonLayer) {
     // Re-add the layer if the zoom level is 6 or higher and the layer doesn't exist
     addGeoJsonLayer();
   }
