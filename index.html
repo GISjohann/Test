@@ -123,7 +123,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // Add fullscreen control to the map
-map.addControl(new L.Control.Fullscreen());
+L.control.fullscreen().addTo(map);
 
 // Handle events when entering/exiting fullscreen mode (optional)
 map.on('enterFullscreen', function(){
