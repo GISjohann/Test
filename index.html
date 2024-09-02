@@ -172,8 +172,9 @@ function addGeoJsonLayer() {
       });
       marker.on('click', function() {
         this.unbindTooltip();  // Optionally unbind the tooltip if you don't want it to appear after clicking
-        this.bindPopup(ClickPopupContent).openPopup();  // Show the detailed popup on click
-      return marker;
+        this.bindPopup(ClickPopupContent).openPopup();// Show the detailed popup on click
+      }
+  return marker;
     
   }).addTo(map);
 }
