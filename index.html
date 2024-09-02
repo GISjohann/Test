@@ -119,6 +119,17 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
       	minZoom: 5
 }).addTo(map);
 
+// Add fullscreen control to the map
+map.addControl(new L.Control.Fullscreen());
+
+// Handle events when entering/exiting fullscreen mode (optional)
+map.on('enterFullscreen', function(){
+    console.log('Entered fullscreen');
+});
+
+map.on('exitFullscreen', function(){
+    console.log('Exited fullscreen');
+});	    
 
 //L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 //attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
