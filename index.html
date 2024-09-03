@@ -142,9 +142,14 @@ map.on('exitFullscreen', function(){
 // load GeoJSON from an external file
  // Define a custom icon (optional)
 // Define a custom icon (optional)
-var markerIcon = L.icon({
+var MarkerIcon = L.icon({
   iconUrl: 'beeIconMod.png', // Attribution: <a href="https://www.flaticon.com/free-icons/bee" title="bee icons">Bee icons created by juicy_fish - Flaticon</a>
   iconSize: [50, 50]
+});
+
+var HoverMarkerIcon = L.icon({
+  iconUrl: 'beeIconMod.png', // Attribution: <a href="https://www.flaticon.com/free-icons/bee" title="bee icons">Bee icons created by juicy_fish - Flaticon</a>
+  iconSize: [75, 75]
 });
 
 // Declare a variable to store the GeoJSON data globally
@@ -155,7 +160,7 @@ var geoJsonLayer;
 function addGeoJsonLayer() {
   geoJsonLayer = L.geoJSON(geoJsonData, {
     pointToLayer: function(feature, latlng) {
-      var marker = L.marker(latlng, { icon: markerIcon });
+      var marker = L.marker(latlng, { icon: MarkerIcon });
 
 
 var HoverPopupContent = feature.properties.name;
@@ -183,7 +188,15 @@ marker.bindTooltip(HoverPopupContent, { permanent: false });
     }).addTo(map);
 	}
 	    
+// Add mouseover event to enlarge the marker
+        marker.on('mouseover', function () {
+            marker.setIcon(HoverMarkerIcon);
+        });
 
+        // Add mouseout event to revert to the default size
+        marker.on('mouseout', function () {
+            marker.setIcon(MarkerIcon);
+        });
   
 
 
