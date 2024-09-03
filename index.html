@@ -75,6 +75,18 @@
 	font-weight: bold; /* Bold text */
 	font-family: Comic Sans MS;
   }
+/* Popup container on the right side */
+        #side-popup {
+            width: 30%; /* Takes up 30% of the width */
+            height: 400px;
+            float: left;
+            background-color: yellow;
+            border-left: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
 
   /* Change the color of the popup tip (the little triangle) */
   .leaflet-popup-tip {
@@ -107,8 +119,12 @@
     <!-- The map container -->
     <div id="top-div">
 	    <div id="map"></div>
-	    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/Control.FullScreen.css" />
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/Control.FullScreen.js"></script>
+	    <div id="side-popup">
+        <h3>Details</h3>
+        <div id="popup-content">Click on a marker to see details here.</div>
+    </div>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/Control.FullScreen.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/Control.FullScreen.js"></script>
 	</div>
     <script>
   // Initialize the map and set its view to the center of Europe with an appropriate zoom level
@@ -190,7 +206,18 @@ marker.bindTooltip(HoverPopupContent, { permanent: false });
 	}    
     }).addTo(map);
 	}
+	    
+ // Function to update popup content
+        function updatePopupContent(content) {
+            document.getElementById('popup-content').innerHTML = content;
+        }
+// Add click event listener to marker1
+        marker.on('click', function() {
+            updatePopupContent('<h4>Marker</h4><p>This is the first marker.</p>');
+        });
 
+
+	    
 
 // Function to update layer visibility based on zoom level
 function updateLayerVisibility() {
