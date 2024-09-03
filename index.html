@@ -172,11 +172,13 @@ marker.bindTooltip(HoverPopupContent, { permanent: false });
       // Open popup on hover
       marker.on('mouseover', function() {
         this.openTooltip();
+	marker.setIcon(HoverMarkerIcon);
       });
 
       // Close popup when the mouse leaves the marker
       marker.on('mouseout', function() {
         this.closeTooltip();
+	marker.setIcon(MarkerIcon);
       });
       marker.on('click', function() {
         this.unbindTooltip();  // Optionally unbind the tooltip if you don't want it to appear after clicking
@@ -187,17 +189,6 @@ marker.bindTooltip(HoverPopupContent, { permanent: false });
 	}    
     }).addTo(map);
 	}
-	    
-// Add mouseover event to enlarge the marker
-        marker.on('mouseover', function () {
-            marker.setIcon(HoverMarkerIcon);
-        });
-
-        // Add mouseout event to revert to the default size
-        marker.on('mouseout', function () {
-            marker.setIcon(MarkerIcon);
-        });
-  
 
 
 // Function to update layer visibility based on zoom level
