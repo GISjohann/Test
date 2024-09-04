@@ -201,6 +201,16 @@ marker.bindTooltip(HoverPopupContent, { permanent: false });
         this.bindPopup(ClickPopupContent).openPopup();// Show the detailed popup on click
 	marker.setIcon(HoverMarkerIcon);
       });
+	    
+      // Listen to the popupopen event to keep the icon as HoverMarkerIcon while the popup is open
+	marker.on('popupopen', function() {
+    	this.setIcon(HoverMarkerIcon); // Ensure the icon remains HoverMarkerIcon while popup is open
+	});
+
+	// Listen to the popupclose event to revert the icon back to the default
+	marker.on('popupclose', function() {
+    	this.setIcon(MarkerIcon); // Revert to the default icon when the popup is closed
+	});
 
 	return marker;
 	}    
