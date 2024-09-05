@@ -297,18 +297,6 @@ $.getJSON("orte.geojson", function(loadedData) {
 // Update layer visibility on zoom end
 map.on('zoomend', updateLayerVisibility);
 
-var customPopup = document.querySelector('.custom-popup');
-    map.on('load', function() {
-      var mapContainer = map.getContainer();
-      customPopup.style.top = (mapContainer.offsetHeight / 2 - customPopup.offsetHeight / 2) + 'px';
-    });
-
-    // Update the popup position when the map is resized
-    map.on('resize', function() {
-      var mapContainer = map.getContainer();
-      customPopup.style.top = (mapContainer.offsetHeight / 2 - customPopup.offsetHeight / 2) + 'px';
-    });
-	    
 </script>
 <div id="bottom-div">
 	  
