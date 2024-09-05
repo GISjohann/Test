@@ -288,26 +288,8 @@ function updateLayerVisibility() {
   handleIconsAndPopups(zoom);
 }
 
-// Function to manage icons and popups based on zoom level
-function handleIconsAndPopups(zoom) {
-  if (zoom < 7) {
-    // Hide icons and popups if zoom level is less than 7
-    // This depends on how you've implemented icons and popups
-    if (marker) {
-      map.removeLayer(marker);
-      iconLayer = null;
-    }
-    if (PopupContent) {
-      map.removeLayer(PopupContent);
-      popupLayer = null;
-    }
-  } else {
-    // Show icons and popups if zoom level is 7 or higher
-    if (!marker) {
-      addIconLayer();
-    }
-  }
-}
+
+
 // Fetch GeoJSON data and store it globally
 $.getJSON("orte.geojson", function(loadedData) {
   geoJsonData = loadedData; // Store the data globally
