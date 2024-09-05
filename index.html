@@ -83,7 +83,14 @@
 display: none !important; /* Hide the arrow */
         }
 	  
-  .leaflet-popup-content-wrapper {
+  /* Custom popup style */
+    .leaflet-popup {
+      max-width: none; /* Allow custom width */
+      width: 200px; /* Custom width */
+      background: transparent; /* Make background transparent */
+    }
+	
+.leaflet-popup-content-wrapper {
       background-color: blue; 
       border-radius: 5px; /* Rounded corners */
       border: 2px solid black; /* Dark grey border */
@@ -93,17 +100,20 @@ display: none !important; /* Hide the arrow */
 	font-weight: bold; /* Bold text */
 	font-family: Comic Sans MS;
   }
-/* Popup container on the right side */
-        #side-popup {
-            width: 30%; /* Takes up 30% of the width */
-            height: 400px;
-            float: left;
-            background-color: yellow;
-            border-left: 1px solid #ccc;
-            padding: 10px;
-            box-sizing: border-box;
-            overflow-y: auto;
-        }
+	
+.custom-popup {
+      position: absolute;
+      top: 50px; /* Adjust as needed */
+      right: 10px; /* Adjust as needed */
+      background: blue; /* Ensure background color */
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      border: 2px solid black;
+      font-size: 12pt;
+      font-weight: bold;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
 
   }/*should this be here?
 
@@ -124,7 +134,7 @@ display: none !important; /* Hide the arrow */
     <!-- The map container -->
     <div id="top-div">
 	    <div id="map"></div>
-	    <div id="side-popup">
+	     <div class="custom-popup">This is a custom popup on the side of the map!</div>
         <h3>Details</h3>
         <div id="popup-content">Click on a marker to see details here.</div>
     </div>
@@ -308,6 +318,18 @@ $.getJSON("orte.geojson", function(loadedData) {
 
 // Update layer visibility on zoom end
 map.on('zoomend', updateLayerVisibility);
+
+var customPopup = document.querySelector('.custom-popup');
+    map.on('load', function() {
+      var mapContainer = map.getContainer();
+      customPopup.style.top = (mapContainer.offsetHeight / 2 - customPopup.offsetHeight / 2) + 'px';
+    });
+
+    // Update the popup position when the map is resized
+    map.on('resize', function() {
+      var mapContainer = map.getContainer();
+      customPopup.style.top = (mapContainer.offsetHeight / 2 - customPopup.offsetHeight / 2) + 'px';
+    });
 	    
 </script>
 <div id="bottom-div">
