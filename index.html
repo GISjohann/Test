@@ -102,19 +102,6 @@
             overflow-y: auto;
         }
 
-
-  /* Change the color of the popup tip (the little triangle) */
-  .leaflet-popup-tip {
-      display: none;
-	/*  background-color: solid transparent; /* Match the border color */
-      /* border: 2px solid black; */
-	/* width: 0;
-	    height: 0;
-	    border-left: 30px solid black;  /* Adjust this value for the left side */
-	    /*border-right: 30px solid black; /* Adjust this value for the right side */
-	    /*border-top: 30px solid yellow;  /* The color and size of the top part of the tip */
-	    /*border-bottom: 0px;  /* No bottom border, adjust to a thicker value to make a trapezoid */
-}
   }/*should this be here?
 
   /* Optional: style the text inside the popup */
@@ -202,7 +189,7 @@ var HoverContent = feature.properties.name;
 var PopupContent = '<img src="fotos/' + feature.properties.fotoID + '" alt="Foto nicht gefunden" style="width: 200px; height: auto;">' + 
     '<br>' + feature.properties.name;
 	    
-marker.bindTooltip(HoverContent, { permanent: false });
+marker.bindTooltip(HoverContent, { permanent: false; direction: 'top' });
 
       // Open popup on hover
       marker.on('mouseover', function() {
