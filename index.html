@@ -65,7 +65,8 @@
             font-family: Brush Script MT, sans-serif;
 	}
 	/* Change the popup background color and text color */
-  .leaflet-popup-content-wrapper {
+  /*.leaflet-popup-content-wrapper {*/
+  .leaflet-tooltip {
       background-color: yellow; 
       border-radius: 5px; /* Rounded corners */
       border: 2px solid black; /* Dark grey border */
@@ -158,16 +159,20 @@ map.on('exitFullscreen', function(){
 // load GeoJSON from an external file
  // Define a custom icon (optional)
 // Define a custom icon (optional)
-var MarkerIcon = L.icon({
+var DefaultMarkerIcon = L.icon({
   iconUrl: 'beeIconMod.png', // Attribution: <a href="https://www.flaticon.com/free-icons/bee" title="bee icons">Bee icons created by juicy_fish - Flaticon</a>
   iconSize: [50, 50]
 });
 
 var HoverMarkerIcon = L.icon({
+  iconUrl: 'beeIconMod.png', // Attribution: <a href="https://www.flaticon.com/free-icons/bee" title="bee icons">Bee icons created by juicy_fish - Flaticon</a>
+  iconSize: [75, 75]
+});
+	    
+var PopupMarkerIcon = L.icon({
   iconUrl: 'BuzzBee40.gif', // Attribution: <a href="https://www.flaticon.com/free-icons/bee" title="bee icons">Bee icons created by juicy_fish - Flaticon</a>
   iconSize: [75, 75]
 });
-
 // Declare a variable to store the GeoJSON data globally
 var geoJsonData;
 var geoJsonLayer;
@@ -176,7 +181,7 @@ var geoJsonLayer;
 function addGeoJsonLayer() {
   geoJsonLayer = L.geoJSON(geoJsonData, {
     pointToLayer: function(feature, latlng) {
-      var marker = L.marker(latlng, { icon: MarkerIcon });
+      var marker = L.marker(latlng, { icon: DefaultMarkerIcon });
 
 
 var HoverPopupContent = feature.properties.name;
@@ -194,19 +199,26 @@ marker.bindTooltip(HoverPopupContent, { permanent: false });
       // Close popup when the mouse leaves the marker
       marker.on('mouseout', function() {
         this.closeTooltip();
-	marker.setIcon(MarkerIcon);
-      });
-      marker.on('click', function() {
-        this.unbindTooltip();  // Optionally unbind the tooltip if you don't want it to appear after clicking
-        this.bindPopup(ClickPopupContent).openPopup();// Show the detailed popup on click
-	marker.setIcon(HoverMarkerIcon);
+	marker.setIcon(DefaultMarkerIcon);
       });
 	    
-      // Listen to the popupopen event to keep the icon as HoverMarkerIcon while the popup is open
-	marker.on('popupopen', function() {
-    	this.setIcon(HoverMarkerIcon); // Ensure the icon remains HoverMarkerIcon while popup is open
-	});
+      // Event listener for mouseout - revert to icon1 unless popup is open
+	marker.on('mouseout', function() {
+            if (!this.isPopupOpen()) {
+                this.setIcon(DefaultMarkerIcon);
+            }
+        });
 
+	// Event listener for click - change to icon3 and show popup
+        marker.on('click', function() {
+            this.setIcon(PopupMarkerIcon);
+            this.bindPopup(popupContent).openPopup();
+        });
+	   // Keep the icon as icon3 when the popup is open
+        marker.on('popupopen', function() {
+            this.setIcon(PopupMarkerIcon);
+        });
+  
 	// Listen to the popupclose event to revert the icon back to the default
 	marker.on('popupclose', function() {
     	this.setIcon(MarkerIcon); // Revert to the default icon when the popup is closed
