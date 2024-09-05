@@ -189,7 +189,7 @@ var HoverContent = feature.properties.name;
 var PopupContent = '<img src="fotos/' + feature.properties.fotoID + '" alt="Foto nicht gefunden" style="width: 200px; height: auto;">' + 
     '<br>' + feature.properties.name;
 	    
-marker.bindTooltip(HoverContent, { permanent: false; direction: 'top' });
+marker.bindTooltip(HoverContent, { permanent: false, direction: 'top' });
 
       // Open popup on hover
       marker.on('mouseover', function() {
