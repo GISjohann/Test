@@ -184,7 +184,7 @@ var HoverMarkerIcon = L.icon({
 	    
 var PopupMarkerIcon = L.icon({
   iconUrl: 'BuzzBee40.gif', // Attribution: <a href="https://www.flaticon.com/free-icons/bee" title="bee icons">Bee icons created by juicy_fish - Flaticon</a>
-  iconSize: [75, 80]
+  iconSize: [80, 75]
 });
 // Declare a variable to store the GeoJSON data globally
 var geoJsonData;
@@ -225,7 +225,7 @@ marker.bindTooltip(HoverContent, { permanent: false });
 	// Event listener for click - change to icon3 and show popup
         marker.on('click', function() {
             this.setIcon(PopupMarkerIcon);
-            this.bindPopup(popupContent).openPopup();
+            this.bindPopup(PopupContent).openPopup();
         });
 	   // Keep the icon as icon3 when the popup is open
         marker.on('popupopen', function() {
