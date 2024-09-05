@@ -207,7 +207,8 @@ function addGeoJsonLayer() {
 
       // Bind tooltip (shown on hover)
       marker.bindTooltip(HoverContent, { 
-          permanent: false, 
+          offset: [0, -30],
+	  permanent: false, 
           direction: 'top',
           className: 'custom-tooltip' 
       });
