@@ -66,7 +66,8 @@
 	}
 	/* Change the popup background color and text color */
 
-  .leaflet-tooltip {
+   /* Customize the tooltip without an arrow */
+.custom-tooltip {
        offset: [0, -150]  // Offset by 50px above the icon (y-axis);
 	  background-color: red; 
       	border-radius: 5px; /* Rounded corners */
@@ -77,10 +78,10 @@
 	font-weight: bold; /* Bold text */
 	font-family: Comic Sans MS;
 
-.leaflet-tooltip::before,
-.leaflet-tooltip::after {
-    display: none !important;
-}
+.custom-tooltip::before,
+.custom-tooltip::after {
+display: none !important; /* Hide the arrow */
+        }
 	  
   .leaflet-popup-content-wrapper {
       background-color: red; 
@@ -191,7 +192,11 @@ var HoverContent = feature.properties.name;
 var PopupContent = '<img src="fotos/' + feature.properties.fotoID + '" alt="Foto nicht gefunden" style="width: 200px; height: auto;">' + 
     '<br>' + feature.properties.name;
 	    
-marker.bindTooltip(HoverContent, { permanent: false, direction: 'top' });
+marker.bindTooltip(HoverContent, { 
+	permanent: false, 
+	direction: 'top',
+	className: 'custom-tooltip' 
+});
 
       // Open popup on hover
       marker.on('mouseover', function() {
