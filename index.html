@@ -224,7 +224,7 @@ marker.bindTooltip(HoverContent, { permanent: false; direction: 'top' });
   
 	// Listen to the popupclose event to revert the icon back to the default
 	marker.on('popupclose', function() {
-    	this.setIcon(MarkerIcon); // Revert to the default icon when the popup is closed
+    	this.setIcon(DefaultMarkerIcon); // Revert to the default icon when the popup is closed
 	});
 
 	return marker;
