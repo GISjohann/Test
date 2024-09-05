@@ -65,9 +65,22 @@
             font-family: Brush Script MT, sans-serif;
 	}
 	/* Change the popup background color and text color */
-  /*.leaflet-popup-content-wrapper {*/
+
   .leaflet-tooltip {
       background-color: yellow; 
+      border-radius: 5px; /* Rounded corners */
+      border: 2px solid black; /* Dark grey border */
+        text-align: center;  /* Center the content */
+	color: black; /* Dark text */
+	font-size: 12pt;
+	font-weight: bold; /* Bold text */
+	font-family: Comic Sans MS;
+
+  .leaflet-tooltip-tip {
+      display: none;
+	  
+  .leaflet-popup-content-wrapper {
+      background-color: red; 
       border-radius: 5px; /* Rounded corners */
       border: 2px solid black; /* Dark grey border */
         text-align: center;  /* Center the content */
@@ -171,7 +184,7 @@ var HoverMarkerIcon = L.icon({
 	    
 var PopupMarkerIcon = L.icon({
   iconUrl: 'BuzzBee40.gif', // Attribution: <a href="https://www.flaticon.com/free-icons/bee" title="bee icons">Bee icons created by juicy_fish - Flaticon</a>
-  iconSize: [75, 75]
+  iconSize: [75, 80]
 });
 // Declare a variable to store the GeoJSON data globally
 var geoJsonData;
