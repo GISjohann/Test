@@ -284,18 +284,17 @@ function updateLayerVisibility() {
     addGeoJsonLayer();
   }
 
+  // Fetch GeoJSON data and store it globally
+    $.getJSON("orte.geojson", function(loadedData) {
+      geoJsonData = loadedData; // Store the data globally
 
+      // Initialize visibility based on the initial zoom level
+      updateLayerVisibility();
+    });
 
-// Fetch GeoJSON data and store it globally
-$.getJSON("orte.geojson", function(loadedData) {
-  geoJsonData = loadedData; // Store the data globally
+    // Update layer visibility on zoom end
+    map.on('zoomend', updateLayerVisibility);
 
-  // Initialize visibility based on the initial zoom level
-  updateLayerVisibility();
-});
-
-// Update layer visibility on zoom end
-map.on('zoomend', updateLayerVisibility);
 
 </script>
 <div id="bottom-div">
