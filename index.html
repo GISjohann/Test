@@ -68,8 +68,8 @@
 
    /* Customize the tooltip without an arrow */
 .custom-tooltip {
-       offset: [0, -150]  // Offset by 50px above the icon (y-axis);
-	  background-color: red; 
+       offset: [0, -150]  /* Offset by 50px above the icon (y-axis); */
+	background-color: green; 
       	border-radius: 5px; /* Rounded corners */
       	border: 2px solid black; /* Dark grey border */
         text-align: center;  /* Center the content */
@@ -84,7 +84,7 @@ display: none !important; /* Hide the arrow */
         }
 	  
   .leaflet-popup-content-wrapper {
-      background-color: red; 
+      background-color: blue; 
       border-radius: 5px; /* Rounded corners */
       border: 2px solid black; /* Dark grey border */
         text-align: center;  /* Center the content */
@@ -192,24 +192,53 @@ var HoverContent = feature.properties.name;
 var PopupContent = '<img src="fotos/' + feature.properties.fotoID + '" alt="Foto nicht gefunden" style="width: 200px; height: auto;">' + 
     '<br>' + feature.properties.name;
 	    
+// Bind tooltip (shown on hover)
 marker.bindTooltip(HoverContent, { 
-	permanent: false, 
-	direction: 'top',
-	className: 'custom-tooltip' 
+    permanent: false, 
+    direction: 'top',
+    className: 'custom-tooltip' 
+});
+
+// Event listener for marker click (opens popup and changes icon)
+marker.on('click', function() {
+    this.setIcon(PopupMarkerIcon);  // Change to popup icon on click
+    this.unbindTooltip();           // Disable tooltip when popup is open
+    this.bindPopup(PopupContent).openPopup();  // Show the popup
+});
+
+// Ensure icon stays as PopupMarkerIcon when the popup is open
+marker.on('popupopen', function() {
+    this.setIcon(PopupMarkerIcon);  // Ensure icon remains PopupMarkerIcon
+});
+
+// Revert to default icon when the popup is closed
+marker.on('popupclose', function() {
+    this.setIcon(DefaultMarkerIcon);  // Revert to the default icon when the popup is closed
+    this.bindTooltip(HoverContent, {  // Re-enable the tooltip
+        permanent: false, 
+        direction: 'top',
+        className: 'custom-tooltip'
+    });
+});
+
+// Event listener for mouseover (hover) - show tooltip and change icon
+marker.on('mouseover', function() {
+    if (!this.isPopupOpen()) {  // Only change to HoverMarkerIcon if popup is not open
+        this.setIcon(HoverMarkerIcon);
+        this.openTooltip();  // Show the tooltip on hover
+    }
+});
+
+// Event listener for mouseout - revert to default icon and close tooltip
+marker.on('mouseout', function() {
+    if (!this.isPopupOpen()) {  // Only revert to DefaultMarkerIcon if popup is not open
+        this.setIcon(DefaultMarkerIcon);
+        this.closeTooltip();  // Hide the tooltip when not hovering
+    }
 });
 
       // Open popup on hover
-      marker.on('mouseover', function() {
-        this.openTooltip();
-	marker.setIcon(HoverMarkerIcon);
-      });
-
-      // Close popup when the mouse leaves the marker
-      marker.on('mouseout', function() {
-        this.closeTooltip();
-	marker.setIcon(DefaultMarkerIcon);
-      });
-	    
+      
       // Event listener for mouseout - revert to icon1 unless popup is open
 	/*marker.on('mouseout', function() {
             if (!this.isPopupOpen()) {
@@ -219,20 +248,7 @@ marker.bindTooltip(HoverContent, {
 	
  
  	// Event listener for click - change to icon3 and show popup
-        marker.on('click', function() {
-            this.setIcon(PopupMarkerIcon);
-	    this.unbindTooltip();
-            this.bindPopup(PopupContent).openPopup();
-        });
-	   // Keep the icon as icon3 when the popup is open
-        marker.on('popupopen', function() {
-            this.setIcon(PopupMarkerIcon);
-        });
-  
-	// Listen to the popupclose event to revert the icon back to the default
-	marker.on('popupclose', function() {
-    	this.setIcon(DefaultMarkerIcon); // Revert to the default icon when the popup is closed
-	});
+        
 
 	return marker;
 	}    
