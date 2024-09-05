@@ -76,8 +76,9 @@
 	font-weight: bold; /* Bold text */
 	font-family: Comic Sans MS;
 
-  .leaflet-tooltip-tip {
-      display: none;
+.leaflet-tooltip:before {
+    display: none; /* Hides the tooltip tip */
+}
 	  
   .leaflet-popup-content-wrapper {
       background-color: red; 
@@ -216,15 +217,17 @@ marker.bindTooltip(HoverContent, { permanent: false });
       });
 	    
       // Event listener for mouseout - revert to icon1 unless popup is open
-	marker.on('mouseout', function() {
+	/*marker.on('mouseout', function() {
             if (!this.isPopupOpen()) {
                 this.setIcon(DefaultMarkerIcon);
             }
-        });
-
-	// Event listener for click - change to icon3 and show popup
+        });*/
+	
+ 
+ 	// Event listener for click - change to icon3 and show popup
         marker.on('click', function() {
             this.setIcon(PopupMarkerIcon);
+	    this.unbindTooltip();
             this.bindPopup(PopupContent).openPopup();
         });
 	   // Keep the icon as icon3 when the popup is open
