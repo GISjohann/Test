@@ -67,7 +67,7 @@
 	/* Change the popup background color and text color */
 
   .leaflet-tooltip {
-       offset: [0, -50]  // Offset by 50px above the icon (y-axis);
+       offset: [0, -150]  // Offset by 50px above the icon (y-axis);
 	  background-color: red; 
       	border-radius: 5px; /* Rounded corners */
       	border: 2px solid black; /* Dark grey border */
@@ -77,9 +77,9 @@
 	font-weight: bold; /* Bold text */
 	font-family: Comic Sans MS;
 
-.leaflet-tooltip:before {
-    /*display: none; /* Hides the tooltip tip */
-    border-width: 0 !important;
+.leaflet-tooltip::before,
+.leaflet-tooltip::after {
+    display: none !important;
 }
 	  
   .leaflet-popup-content-wrapper {
