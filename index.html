@@ -199,6 +199,9 @@ marker.bindTooltip(HoverContent, {
     className: 'custom-tooltip' 
 });
 
+// Bind popup initially (don't unbind tooltips in the click event)
+marker.bindPopup(PopupContent);
+	    
 // Event listener for marker click (opens popup and changes icon)
 marker.on('click', function() {
     this.setIcon(PopupMarkerIcon);  // Change to popup icon on click
