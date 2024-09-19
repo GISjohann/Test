@@ -79,6 +79,19 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             z-index: 1000;
         }
+/* Button styling */
+        .reset-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 5px;
+        }
+        .reset-button:hover {
+            background-color: #45a049;
+        }
   }
     </style>
   </head>
@@ -146,7 +159,7 @@ map.on('exitFullscreen', function(){
           iconSize: [80, 75]
         });
 	    
-// Create a custom control for the right-hand side popup
+ // Create a custom control for the right-hand side popup
         var rightSidePopup = L.Control.extend({
             onAdd: function(map) {
                 var div = L.DomUtil.create('div', 'leaflet-right-popup');
@@ -202,10 +215,6 @@ map.on('exitFullscreen', function(){
                     var marker = L.marker(latlng, { icon: DefaultMarkerIcon });
 
                     var HoverContent = feature.properties.name;
-                    var PopupContent = '<div class="custom-popup">' +
-                                       '<img src="fotos/' + feature.properties.fotoID + '" alt="Foto nicht gefunden" style="max-width: 200px; height: auto;">' +
-                                       '<br>' + feature.properties.name +
-                                       '</div>';
 
                     // Bind tooltip (shown on hover)
                     marker.bindTooltip(HoverContent, {
@@ -218,7 +227,7 @@ map.on('exitFullscreen', function(){
                     // Event listener for marker click (updates right-hand popup)
                     marker.on('click', function() {
                         this.setIcon(PopupMarkerIcon);  // Change to popup icon on click
-                        updateRightPopup(feature.properties, latlng);
+                        updateRightPopup(feature.properties, latlng);  // Update right-side popup content
                     });
 
                     // Ensure icon stays as PopupMarkerIcon when clicked
@@ -256,15 +265,12 @@ map.on('exitFullscreen', function(){
             }).addTo(map);
         }
 
-        // Function to update the custom right-hand popup content
-        function updateRightPopup(properties, latlng) {
-            rightPopupDiv.innerHTML = '<h2>' + properties.name + '</h2>' +
-                                      '<img src="fotos/' + properties.fotoID + '" style="width: 100%; height: auto;">' +
-                                      '<p>Location: ' + latlng.lat.toFixed(4) + ', ' + latlng.lng.toFixed(4) + '</p>';
-        }
-
         // Add the GeoJSON layer to the map
         addGeoJsonLayer();
+
+        // Set the default content when the map is initialized
+        setDefaultPopupContent();
+
 
 // Function to update layer visibility based on zoom level
 function updateLayerVisibility() {
