@@ -93,13 +93,17 @@
             width: fit-content; /* Set button width based on its content */
 }
 	    
-.leaflet-control-zoom-out, .leaflet-control-zoom-in, .leaflet-control-fullscreen  {
+.leaflet-control-zoom-out, .leaflet-control-zoom-in {
     background-color: transparent !important;  /* Force the custom background */
     color: black !important;
     border: transparent !important;
 }
-        }
-  }
+/* Optional: Customize the fullscreen icon itself */
+.leaflet-control-fullscreen::before {
+    content: "\26F6";           /* Optional: Unicode character for fullscreen icon */
+    color: green;               /* Custom color for the icon */
+    font-size: 20px;            /* Adjust icon size */
+}
 
 
     </style>
