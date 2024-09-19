@@ -145,12 +145,13 @@ map.on('exitFullscreen', function(){
           iconUrl: 'BuzzBee40.gif',
           iconSize: [80, 75]
         });
-
-        // Create a custom control for the right-hand side popup
+	    
+// Create a custom control for the right-hand side popup
         var rightSidePopup = L.Control.extend({
             onAdd: function(map) {
                 var div = L.DomUtil.create('div', 'leaflet-right-popup');
-                div.innerHTML = '<h2>Click on a bee</h2><p>To find out more!</p>';
+                // Set default content initially
+                div.innerHTML = '<h2>Click on a marker</h2><p>Click on a marker to find out more details.</p>';
                 return div;
             }
         });
@@ -161,6 +162,19 @@ map.on('exitFullscreen', function(){
 
         // Variable to hold the reference to the control's div for updating content
         var rightPopupDiv = document.querySelector('.leaflet-right-popup');
+
+        // Function to set the default content of the right-hand popup
+        function setDefaultPopupContent() {
+            rightPopupDiv.innerHTML = '<h2>Click on a marker</h2><p>Click on a marker to find out more details.</p>';
+        }
+
+        // Function to update the custom right-hand popup content with a reset button
+        function updateRightPopup(properties, latlng) {
+            rightPopupDiv.innerHTML = '<h2>' + properties.name + '</h2>' +
+                                      '<img src="fotos/' + properties.fotoID + '" style="width: 100%; height: auto;">' +
+                                      '<p>Location: ' + latlng.lat.toFixed(4) + ', ' + latlng.lng.toFixed(4) + '</p>' +
+                                      '<button class="reset-button" onclick="setDefaultPopupContent()">Back to Default</button>';
+        }
 
         // GeoJSON data (can be replaced with your actual GeoJSON)
         var geoJsonData = {
