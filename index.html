@@ -90,23 +90,7 @@
             border-radius: 5px;
         }
   }
-/* Change the background color and text color of zoom buttons */
-.leaflet-control-zoom-in, .leaflet-control-zoom-out {
-    background-color: #4CAF50;  /* Green background */
-    color: white;               /* White text */
-    border: none;               /* Remove border */
-    box-shadow: none;           /* Remove box-shadow */
-}
 
-/* Add hover effect */
-.leaflet-control-zoom-in:hover, .leaflet-control-zoom-out:hover {
-    background-color: #45a049;  /* Darker green on hover */
-}
-
-/* Optional: Change the border radius to make them more rounded */
-.leaflet-control-zoom-in, .leaflet-control-zoom-out {
-    border-radius: 5px;
-}
 
     </style>
   </head>
@@ -124,7 +108,7 @@
 	</div>
     <script>
   // Initialize the map and set its view to the center of Europe with an appropriate zoom level
-  var map = L.map('map').setView([48.1657, 9.6515], 5);
+  var map = L.map('map').setView([48.1657, 9.9515], 5);
 	
   
   //Add the OpenStreetMap tile layer
@@ -208,7 +192,7 @@ map.on('exitFullscreen', function(){
         // Function to update the custom right-hand popup content with a reset button
         function updateRightPopup(properties, latlng) {
             rightPopupDiv.innerHTML = '<h2>' + properties.name + '</h2>' +
-                                      '<img src="fotos/' + properties.fotoID + '" style="width: 100%; height: auto;">' +
+                                      '<img src="fotos/' + properties.fotoID + '" style="width: 100%; height: auto;">' +'/n'+ 
                                       '<button class="reset-button" onclick="setDefaultPopupContent()">Buzz off</button>';
         }
 
