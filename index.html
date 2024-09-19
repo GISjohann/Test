@@ -161,7 +161,7 @@ map.on('exitFullscreen', function(){
             onAdd: function(map) {
                 var div = L.DomUtil.create('div', 'leaflet-right-popup');
                 // Set default content initially
-                div.innerHTML = '<h2>Du hast hummeln in hintern!</h2><p>Click on a🐝to see where I have 🐝-n.</p>';
+                div.innerHTML = '<h2>ffff</h2><p>rrr</p>';
                 return div;
             }
         });
@@ -175,7 +175,7 @@ map.on('exitFullscreen', function(){
 
         // Function to set the default content of the right-hand popup
         function setDefaultPopupContent() {
-            rightPopupDiv.innerHTML = '<h2>Click on a marker</h2><p>Click on a marker to find out more details.</p>';
+            rightPopupDiv.innerHTML = '<h2>Du hast hummeln in hintern!</h2><p>Click on a🐝to see where I have 🐝-n.</p>';
         }
 
         // Function to update the custom right-hand popup content with a reset button
@@ -183,7 +183,7 @@ map.on('exitFullscreen', function(){
             rightPopupDiv.innerHTML = '<h2>' + properties.name + '</h2>' +
                                       '<img src="fotos/' + properties.fotoID + '" style="width: 100%; height: auto;">' +
                                       '<p>Location: ' + latlng.lat.toFixed(4) + ', ' + latlng.lng.toFixed(4) + '</p>' +
-                                      '<button class="reset-button" onclick="setDefaultPopupContent()">Back to Default</button>';
+                                      '<button class="reset-button" onclick="setDefaultPopupContent()">Buzz off!</button>';
         }
 
         // GeoJSON data (can be replaced with your actual GeoJSON)
