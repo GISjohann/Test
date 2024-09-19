@@ -156,12 +156,15 @@ map.on('exitFullscreen', function(){
           iconSize: [80, 75]
         });
 	    
- // Create a custom control for the right-hand side popup
+ // Global variable to keep track of the last clicked marker
+        var lastClickedMarker = null;
+
+        // Create a custom control for the right-hand side popup
         var rightSidePopup = L.Control.extend({
             onAdd: function(map) {
                 var div = L.DomUtil.create('div', 'leaflet-right-popup');
                 // Set default content initially
-                div.innerHTML = '<h2>ffff</h2><p>rrr</p>';
+                div.innerHTML = '<h2>Click on a marker</h2><p>Click on a marker to find out more details.</p>';
                 return div;
             }
         });
@@ -175,7 +178,7 @@ map.on('exitFullscreen', function(){
 
         // Function to set the default content of the right-hand popup
         function setDefaultPopupContent() {
-            rightPopupDiv.innerHTML = '<h2>Du hast hummeln in hintern!</h2><p>Click on a🐝to see where I have 🐝-n.</p>';
+            rightPopupDiv.innerHTML = '<h2>Click on a marker</h2><p>Click on a marker to find out more details.</p>';
         }
 
         // Function to update the custom right-hand popup content with a reset button
@@ -183,7 +186,7 @@ map.on('exitFullscreen', function(){
             rightPopupDiv.innerHTML = '<h2>' + properties.name + '</h2>' +
                                       '<img src="fotos/' + properties.fotoID + '" style="width: 100%; height: auto;">' +
                                       '<p>Location: ' + latlng.lat.toFixed(4) + ', ' + latlng.lng.toFixed(4) + '</p>' +
-                                      '<button class="reset-button" onclick="setDefaultPopupContent()">Buzz off!</button>';
+                                      '<button class="reset-button" onclick="setDefaultPopupContent()">Back to Default</button>';
         }
 
         // GeoJSON data (can be replaced with your actual GeoJSON)
@@ -204,7 +207,8 @@ map.on('exitFullscreen', function(){
                 // Add more GeoJSON features here
             ]
         };
- // Function to add the GeoJSON layer to the map
+
+        // Function to add the GeoJSON layer to the map
         function addGeoJsonLayer() {
             geoJsonLayer = L.geoJSON(geoJsonData, {
                 pointToLayer: function(feature, latlng) {
@@ -262,7 +266,6 @@ map.on('exitFullscreen', function(){
 
         // Set the default content when the map is initialized
         setDefaultPopupContent();
-
 	    
 // Function to update layer visibility based on zoom level
 function updateLayerVisibility() {
