@@ -42,7 +42,7 @@
             background-color: #eee; /* Background color for visibility */
         }	
 	    #bottom-div {
-            width: 900px;
+            width: 1000px;
             height: 250px;
             background-color: yellow;
 	}	
@@ -95,21 +95,18 @@
  
   <body>
     <header>
-      <h1>This is a test of popups</h1>
+      <h1>🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝</h1>
     </header>
     <!-- The map container -->
     <div id="top-div">
 	    <div id="map"></div>
-	     <div class="custom-popup">This is a custom popup on the side of the map!</div>
-        <h3>Details</h3>
-        <div id="popup-content">Click on a marker to see details here.</div>
     </div>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/Control.FullScreen.css" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/Control.FullScreen.js"></script>
 	</div>
     <script>
   // Initialize the map and set its view to the center of Europe with an appropriate zoom level
-  var map = L.map('map').setView([48.1657, 8.4515], 5);
+  var map = L.map('map').setView([48.1657, 9.0515], 5);
 	
   
   //Add the OpenStreetMap tile layer
@@ -159,7 +156,7 @@ map.on('exitFullscreen', function(){
  // Global variable to keep track of the last clicked marker
         var lastClickedMarker = null;
 	    
-  	var DefaultPopupContent = '<h2>Du hast hummeln in hintern</h2><p>Click on a bee to find out more details.</p>';
+  	var DefaultPopupContent = '<h2>Du hast hummeln in hintern</h2><p>Click on a bee to see pictures of my travel</p>';
 	// Function to set the default content of the right-hand popup and reset the marker icon
 	    
         // Create a custom control for the right-hand side popup
