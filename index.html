@@ -115,7 +115,18 @@ display: none !important; /* Hide the arrow */
       font-weight: bold;
       font-family: 'Comic Sans MS', cursive, sans-serif;
     }
-
+ /* Custom popup style on the right side inside the map frame */
+        .leaflet-right-popup {
+            position: absolute;
+            right: 0;
+            top: 10px;
+            width: 300px;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
   }/*should this be here?
 
   /* Optional: style the text inside the popup */
@@ -175,90 +186,127 @@ map.on('exitFullscreen', function(){
  // Define a custom icon (optional)
 // Define a custom icon (optional)
 // Define custom icons
-var DefaultMarkerIcon = L.icon({
-  iconUrl: 'beeIconMod.png', // Attribution: <a href="https://www.flaticon.com/free-icons/bee" title="bee icons">Bee icons created by juicy_fish - Flaticon</a>
-  iconSize: [50, 50]
-});
+        // Marker icons
+        var DefaultMarkerIcon = L.icon({
+          iconUrl: 'beeIconMod.png',
+          iconSize: [50, 50]
+        });
 
-var HoverMarkerIcon = L.icon({
-  iconUrl: 'beeIconMod.png', // Attribution: <a href="https://www.flaticon.com/free-icons/bee" title="bee icons">Bee icons created by juicy_fish - Flaticon</a>
-  iconSize: [75, 75]
-});
+        var HoverMarkerIcon = L.icon({
+          iconUrl: 'beeIconMod.png',
+          iconSize: [75, 75]
+        });
 
-var PopupMarkerIcon = L.icon({
-  iconUrl: 'BuzzBee40.gif', // Attribution: <a href="https://www.flaticon.com/free-icons/bee" title="bee icons">Bee icons created by juicy_fish - Flaticon</a>
-  iconSize: [80, 75]
-});
+        var PopupMarkerIcon = L.icon({
+          iconUrl: 'BuzzBee40.gif',
+          iconSize: [80, 75]
+        });
 
-// Declare a variable to store the GeoJSON data globally
-var geoJsonData;
-var geoJsonLayer;
+        // Create a custom control for the right-hand side popup
+        var rightSidePopup = L.Control.extend({
+            onAdd: function(map) {
+                var div = L.DomUtil.create('div', 'leaflet-right-popup');
+                div.innerHTML = '<h2>Click on a marker</h2><p>Marker details will appear here.</p>';
+                return div;
+            }
+        });
 
-// Function to add the GeoJSON layer to the map
-function addGeoJsonLayer() {
-  geoJsonLayer = L.geoJSON(geoJsonData, {
-    pointToLayer: function(feature, latlng) {
-      var marker = L.marker(latlng, { icon: DefaultMarkerIcon }); // Set default icon
+        // Add the control to the map
+        var rightPopupControl = new rightSidePopup({ position: 'topright' });
+        map.addControl(rightPopupControl);
 
-      var HoverContent = feature.properties.name;
-      var PopupContent = '<div class="custom-popup">' +
-                         '<img src="fotos/' + feature.properties.fotoID + '" alt="Foto nicht gefunden" style="width: 200px; height: auto;">' +
-                         '<br>' + feature.properties.name +
-                         '</div>';
+        // Variable to hold the reference to the control's div for updating content
+        var rightPopupDiv = document.querySelector('.leaflet-right-popup');
 
-      // Bind tooltip (shown on hover)
-      marker.bindTooltip(HoverContent, { 
-          offset: [0, -30],
-	  permanent: false, 
-          direction: 'top',
-          className: 'custom-tooltip' 
-      });
+        // GeoJSON data (can be replaced with your actual GeoJSON)
+        var geoJsonData = {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-0.09, 51.5]
+                    },
+                    "properties": {
+                        "name": "Marker 1",
+                        "fotoID": "image1.jpg"
+                    }
+                }
+                // Add more GeoJSON features here
+            ]
+        };
 
-      // Bind popup initially
-      marker.bindPopup(PopupContent);
+        // Function to add the GeoJSON layer to the map
+        function addGeoJsonLayer() {
+            geoJsonLayer = L.geoJSON(geoJsonData, {
+                pointToLayer: function(feature, latlng) {
+                    var marker = L.marker(latlng, { icon: DefaultMarkerIcon });
 
-      // Event listener for marker click (opens popup and changes icon)
-      marker.on('click', function() {
-          this.setIcon(PopupMarkerIcon);  // Change to popup icon on click
-          this.unbindTooltip();           // Disable tooltip when popup is open
-          this.bindPopup(PopupContent).openPopup();  // Show the popup
-      });
+                    var HoverContent = feature.properties.name;
+                    var PopupContent = '<div class="custom-popup">' +
+                                       '<img src="fotos/' + feature.properties.fotoID + '" alt="Foto nicht gefunden" style="width: 200px; height: auto;">' +
+                                       '<br>' + feature.properties.name +
+                                       '</div>';
 
-      // Ensure icon stays as PopupMarkerIcon when the popup is open
-      marker.on('popupopen', function() {
-          this.setIcon(PopupMarkerIcon);  // Ensure icon remains PopupMarkerIcon
-      });
+                    // Bind tooltip (shown on hover)
+                    marker.bindTooltip(HoverContent, {
+                        offset: [0, -30],
+                        permanent: false,
+                        direction: 'top',
+                        className: 'custom-tooltip'
+                    });
 
-      // Revert to default icon when the popup is closed
-      marker.on('popupclose', function() {
-          this.setIcon(DefaultMarkerIcon);  // Revert to the default icon when the popup is closed
-          this.bindTooltip(HoverContent, {  // Re-enable the tooltip
-              permanent: false, 
-              direction: 'top',
-              className: 'custom-tooltip'
-          });
-      });
+                    // Event listener for marker click (updates right-hand popup)
+                    marker.on('click', function() {
+                        this.setIcon(PopupMarkerIcon);  // Change to popup icon on click
+                        updateRightPopup(feature.properties, latlng);
+                    });
 
-      // Event listener for mouseover (hover) - show tooltip and change icon
-      marker.on('mouseover', function() {
-          if (!this.isPopupOpen()) {  // Only change to HoverMarkerIcon if popup is not open
-              this.setIcon(HoverMarkerIcon);
-              this.openTooltip();  // Show the tooltip on hover
-          }
-      });
+                    // Ensure icon stays as PopupMarkerIcon when clicked
+                    marker.on('popupopen', function() {
+                        this.setIcon(PopupMarkerIcon);
+                    });
 
-      // Event listener for mouseout - revert to default icon and close tooltip
-      marker.on('mouseout', function() {
-          if (!this.isPopupOpen()) {  // Only revert to DefaultMarkerIcon if popup is not open
-              this.setIcon(DefaultMarkerIcon);
-              this.closeTooltip();  // Hide the tooltip when not hovering
-          }
-      });
+                    // Revert to default icon when the right-hand side popup is closed
+                    marker.on('popupclose', function() {
+                        this.setIcon(DefaultMarkerIcon);
+                        this.bindTooltip(HoverContent, {
+                            permanent: false,
+                            direction: 'top',
+                            className: 'custom-tooltip'
+                        });
+                    });
 
-      return marker;
-    }
-  }).addTo(map);
-}
+                    // Hover behavior
+                    marker.on('mouseover', function() {
+                        if (!this.isPopupOpen()) {
+                            this.setIcon(HoverMarkerIcon);
+                            this.openTooltip();
+                        }
+                    });
+
+                    marker.on('mouseout', function() {
+                        if (!this.isPopupOpen()) {
+                            this.setIcon(DefaultMarkerIcon);
+                            this.closeTooltip();
+                        }
+                    });
+
+                    return marker;
+                }
+            }).addTo(map);
+        }
+
+        // Function to update the custom right-hand popup content
+        function updateRightPopup(properties, latlng) {
+            rightPopupDiv.innerHTML = '<h2>' + properties.name + '</h2>' +
+                                      '<img src="fotos/' + properties.fotoID + '" style="width: 100%; height: auto;">' +
+                                      '<p>Location: ' + latlng.lat.toFixed(4) + ', ' + latlng.lng.toFixed(4) + '</p>';
+        }
+
+        // Add the GeoJSON layer to the map
+        addGeoJsonLayer();
 
 // Function to update layer visibility based on zoom level
 function updateLayerVisibility() {
