@@ -81,16 +81,13 @@
         }
 /* Button styling */
         .reset-button {
-            background-color: #4CAF50;
+            background-color: black;
             color: white;
             padding: 10px;
             border: none;
             cursor: pointer;
             text-align: center;
             border-radius: 5px;
-        }
-        .reset-button:hover {
-            background-color: #45a049;
         }
   }
     </style>
@@ -164,7 +161,7 @@ map.on('exitFullscreen', function(){
             onAdd: function(map) {
                 var div = L.DomUtil.create('div', 'leaflet-right-popup');
                 // Set default content initially
-                div.innerHTML = '<h2>Click on a marker</h2><p>Click on a marker to find out more details.</p>';
+                div.innerHTML = '<h2>Du hast hummeln in hintern!</h2><p>Click on a🐝to see where I have 🐝-n.</p>';
                 return div;
             }
         });
