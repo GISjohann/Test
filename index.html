@@ -99,13 +99,21 @@
     color: black;
     border: transparent;
 }
-/* Optional: Customize the fullscreen icon itself */
-.leaflet-control-fullscreen{
-    content: "B"!important;         /* "\26F6" Optional: Unicode character for fullscreen icon */
-    color: green;               /* Custom color for the icon */
-    font-size: 20px;            /* Adjust icon size */
+
+/* Style the fullscreen button */
+.leaflet-control-fullscreen {
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border-radius: 5px;
+    border: 2px solid #388E3C;
+    padding: 5px;
+    cursor: pointer;
 }
 
+/* Style the fullscreen button when in fullscreen mode */
+.leaflet-control-fullscreen-on {
+    background-color: #388E3C;
+}
 
     </style>
   </head>
