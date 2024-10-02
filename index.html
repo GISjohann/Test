@@ -95,10 +95,9 @@
 }
 	    
 .leaflet-control-zoom-out, .leaflet-control-zoom-in {
-    content: "\26F6" !important;
-	background-color: yellow !important;  /* Force the custom background */
-    color: black !important;
-    border: transparent !important;
+	background-color: yellow;  /* Force the custom background */
+    color: black;
+    border: transparent;
 }
 /* Optional: Customize the fullscreen icon itself */
 .leaflet-control-fullscreen{
@@ -113,14 +112,14 @@
  
   <body>
     <header>
-      <h1>🐝</h1>
+      <h1>🐝bee</h1>
     </header>
     <!-- The map container -->
     <div id="top-div">
 	    <div id="map"></div>
     </div>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/Control.FullScreen.css" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/Control.FullScreen.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" />
+    <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
 	</div>
     <script>
   // Initialize the map and set its view to the center of Europe with an appropriate zoom level
