@@ -140,6 +140,7 @@
 .leaflet-control-zoom-out, .leaflet-control-zoom-in {
 	background-color: yellow !important;  
     color: black;
+    border: 2px solid white;
     border-color: black !important; 
 }
 
@@ -147,6 +148,7 @@
 .leaflet-control-fullscreen a {
     background-color: yellow !important;  
     color: black;
+    border: 2px solid white;
     border-color: black !important;  
 }
 
@@ -170,7 +172,7 @@
     <script>
   // Initialize the map and set its view to the center of Europe with an appropriate zoom level
   var startingZoomLevel = 5;
-    var map = L.map('map').setView([48.1657, 9.9515], startingZoomLevel);
+    var map = L.map('map').setView([48.1657, 8.9515], startingZoomLevel);
 	
   
   //Add the OpenStreetMap tile layer
@@ -269,24 +271,7 @@ map.on('exitFullscreen', function(){
                                       '<button class="reset-button" onclick="setDefaultPopupContent()">Buzz off</button>';
 		}
 		     
-        // GeoJSON data (can be replaced with your actual GeoJSON)
-        var geoJsonData = {
-            "type": "FeatureCollection",
-            "features": [
-                {
-                    "type": "Feature",
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [-0.09, 51.5]
-                    },
-                    "properties": {
-                        "name": "Marker 1",
-                        "fotoID": "image1.jpg"
-                    }
-                }
-                // Add more GeoJSON features here
-            ]
-        };
+        
 
         // Function to add the GeoJSON layer to the map
         function addGeoJsonLayer() {
