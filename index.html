@@ -1,10 +1,14 @@
 <html>
   <head> <!--this is metadata -->
     <title>Test</title>
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
     <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
-	<script src="jquery-2.1.1.min.js"></script> 
+	
+    <script src="jquery-2.1.1.min.js"></script> 
 	
     <style>
 	 html, body {
@@ -27,7 +31,7 @@
         body {
             /*padding-top: 100px;  Offset body content by header height */
             display: flex;
-		flex-direction: column;
+		    flex-direction: column;
             justify-content: center;
             align-items: center;
         }
@@ -70,7 +74,7 @@
  /* Custom popup style on the right side inside the map frame */
         .leaflet-right-popup {
             position: absolute;
-	    max-width: 500px;
+	        max-width: 500px;
             right: 0;
             top: 10px;
             width: 300px;
@@ -94,18 +98,18 @@
             width: fit-content; /* Set button width based on its content */
 }
 .leaflet-control-zoom {
-            background-color: green;
-            border-radius: 20px;
-            padding: 5px;
+            background-color: green !important;
+            border-radius: 5px;
         }	    
 .leaflet-control-zoom-out, .leaflet-control-zoom-in {
-	background-color: yellow;  /* Force the custom background */
+	background-color: yellow !important;  
     color: black;
     border: transparent;
 }
 
 /* Style the fullscreen button */
 .leaflet-control-fullscreen {
+    position: bottom-right;
     background-color: transparent !important;
     color: black;
     cursor: pointer;
@@ -121,7 +125,7 @@
  
   <body>
     <header>
-      <h1>🐝bee</h1>
+      <h1>🐝beer is meh</h1>
     </header>
     <!-- The map container -->
     <div id="top-div">
