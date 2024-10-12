@@ -19,14 +19,14 @@
 	<link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap" rel="stylesheet">
     	<style>
 		
-	 html, body {
+    html, body {
             height: 100%;
             margin: 0;
             font-family: Brush Script MT, sans-serif;
         }
 
         header {
-            /*position: fixed;  Keep the header fixed at the top */
+            position: fixed; /* Keep the header fixed at the top */
             top: 0;
             left: 0;
             width: 100%; /* Full width */
@@ -37,29 +37,30 @@
         }
 
         body {
+            padding-top: 60px; /* Offset body content by header height */
             display: flex;
-	    flex-direction: column;
+		flex-direction: column;
             justify-content: center;
             align-items: center;
         }
 	#top-div {
-            width: 1000px;
+            width: 900px;
             height: 550px;
             background-color: white;
 	}   
 	    #map {
-            width: 1000px;
+            width: 900px;
             height: 550px;
             background-color: #eee; /* Background color for visibility */
         }	
 	    #bottom-div {
-            width: 1000px;
-            height: 250px;
+            width: 900px;
+            height: 550px;
             background-color: yellow;
 	}	
         h1 {
             color: black;
-            font-family: Mochiy Pop One;
+            font-family: Brush Script MT, sans-serif;
             font-size: 400%;
             text-align: center;
             margin: 0;
@@ -76,109 +77,26 @@
             color: black;
             font-family: Brush Script MT, sans-serif;
 	}
-	.mochiy-pop-one-regular {
-  font-family: "Mochiy Pop One", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-		/* Change the popup background color and text color */
-.leaflet-tooltip {
-      margin-top: -30px; /* Move tooltip content 30px up */
-      background-color: yellow; 
-      border-radius: 5px; /* Rounded corners */
-      border: 2px solid black; /* Dark grey border */
-        text-align: center;  /* Center the content */
-	color: black; /* Dark text */
-	font-size: 12pt;
-	font-weight: bold; /* Bold text */
-	font-family: Comic Sans MS;
-  } 
-	    	    
-/*.leaflet-popup-content-wrapper {
-     transform: translateY(-30px); 
-      background-color: yellow; 
-      border-radius: 5px; /* Rounded corners 
-      border: 2px solid black; /* Dark grey border 
-        text-align: center;  /* Center the content 
-	color: black; /* Dark text 
-	font-size: 12pt;
-	font-weight: bold; /* Bold text 
-	font-family: Comic Sans MS;
-  } */
-
-  /* Change the color of the popup tip (the little triangle)
-  .leaflet-popup-tip {
-      display: none; */
-	  
- /* Custom popup style on the right side inside the map frame */
-        .leaflet-right-popup {
-            position: absolute;
-	    max-width: 500px;
-            right: 0;
-            top: 10px;
-            width: 300px;
-            background: yellow;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-        }
-/* Button styling */
-        .reset-button {
-	    background-color: black;
-            color: white;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-            text-align: center;
-            border-radius: 5px;
-	    display: block;
-	    margin: 10px auto; /* Center the button horizontally with auto margins */
-            width: fit-content; /* Set button width based on its content */
-}
-.leaflet-control-zoom-out, .leaflet-control-zoom-in {
-	background-color: yellow !important;  
-    color: black;
-    border: 2px solid white;
-    border-color: black !important; 
-}
-
-/* Style the fullscreen button */
-.leaflet-control-fullscreen a {
-    background-color: yellow !important;  
-    color: black;
-    border: 2px solid white;
-    border-color: black !important;  
-}
-
-
-
-
-	  
     </style>
   </head>
  
   <body>
     <header>
-      <h1>Bee 🐝testing buzz buzz</h1>
+      <h1>places I have🐝n too!</h1>
     </header>
     <!-- The map container -->
     <div id="top-div">
 	    <div id="map"></div>
-    <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" />
-    <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
 	</div>
     <script>
   // Initialize the map and set its view to the center of Europe with an appropriate zoom level
-  var startingZoomLevel = 5;
-    var map = L.map('map').setView([48.1657, 8.9515], startingZoomLevel);
+  var map = L.map('map').setView([48.1657, 9.4515], 5);
 	
   
   //Add the OpenStreetMap tile layer
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>',
-	maxZoom: 15,
+	maxZoom: 8,
       	minZoom: 5
 }).addTo(map);
 
@@ -187,224 +105,42 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
 //attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   //}).addTo(map);
   
- // Add fullscreen control to the map
-L.control.fullscreen().addTo(map);
-
-// Handle events when entering/exiting fullscreen mode (optional)
-map.on('enterFullscreen', function(){
-    console.log('Entered fullscreen');
-});
-
-map.on('exitFullscreen', function(){
-    console.log('Exited fullscreen');
-});	    
-
-//L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-//attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  //}).addTo(map);
-  
   // Load GeoJSON from an external file and add GeoJSON layer to the map once the file is loaded
-// load GeoJSON from an external file
-// Define custom icons
-        // Marker icons
-        var DefaultMarkerIcon = L.icon({
-          iconUrl: 'beeIconMod.png',
-          iconSize: [50, 50]
-        });
-
-        var HoverMarkerIcon = L.icon({
-          iconUrl: 'beeIconMod.png',
-          iconSize: [75, 75]
-        });
-
-        var PopupMarkerIcon = L.icon({
-          iconUrl: 'BuzzBee40.gif',
-          iconSize: [80, 75]
-        });
-	    
- // Global variable to keep track of the last clicked marker
-        var lastClickedMarker = null;
-	    
-  	var DefaultPopupContent = '<h3>Zoom in, then click a 🐝 to see where I was. Legend:</h3>' +
-                                      '<img src="BeeKey.jpeg' +'" style="width: 100%; height: auto;">';
-	// Function to set the default content of the right-hand popup and reset the marker icon
-	    
-        // Create a custom control for the right-hand side popup
-        var rightSidePopup = L.Control.extend({
-            onAdd: function(map) {
-                var div = L.DomUtil.create('div', 'leaflet-right-popup');
-                // Set default content initially
-                div.innerHTML = DefaultPopupContent;
-                return div;
-            }
-        });
-
-        // Add the control to the map
-        var rightPopupControl = new rightSidePopup({ position: 'topright' });
-        map.addControl(rightPopupControl);
-
-        // Variable to hold the reference to the control's div for updating content
-        var rightPopupDiv = document.querySelector('.leaflet-right-popup');
-
+  $.getJSON("test.geojson", function(data) {
+    // Define a custom icon (optional)
+    var markerIcon = L.icon({
+      iconUrl: 'bee.png',
+      iconSize: [30, 30]
+    }); 
     
-	function setDefaultPopupContent() {
-   	 rightPopupDiv.innerHTML = DefaultPopupContent;
+    L.geoJSON(data, {
+      pointToLayer: function(feature, latlng) {
+        // Create a marker with the custom icon
+        var marker = L.marker(latlng, { icon: markerIcon });
+        // Bind the popup with a feature property (adjust based on your GeoJSON structure)
+        marker.bindPopup(feature.properties.name); 
 
-    // Reset the last clicked marker icon to the default if it exists
-    if (lastClickedMarker) {
-        lastClickedMarker.setIcon(DefaultMarkerIcon);
-        lastClickedMarker = null;  // Clear the lastClickedMarker after resetting
-    }
-}
-
-        // Function to update the custom right-hand popup content with a reset button
-	
-	function updateRightPopup(properties, latlng) {
-    		var subtext;
-    			if (properties.words == null) {
-        			subtext = '';
-    			} else {
-        			subtext = properties.words;
-    			}
-    	rightPopupDiv.innerHTML = '<h2>' + properties.name + '</h2>' +
-                                      '<img src="fotos/' + properties.abv + '.jpeg' +'" alt="nope" style="width: 100%; height: auto;">' + subtext +
-                                      '<button class="reset-button" onclick="setDefaultPopupContent()">Buzz off</button>';
-		}
-		     
-        
-
-        // Function to add the GeoJSON layer to the map
-        function addGeoJsonLayer() {
-            geoJsonLayer = L.geoJSON(geoJsonData, {
-                pointToLayer: function(feature, latlng) {
-                    var marker = L.marker(latlng, { icon: DefaultMarkerIcon });
-
-                    var HoverContent = feature.properties.name;
-
-                    // Bind tooltip (shown on hover)
-                    marker.bindTooltip(HoverContent, {
-                        offset: [0, -30],
-                        permanent: false,
-                        direction: 'top',
-                        className: 'custom-tooltip'
-                    });
-
-                    // Event listener for marker click (updates right-hand popup and changes icon)
-                    marker.on('click', function() {
-                        // Reset the last clicked marker to default icon if it exists and isn't this marker
-                        if (lastClickedMarker && lastClickedMarker !== marker) {
-                            lastClickedMarker.setIcon(DefaultMarkerIcon);
-                        }
-
-                        // Set this marker as the last clicked marker
-                        lastClickedMarker = marker;
-
-                        // Change the icon to the popup marker icon
-                        this.setIcon(PopupMarkerIcon);
-
-                        // Update the right-side popup with this marker's information
-                        updateRightPopup(feature.properties, latlng);
-                    });
-
-                    // Hover behavior
-                    marker.on('mouseover', function() {
-                        if (!this.isPopupOpen() && this !== lastClickedMarker) {
-                            this.setIcon(HoverMarkerIcon);
-                            this.openTooltip();
-                        }
-                    });
-
-                    marker.on('mouseout', function() {
-                        if (!this.isPopupOpen() && this !== lastClickedMarker) {
-                            this.setIcon(DefaultMarkerIcon);
-                            this.closeTooltip();
-                        }
-                    });
-
-                    return marker;
-                }
-            }).addTo(map);
-        }
-
-        // Add the GeoJSON layer to the map
-        addGeoJsonLayer();
-
-        // Set the default content when the map is initialized
-        setDefaultPopupContent();
-
-// Function to update layer visibility based on zoom level
-function updateLayerVisibility() {
-  var zoom = map.getZoom();
-  
-  if (zoom < 7 && geoJsonLayer) {
-    // Remove the layer if the zoom level is less than 7
-    map.removeLayer(geoJsonLayer);
-    geoJsonLayer = null;
-  } else if (zoom >= 7 && !geoJsonLayer) {
-    // Re-add the layer if the zoom level is 7 or higher and the layer doesn't exist
-    addGeoJsonLayer();
-  }
-}
-
-// Fetch GeoJSON data and store it globally
-$.getJSON("orte.geojson", function(loadedData) {
-  geoJsonData = loadedData; // Store the data globally
-
-  // Initialize visibility based on the initial zoom level
-  updateLayerVisibility();
-});
-
-// Update layer visibility on zoom end
-map.on('zoomend', updateLayerVisibility);
+	// Open popup on hover
+        marker.on('mouseover', function(e) {
+        this.openPopup();
+        });
+            
+        // Close popup when the mouse leaves the marker
+        marker.on('mouseout', function(e) {
+        this.closePopup();
+        });
+        return marker;
+      }
+    }).addTo(map);
+  });
 
 
-
-// Define the initial style for the polygon
-var initialOpacity = 0.8; // Fully opaque	    
-//adding hexpolygons
-var GeoJsonSource = $.getJSON("Hex_cells.geojson", function(data) {
-  var HexLayer = L.geoJSON(data, {
-    style: function(feature) {
-	var fillColor,
-          density = feature.properties.NUMPOINTS;
-      if ( density >= 8.0 ) fillColor = "#ff841f";
-      else if ( density >= 4.0 ) fillColor = "#ffb61f";
-      else if ( density >= 3.0 ) fillColor = "#ffe91f";
-      else if ( density >= 2.0 ) fillColor = "#ffff6a";
-      else if ( density >= 1.0 ) fillColor = "#ffff9b";
-      else fillColor = "#000000";  // no data
-      return { color: "yellow", weight: 3, fillColor: fillColor, initialOpacity}; //see above for initial Opacity variable.
-
-    }
-  }).addTo(map);
-
-// Define the function to adjust opacity based on zoom level
-function adjustOpacityBasedOnZoom() {
-    var zoomLevel = map.getZoom();
-    
-    // Calculate new opacity, decrease by 0.1 for each zoom level above a base level
-    var newOpacity = initialOpacity - (zoomLevel - startingZoomLevel) * 0.15;
-    var newOpacity = Math.max(0, newOpacity); // Ensure opacity doesn't go below 0
-    
-    // Update the style of the GeoJSON layer
-    HexLayer.setStyle({
-        fillOpacity: newOpacity
-    });
-}
-
-// Attach the function to the zoomend event
-map.on('zoomend', adjustOpacityBasedOnZoom);
-
-// Adjust opacity initially
-adjustOpacityBasedOnZoom();
-});
 </script>
 <div id="bottom-div">
 	  
-	<h2><br>Du hast Hummeln im Hintern🐝</h2>
+	<h2>Du hast Hummeln im Hintern🐝</h2>
 	  
-	<p>This expression, out of the many I have learnt while on my OE, left a lasting impression and inspired the theme of this map. <br> 
-		Translated to English, it means you got bees in your bottom. Still confused? So was I, so it was further explained that your bottom is at such a risk of beeing stung that your always moving. In my case, traveling through 11 countires.  </p>
+	<p>This expression, out of the many I have learnt while on my OE, left a lasting impression and inspired the theme of this map. </p>
 </div>  	  
   </body>
 </html>
