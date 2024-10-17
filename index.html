@@ -279,6 +279,26 @@ function setLegendPopupContent() {
                                       '<img src="fotos/' + properties.abv + '.jpeg' +'" alt="nope" style="width: 100%; height: auto;">' + subtext +
                                       '<button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
 		}
+        
+    
+    // GeoJSON data (can be replaced with your actual GeoJSON) Johann - why does this happen?
+        var geoJsonData = {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-0.09, 51.5]
+                    },
+                    "properties": {
+                        "name": "Marker 1",
+                        "fotoID": "image1.jpg"
+                    }
+                }
+                // Add more GeoJSON features here
+            ]
+        };
 
 
         // Function to add the GeoJSON layer to the map
