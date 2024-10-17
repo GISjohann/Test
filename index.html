@@ -281,26 +281,6 @@ function setLegendPopupContent() {
 		}
 
 
-		     
-        // GeoJSON data (can be replaced with your actual GeoJSON)
-        var geoJsonData = {
-            "type": "FeatureCollection",
-            "features": [
-                {
-                    "type": "Feature",
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [-0.09, 51.5]
-                    },
-                    "properties": {
-                        "name": "Marker 1",
-                        "fotoID": "image1.jpg"
-                    }
-                }
-                // Add more GeoJSON features here
-            ]
-        };
-
         // Function to add the GeoJSON layer to the map
         function addGeoJsonLayer() {
             geoJsonLayer = L.geoJSON(geoJsonData, {
@@ -361,7 +341,7 @@ function setLegendPopupContent() {
         setDefaultPopupContent();
 
 // Function to update layer visibility based on zoom level
-function updateLayerVisibility() {
+function updateLayerVisibility(properties) {
   var zoom = map.getZoom();
   
   if (zoom < 7 && geoJsonLayer) {
@@ -370,9 +350,14 @@ function updateLayerVisibility() {
     geoJsonLayer = null;
   } else if (zoom >= 7 && !geoJsonLayer) {
     // Re-add the layer if the zoom level is 7 or higher and the layer doesn't exist
-    addGeoJsonLayer();
+    if (properties.weight = 3){
+      addGeoJsonLayer();
+  }
   }
 }
+//properties.weight 
+
+
 
 // Fetch GeoJSON data and store it globally
 $.getJSON("orte.geojson", function(loadedData) {
@@ -436,3 +421,4 @@ adjustOpacityBasedOnZoom();
 </div>  	  
   </body>
 </html>
+
