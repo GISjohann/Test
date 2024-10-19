@@ -202,25 +202,8 @@ map.on('exitFullscreen', function(){
   //}).addTo(map);
   
   // Load GeoJSON from an external file and add GeoJSON layer to the map once the file is loaded
-// load GeoJSON from an external file
-// Define custom icons
-        // Marker icons
-     // Marker icons for different states
-var DefaultMarkerIcon = L.icon({
-  iconUrl: 'beeIconMod.png',
-  iconSize: [50, 50]
-});
 
-var HoverMarkerIcon = L.icon({
-  iconUrl: 'beeIconMod.png',
-  iconSize: [75, 75]
-});
-
-var PopupMarkerIcon = L.icon({
-  iconUrl: 'BuzzBee40.gif',
-  iconSize: [80, 75]
-});
-
+    
 // Global variable to keep track of the last clicked marker
 var lastClickedMarker = null;
 
@@ -274,6 +257,24 @@ function updateRightPopup(properties, latlng) {
     subtext +
     '<button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
 }
+//---------------------------------   POINT LAYER   --------------------------------------------
+
+// Marker icons for different states
+ var DefaultMarkerIcon = L.icon({
+  iconUrl: 'beeIconMod.png',
+  iconSize: [50, 50]
+});
+
+var HoverMarkerIcon = L.icon({
+  iconUrl: 'beeIconMod.png',
+  iconSize: [75, 75]
+});
+
+var PopupMarkerIcon = L.icon({
+  iconUrl: 'BuzzBee40.gif',
+  iconSize: [80, 75]
+});
+
 
 // Function to add the GeoJSON layer to the map
 function addGeoJsonLayer() {
@@ -328,16 +329,19 @@ function addGeoJsonLayer() {
 function updateLayerVisibility() {
   var zoom = map.getZoom();
   
+  geoJsonLayer.eachLayer(function (layer) {
+    var weight = layer.feature.properties.weight;
+
   if (zoom < 7 && geoJsonLayer) {
     // Remove the layer if zoom is less than 7
     map.removeLayer(geoJsonLayer);
     geoJsonLayer = null;
-  } else if (zoom >= 7 && !geoJsonLayer) {
+  } else if (zoom >= 7 && weight === 3&& !geoJsonLayer) {
     // Re-add the layer if zoom is 7 or higher
     addGeoJsonLayer();
   }
+});
 }
-
 // Load the GeoJSON data and add it to the map
 $.getJSON("orte.geojson")
   .done(function(loadedData) {
