@@ -333,16 +333,23 @@ function updateLayerVisibility() {
     geoJsonLayer.eachLayer(function (layer) {
       var weight = layer.feature.properties.weight;
 
-      if (zoom < 7 && weight === 3) {
-        // Remove the layer from the map if zoom is less than 7 and weight is 3
+      if (zoom < 7) {
+        // Remove the layer from the map if zoom is less than 7
         map.removeLayer(layer);
-      } else if (zoom >= 7 && !map.hasLayer(layer) && weight === 3) {
-        // Add the layer back if zoom is 7 or higher and weight is 3
+      } else if (zoom >= 7 && !map.hasLayer(layer) && weight === 1) {
+        // Add the layer back if zoom is 7 or higher and weight is 1
+        map.addLayer(layer);
+      } else if (zoom >= 9 && !map.hasLayer(layer) && weight <= 2) {
+        // Add the layer back if zoom is 9 or higher and weight is 1 or 2
+        map.addLayer(layer);
+      } else if (zoom >= 11 && !map.hasLayer(layer)) {
+        // Add the layer back if zoom is 11 or higher and all weights 1,2 or 3)
         map.addLayer(layer);
       }
     });
-  }
+  };
 }
+
 
 // Load the GeoJSON data and add it to the map
 $.getJSON("orte.geojson")
