@@ -363,16 +363,22 @@ function setLegendPopupContent() {
 // Function to update layer visibility based on zoom level
 function updateLayerVisibility() {
   var zoom = map.getZoom();
-  
-  if (zoom < 7 && geoJsonLayer) {
-    // Remove the layer if the zoom level is less than 7
-    map.removeLayer(geoJsonLayer);
-    geoJsonLayer = null;
-  } else if (zoom >= 7 && !geoJsonLayer) {
-    // Re-add the layer if the zoom level is 7 or higher and the layer doesn't exist
-    addGeoJsonLayer();
-  }
+
+  geoJsonLayer.eachLayer(function (layer) {
+    var weight = layer.feature.properties.weight;
+
+    if (zoom < 7 && weight === 3) {
+      // Remove the layer from the map if it's weight 3 and zoom is less than 7
+      map.removeLayer(layer);
+    } else if (zoom >= 7 && weight === 3) {
+      // Add the layer back to the map if it's weight 3 and zoom is 7 or higher
+      if (!map.hasLayer(layer)) {
+        map.addLayer(layer);
+      }
+    }
+  });
 }
+
 
 // Listen for zoom changes and update layer visibility
 map.on('zoomend', updateLayerVisibility);
