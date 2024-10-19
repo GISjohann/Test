@@ -339,12 +339,15 @@ function updateLayerVisibility() {
       } else if (zoom >= 7 && !map.hasLayer(layer) && weight === 1) {
         // Add the layer back if zoom is 7 or higher and weight is 1
         map.addLayer(layer);
-      } else if (zoom >= 9 && !map.hasLayer(layer) && weight <= 2) {
-        // Add the layer back if zoom is 9 or higher and weight is 1 or 2
+      } else if (zoom >= 8 && !map.hasLayer(layer) && weight <= 2) {
+        // Add the layer back if zoom is 8 or higher and weight is 1 or 2
         map.addLayer(layer);
-      } else if (zoom >= 11 && !map.hasLayer(layer)) {
-        // Add the layer back if zoom is 11 or higher and all weights 1,2 or 3)
+      } else if (zoom >= 9 && !map.hasLayer(layer)) {
+        // Add the layer back if zoom is 9 or higher and all weights 1,2 or 3)
         map.addLayer(layer);
+      }else{
+        // all other conditions
+        map.removeLayer(layer);
       }
     });
   };
