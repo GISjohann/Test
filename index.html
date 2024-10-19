@@ -344,6 +344,7 @@ $.getJSON("orte.geojson")
     geoJsonData = loadedData; // Store loaded data globally
     console.log("GeoJSON data loaded: ", geoJsonData); // Log the loaded data
     addGeoJsonLayer(); // Add the GeoJSON layer after the data is loaded
+    updateLayerVisibility(); // Initialize visibility based on the initial zoom level
   })
   .fail(function(jqxhr, textStatus, error) {
     var err = textStatus + ", " + error;
@@ -353,9 +354,7 @@ $.getJSON("orte.geojson")
 // Set default content for the right-hand popup when the map is initialized
 setDefaultPopupContent();
 
- // Initialize visibility based on the initial zoom level
-updateLayerVisibility();
-
+ 
 
 // Listen for zoom changes and update layer visibility
 map.on('zoomend', updateLayerVisibility);
