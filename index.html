@@ -281,15 +281,24 @@ function setLegendPopupContent() {
 		}
         
     
-    // Fetch GeoJSON data and store it globally
-$.getJSON("orte.geojson", function(loadedData) {
-  geoJsonData = loadedData; // Store the data globally
-
-  // Initialize visibility based on the initial zoom level
-  updateLayerVisibility();
-});
-
-
+    // GeoJSON data (can be replaced with your actual GeoJSON) Johann - why does this happen?
+        var geoJsonData = {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-0.09, 51.5]
+                    },
+                    "properties": {
+                        "name": "Marker 1",
+                        "fotoID": "image1.jpg"
+                    }
+                }
+                // Add more GeoJSON features here
+            ]
+        };
 
 
         // Function to add the GeoJSON layer to the map
@@ -378,7 +387,14 @@ map.on('zoomend', updateLayerVisibility);
 //properties.weight 
 
 
-//placeholder here 
+
+// Fetch GeoJSON data and store it globally
+$.getJSON("orte.geojson", function(loadedData) {
+  geoJsonData = loadedData; // Store the data globally
+
+  // Initialize visibility based on the initial zoom level
+  updateLayerVisibility();
+});
 
 // Update layer visibility on zoom end
 map.on('zoomend', updateLayerVisibility);
