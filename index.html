@@ -353,6 +353,10 @@ $.getJSON("orte.geojson")
 // Set default content for the right-hand popup when the map is initialized
 setDefaultPopupContent();
 
+ // Initialize visibility based on the initial zoom level
+updateLayerVisibility();
+
+
 // Listen for zoom changes and update layer visibility
 map.on('zoomend', updateLayerVisibility);
 
