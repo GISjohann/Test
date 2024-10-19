@@ -329,18 +329,19 @@ function addGeoJsonLayer() {
 function updateLayerVisibility() {
   var zoom = map.getZoom();
   
-  geoJsonLayer.eachLayer(function (layer) {
-    var weight = layer.feature.properties.weight;
+  if (geoJsonLayer) {
+    geoJsonLayer.eachLayer(function (layer) {
+      var weight = layer.feature.properties.weight;
 
-  if (zoom < 7) {
-    // Remove the layer if zoom is less than 7
-    map.removeLayer(geoJsonLayer);
-    //geoJsonLayer = null;
-  } else if (zoom >= 7 && !map.hasLayer(layer) && weight === 3){
-    // Re-add the layer if zoom is 7 or higher
-    addGeoJsonLayer();
+      if (zoom < 7 && weight === 3) {
+        // Remove the layer from the map if zoom is less than 7 and weight is 3
+        map.removeLayer(layer);
+      } else if (zoom >= 7 && !map.hasLayer(layer) && weight === 3) {
+        // Add the layer back if zoom is 7 or higher and weight is 3
+        map.addLayer(layer);
+      }
+    });
   }
-});
 }
 
 
