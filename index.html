@@ -325,7 +325,7 @@ function addGeoJsonLayer() {
   }).addTo(map);
 }
 
-// Function to handle layer visibility based on zoom level
+// Function to handle layer visibility based on zoom level and feature properties
 function updateLayerVisibility() {
   var zoom = map.getZoom();
   
@@ -344,24 +344,20 @@ function updateLayerVisibility() {
   }
 }
 
-
 // Load the GeoJSON data and add it to the map
 $.getJSON("orte.geojson")
   .done(function(loadedData) {
     geoJsonData = loadedData; // Store loaded data globally
     console.log("GeoJSON data loaded: ", geoJsonData); // Log the loaded data
     addGeoJsonLayer(); // Add the GeoJSON layer after the data is loaded
-    updateLayerVisibility(); // Initialize visibility based on the initial zoom level
+
+    // Initialize visibility based on the initial zoom level
+    updateLayerVisibility();
   })
   .fail(function(jqxhr, textStatus, error) {
     var err = textStatus + ", " + error;
     console.error("GeoJSON load failed: " + err); // Log the error
   });
-
-// Set default content for the right-hand popup when the map is initialized
-setDefaultPopupContent();
-
- 
 
 // Listen for zoom changes and update layer visibility
 map.on('zoomend', updateLayerVisibility);
