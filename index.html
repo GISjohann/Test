@@ -275,8 +275,7 @@ var PopupMarkerIcon = L.icon({
   iconSize: [80, 75]
 });
 
-
-// Function to add the GeoJSON layer to the map
+// Function to add GeoJSON layer but not immediately to the map
 function addGeoJsonLayer() {
   geoJsonLayer = L.geoJSON(geoJsonData, {
     pointToLayer: function(feature, latlng) {
@@ -320,9 +319,10 @@ function addGeoJsonLayer() {
         }
       });
 
+      // Return marker without adding it to the map yet
       return marker;
     }
-  }).addTo(map);
+});
 }
 
 // Function to handle layer visibility based on zoom level and feature properties
