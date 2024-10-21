@@ -82,6 +82,11 @@
   font-style: normal;
 }
 
+.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+    border: #ffffff00;
+    background-clip: padding-box;
+}
+
 		/* Change the popup background color and text color */
 .leaflet-tooltip {
       margin-top: -30px; /* Move tooltip content 30px up */
@@ -92,33 +97,19 @@
 	color: black; /* Dark text */
 	font-size: 12pt;
 	font-weight: bold; /* Bold text */
-	font-family: Comic Sans MS;
+	font-family: Comic-Sans MS;
   } 
-	    	    
-/*.leaflet-popup-content-wrapper {
-     transform: translateY(-30px); 
-      background-color: yellow; 
-      border-radius: 5px; /* Rounded corners 
-      border: 2px solid black; /* Dark grey border 
-        text-align: center;  /* Center the content 
-	color: black; /* Dark text 
-	font-size: 12pt;
-	font-weight: bold; /* Bold text 
-	font-family: Comic Sans MS;
-  } */
-
-  /* Change the color of the popup tip (the little triangle)
-  .leaflet-popup-tip {
-      display: none; */
+	    	  
 	  
  /* Custom popup style on the right side inside the map frame */
         .leaflet-right-popup {
             position: absolute;
-	    max-width: 500px;
+	          max-width: 500px;
             right: 0;
             top: 10px;
             width: 300px;
             background: yellow;
+            border: 2px solid black; /* Dark grey border */
             padding: 10px;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -126,10 +117,11 @@
         }
 /* Button styling */
         .button {
-	    background-color: black;
-            color: white;
+	    background-color: rgb(202, 133, 6);
+            color: black;
+            font-family: Mochiy Pop One;
             padding: 10px;
-            border: none;
+            border: black;
             cursor: pointer;
             text-align: center;
             border-radius: 5px;
@@ -137,17 +129,32 @@
 	    margin: 10px auto; /* Center the button horizontally with auto margins */
             width: fit-content; /* Set button width based on its content */
 }
-.leaflet-control-zoom-out, .leaflet-control-zoom-in {
+.leaflet-control-zoom-in {
 	background-color: yellow !important;  
     color: black;
-    border: transparent;
+    border: 2px solid black !important;
+    margin-bottom: 10px !important;
+    border-radius: 20px !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+
+
+}
+.leaflet-control-zoom-out{
+	background-color: yellow !important;  
+    color: black;
+    border: 2px solid black !important;
+    border-radius: 20px !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Style the fullscreen button */
 .leaflet-control-fullscreen a {
     background-color: yellow !important;  
     color: black;
-    border: transparent;
+    border: 2px solid black !important;
+    border-bottom: 2px solid black !important;
+    border-radius: 20px !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
         
   
@@ -159,7 +166,7 @@
  
   <body>
     <header>
-      <h1>test🐝test</h1>
+      <h1>test🐝</h1>
     </header>
     <!-- The map container -->
     <div id="top-div">
@@ -197,31 +204,6 @@ map.on('exitFullscreen', function(){
     console.log('Exited fullscreen');
 });	    
 
-
-// Create a custom legend control
-var legend = L.control({ position: 'bottomright' });
-
-legend.onAdd = function (map) {
-  var div = L.DomUtil.create('div', 'info legend');
-  
-  // Define the labels and corresponding colors for the legend
-  var labels = [
-    { label: "test col", color: "#FFEDA0" }, // Example color
-    { label: "again", color: "#FEB24C" },
-    { label: "and again", color: "#F03B20" }
-  ];
-
-  // Loop through each item in the labels array to create a color box and text
-  labels.forEach(function(item) {
-    div.innerHTML +=
-      '<i style="background:' + item.color + '"></i> ' + item.label + '<br>';
-  });
-
-  return div;
-};
-
-// Add the legend to the map
-legend.addTo(map);
 
 
 
@@ -361,10 +343,10 @@ function updateLayerVisibility() {
     geoJsonLayer.eachLayer(function (layer) {
       var weight = layer.feature.properties.weight;
 
-      if (zoom < 6) {
+      if (zoom < 7) {
         // Remove the layer from the map if zoom is less than 7
         map.removeLayer(layer);
-      } else if (zoom >= 6 && !map.hasLayer(layer) && weight === 1) {
+      } else if (zoom >= 7 && !map.hasLayer(layer) && weight === 1) {
         // Add the layer back if zoom is 7 or higher and weight is 1
         map.addLayer(layer);
       } else if (zoom >= 7 && !map.hasLayer(layer) && weight <= 2) {
