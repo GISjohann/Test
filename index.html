@@ -198,24 +198,25 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
         
-#location-list-container {
+#places-list-container {
     width: 200px;
     max-height: 400px;
     overflow-y: auto;
-    background-color: white;
-    border: 1px solid #ccc;
+    background-color: transparent;
+    border: 1px solid black;
     padding: 10px;
+    border-radius: 8px;
 }
 
-#location-list li {
+#places-list li {
     margin: 5px 0;
     padding: 5px;
-    background: #f9f9f9;
+    background: yellow;
     border-radius: 4px;
 }
 
-#location-list li:hover {
-    background: #e9e9e9;
+#places-list li:hover {
+    background: rgb(202, 133, 6);
 }
 
 
@@ -225,7 +226,7 @@
  
   <body>
     <header>
-      <h1>test🐝</h1>
+      <h1>testing testing🐝</h1>
     </header>
     <!-- The map container -->
     <div id="top-div">
@@ -330,20 +331,29 @@ function updateRightPopup(properties, latlng) {
 
 //---------------------------------   INTERACTIVE LIST   --------------------------------------------
 
-// Add GeoJSON layer to the map
-function addGeoJsonLayer(geoJsonData) {
-    L.geoJson(geoJsonData, {
-        onEachFeature: function (feature, layer) {
-            // Store each layer to access later in list function
-            layer._featureName = feature.properties.name;  // Assuming 'name' property exists
-            layer._featureCoords = layer.getBounds().getCenter();
-        }
-    }).addTo(map);
-}
+// Step 1: Define the Custom Leaflet Control
+const LocationListControl = L.Control.extend({
+    onAdd: function(map) {
+        // Create the container div for the list
+        const div = L.DomUtil.create('div', 'leaflet-places-list');
+        div.innerHTML = "<h3>Places I have to:</h3><ul id='places-list'></ul>";
+        return div;
+    }
+});
 
-// Generate an interactive list of locations from GeoJSON data
+// Step 2: Add the Control to the Map
+const locationListControl = new LocationListControl({ position: 'topleft' });
+map.addControl(locationListControl);
+
+// Step 3: Populate the List with GeoJSON Data
+$.getJSON("orte.geojson", function(data) {
+    addGeoJsonLayer(data);  // Optional, to add the GeoJSON layer to the map
+    generateList(data);     // Create the interactive list from GeoJSON data
+});
+
+// Step 4: Generate List Function
 function generateList(geoJsonData) {
-    const listContainer = document.getElementById("location-list"); // Placeholder container for the list
+    const listContainer = document.getElementById("places-list");
 
     geoJsonData.features.forEach(feature => {
         // Create a list item for each feature
@@ -351,10 +361,10 @@ function generateList(geoJsonData) {
         listItem.textContent = feature.properties.name; // Display name from GeoJSON properties
         listItem.style.cursor = "pointer"; // Indicate it's clickable
 
-        // Zoom to location when name is clicked
+        // Zoom to place when name is clicked
         listItem.onclick = function() {
             const coords = feature.geometry.coordinates;
-            map.setView([coords[1], coords[0]], 12);  // Adjust the zoom level as needed
+            map.setView([coords[1], coords[0]], 10);  // Adjust the zoom level as needed
         };
 
         // Add the list item to the container
