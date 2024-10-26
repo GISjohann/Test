@@ -202,14 +202,16 @@
     width: 200px;
     max-height: 400px;
     overflow-y: auto;
-    background-color: transparent;
+    background-color: yellow;
     border: 1px solid black;
     padding: 10px;
     border-radius: 8px;
+    overflow-y: auto; 
 }
 
 #places-list li {
-    margin: 5px 0;
+  list-style-type: none;
+  margin: 5px 0;
     padding: 5px;
     background: yellow;
     border-radius: 4px;
@@ -354,6 +356,13 @@ $.getJSON("orte.geojson", function(data) {
 // Step 4: Generate List Function
 function generateList(geoJsonData) {
     const listContainer = document.getElementById("places-list");
+
+    //sorts places alphabetically
+    const sortedFeatures = geoJsonData.features.sort((a, b) => {
+        if (a.properties.name < b.properties.name) return -1;
+        if (a.properties.name > b.properties.name) return 1;
+        return 0;
+    });
 
     geoJsonData.features.forEach(feature => {
         // Create a list item for each feature
@@ -541,11 +550,6 @@ map.on('zoomend', adjustOpacityBasedOnZoom);
 adjustOpacityBasedOnZoom();
 });
 </script>
-
-<div id="location-list-container">
-  <h3>Locations</h3>
-  <ul id="location-list"></ul>
-</div>
 
 <div id="bottom-div">
 	  
