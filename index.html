@@ -393,7 +393,19 @@ function generateList(geoJsonData) {
         // Add the list item to the container
         listContainer.appendChild(listItem);
     });
-}
+
+    listItem.addEventListener("click", function() {
+      // Get the marker by name
+      const marker = markersByName[name];
+      
+      // Change marker icon
+      marker.setIcon(HoverMarkerIcon);
+
+      // Zoom to marker and open popup
+      marker.openPopup();
+    });
+  };
+
 
 //---------------------------------   POINT LAYER   --------------------------------------------
 
