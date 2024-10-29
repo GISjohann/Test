@@ -198,42 +198,33 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-#places-list-container {
-    max-height: 50vh; /* Set maximum height to half of the viewport */
-    overflow-y: auto; /* Enable vertical scrolling */
-    padding: 10px;
+.location-list-container {
+    width: 200px;
+    max-height: 50vh; /* Height relative to the map view */
+    overflow-y: auto; /* Enables vertical scrolling */
     background: yellow;
     border: 2px solid black;
     border-radius: 8px;
+    padding: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    font-family: Arial, Helvetica, sans-serif;
 }
-#places-list {
-    list-style-type: none; /* Remove bullet points */
+
+#location-list {
+    list-style-type: none; /* Removes bullet points */
     padding: 0;
     margin: 0;
 }
 
-.leaflet-location-list ul {
-    list-style: none;
-    background-color: black;
-    padding: 0;
-    margin: 0;
-}
-
-#places-list li {
-  list-style-type: none;
-  margin: 5px 0;
+#location-list li {
+    cursor: pointer;
     padding: 5px;
-    background: yellow;
-    border: 1px solid black;
-    border-radius: 4px;
-    overflow-y: auto; 
+    transition: background-color 0.3s;
 }
 
-#places-list li:hover {
-    background: rgb(202, 133, 6);
+#location-list li:hover {
+    background-color: lightgray;
 }
-
 
 	  
     </style>
@@ -351,59 +342,41 @@ function updateRightPopup(properties, latlng) {
 const LocationListControl = L.Control.extend({
     onAdd: function(map) {
         // Create the container div for the list
-        const div = L.DomUtil.create('div', 'leaflet-places-list');
-        div.innerHTML = "<h3>Places I have to:</h3><ul id='places-list'></ul>";
-        return div;
-    }
-});
+        const div = L.DomUtil.create('div', 'leaflet-places-container');
+        div.innerHTML = "<h3>Places I have to:</h3><ul id='places-container'></ul>";
+  
+            // Create the unordered list element
+    const ul = document.createElement('ul');
+    ul.id = 'location-list';
+    div.appendChild(ul);
+    
+      // Add the sorted list of names to the container
+      const sortedNames = Object.keys(markersByName).sort();
+    sortedNames.forEach(name => {
+      const li = document.createElement('li');
+      li.textContent = name;
 
-// Step 2: Add the Control to the Map
-const locationListControl = new LocationListControl({ position: 'topleft' });
-map.addControl(locationListControl);
-
-// Step 3: Populate the List with GeoJSON Data
-$.getJSON("orte.geojson", function(data) {
-    addGeoJsonLayer(data);  // Optional, to add the GeoJSON layer to the map
-    generateList(data);     // Create the interactive list from GeoJSON data
-});
-
-// Step 4: Generate List Function
-function generateList(geoJsonData) {
-    const listContainer = document.getElementById("places-list");
-
-    //sorts places alphabetically
-    const sortedFeatures = geoJsonData.features.sort((a, b) => {
-        if (a.properties.name < b.properties.name) return -1;
-        if (a.properties.name > b.properties.name) return 1;
-        return 0;
-    });
-
-    geoJsonData.features.forEach(feature => {
-        // Create a list item for each feature
-        const listItem = document.createElement("li");
-        listItem.textContent = feature.properties.name; // Display name from GeoJSON properties
-        listItem.style.cursor = "pointer"; // Indicate it's clickable
-
-        // Zoom to place when name is clicked
-        listItem.onclick = function() {
-            const coords = feature.geometry.coordinates;
-            map.setView([coords[1], coords[0]], 10);  // Adjust the zoom level as needed
-
-        // Get the marker by name
+      li.addEventListener('click', function() {
         const marker = markersByName[name];
-      
-        // Change marker icon
-         marker.setIcon(HoverMarkerIcon);
-
-        // Zoom to marker and open popup
+        marker.setIcon(ActiveMarkerIcon);
+        map.setView(marker.getLatLng(), 10);
         marker.openPopup();
-        };
+});
 
-        // Add the list item to the container
-        listContainer.appendChild(listItem);
+ul.appendChild(li);
     });
 
-  };
+    return div;
+  },
+  onRemove: function(map) {
+    // Optional cleanup when the control is removed
+  }
+});
+
+// Add the control to the map with specified position (right side)
+map.addControl(new LocationListControl({ position: 'topright' }));
+
+
 
 
 //---------------------------------   POINT LAYER   --------------------------------------------
