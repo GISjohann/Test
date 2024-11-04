@@ -197,7 +197,9 @@
     border-radius: 20px !important;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
-
+#list { max-height: 400px; overflow-y: auto; }
+        .list-item { cursor: pointer; padding: 5px; }
+        .list-item:hover { background-color: #f0f0f0; }
 
 	  
     </style>
@@ -205,11 +207,12 @@
  
   <body>
     <header>
-      <h1>testing testing🐝</h1>
+      <h1>testing 1x🐝</h1>
     </header>
     <!-- The map container -->
     <div id="top-div">
-	    <div id="map"></div>
+      <div id="list"></div>     <!-- JOHANN to edit --> 
+	    <div id="map"></div> 
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" />
     <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
 	</div>
@@ -258,7 +261,7 @@ map.on('exitFullscreen', function(){
 var lastClickedMarker = null;
 
 // Default content for the right-hand popup
-var DefaultPopupContent = '<h3>Zoom in, then click a 🐝 to see where I was.</h3>' + 
+var DefaultPopupContent = '<h3>Zoom in, then click a 🐝 to see where I was.</h3>\n<div id="location-list-container"><ul id="location-list"></ul></div>' + 
   '<button class="button" onclick="setLegendPopupContent()">View Legend</button>';
 
 // Create a custom control for the right-hand side popup
@@ -311,40 +314,50 @@ function updateRightPopup(properties, latlng) {
 
 //---------------------------------   INTERACTIVE LIST   --------------------------------------------
 
-// Add GeoJSON layer to the map
-function addGeoJsonLayer(geoJsonData) {
-    L.geoJson(geoJsonData, {
-        onEachFeature: function (feature, layer) {
-            // Store each layer to access later in list function
-            layer._featureName = feature.properties.name;  // Assuming 'name' property exists
-            layer._featureCoords = layer.getBounds().getCenter();
-        }
-    }).addTo(map);
-}
 
 
-// Generate an interactive list of locations from GeoJSON data
-function generateList(geoJsonData) {
-    const listContainer = document.getElementById("location-list"); // Placeholder container for the list
 
-    // Sort features alphabetically by the 'name' property
-geoJsonData.features.sort((a, b) => a.properties.name.localeCompare(b.properties.name));
+// Sample GeoJSON Data
+const bob = {
+    "type": "FeatureCollection",
+    "features": [
+        { "type": "Feature", "properties": { "name": "Apple" }, "geometry": { "type": "Point", "coordinates": [-73.935242, 40.730610] }},
+        { "type": "Feature", "properties": { "name": "Banana" }, "geometry": { "type": "Point", "coordinates": [-73.935, 40.731] }},
+        { "type": "Feature", "properties": { "name": "Cherry" }, "geometry": { "type": "Point", "coordinates": [-73.936, 40.732] }}
+    ]
+};
 
-    geoJsonData.features.forEach(feature => {
-        // Create a list item for each feature
-        const listItem = document.createElement("li");
-        listItem.textContent = feature.properties.name; // Display name from GeoJSON properties
-        listItem.style.cursor = "pointer"; // Indicate it's clickable
 
-        // Zoom to location when name is clicked
-        listItem.onclick = function() {
-            const coords = feature.geometry.coordinates;
-            map.setView([coords[1], coords[0]], 8);  // Adjust the zoom level as needed
-        };
+// Store markers for later reference
+const markers = {};
 
-        // Add the list item to the container
-        listContainer.appendChild(listItem);
+// Add GeoJSON points to the map and create a list
+bob.features.forEach(feature => {
+    const coordinates = feature.geometry.coordinates;
+    const name = feature.properties.name;
+
+    // Create a marker
+    const marker = L.marker([coordinates[1], coordinates[0]]).addTo(map);
+    markers[name] = marker; // Store marker by name
+
+    // Create a list item
+    const listItem = document.createElement('div');
+    listItem.className = 'list-item';
+    listItem.textContent = name;
+
+    // Click event to zoom to marker
+    listItem.addEventListener('click', () => {
+        map.setView([coordinates[1], coordinates[0]], 15);
     });
+
+    document.getElementById('list').appendChild(listItem);
+});
+
+// Sort the list items alphabetically
+const list = document.getElementById('list');
+const items = Array.from(list.children);
+items.sort((a, b) => a.textContent.localeCompare(b.textContent));
+items.forEach(item => list.appendChild(item));
 
 
 
@@ -516,7 +529,7 @@ map.on('zoomend', adjustOpacityBasedOnZoom);
 // Adjust opacity initially
 adjustOpacityBasedOnZoom();
 });
-}
+
 </script>
 
 <div id="bottom-div">
