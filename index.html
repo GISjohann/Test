@@ -235,6 +235,10 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
 //attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   //}).addTo(map);
   
+let geoJsonData = {}; // This will store the GeoJSON data globally
+const markers = {}; // Store marker references for list interaction
+
+
  // Add fullscreen control to the map
 L.control.fullscreen().addTo(map);
 
@@ -306,7 +310,7 @@ function setLegendPopupContent() {
 function updateRightPopup(properties, latlng) {
   var subtext = properties.words || ''; // Show subtext if available
   rightPopupDiv.innerHTML = '<h2>' + properties.name + '</h2>' +
-    '<img src="fotos/' + properties.abv + '.jpeg" alt="nope" style="width: 100%; height: auto;">\n<div id="location-list-container"><ul id="location-list"></ul></div>'
+    '<img src="fotos/' + properties.abv + '.jpeg" alt="nope" style="width: 100%; height: auto;">\n<div id="list"></div>'
     +  subtext +
     '<button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
 }
@@ -314,43 +318,6 @@ function updateRightPopup(properties, latlng) {
 
 //---------------------------------   INTERACTIVE LIST   --------------------------------------------
 
-
-
-
-// Sample GeoJSON Data
-const bob = geoJsonData
-
-
-// Store markers for later reference
-const markers = {};
-
-// Add GeoJSON points to the map and create a list
-bob.features.forEach(feature => {
-    const coordinates = feature.geometry.coordinates;
-    const name = feature.properties.name;
-
-    // Create a marker
-    const marker = L.marker([coordinates[1], coordinates[0]]).addTo(map);
-    markers[name] = marker; // Store marker by name
-
-    // Create a list item
-    const listItem = document.createElement('div');
-    listItem.className = 'list-item';
-    listItem.textContent = name;
-
-    // Click event to zoom to marker
-    listItem.addEventListener('click', () => {
-        map.setView([coordinates[1], coordinates[0]], 15);
-    });
-
-    document.getElementById('list').appendChild(listItem);
-});
-
-// Sort the list items alphabetically
-const list = document.getElementById('list');
-const items = Array.from(list.children);
-items.sort((a, b) => a.textContent.localeCompare(b.textContent));
-items.forEach(item => list.appendChild(item));
 
 
 
@@ -376,6 +343,9 @@ var PopupMarkerIcon = L.icon({
 function addGeoJsonLayer() {
   geoJsonLayer = L.geoJSON(geoJsonData, {
     pointToLayer: function(feature, latlng) {
+      //store each marker with a unique name for the list interaction
+      const name = feature.properties.name;
+      markers[name] = layer; //save layer with name as key
       var marker = L.marker(latlng, { icon: DefaultMarkerIcon });
 
       var HoverContent = feature.properties.name;
@@ -458,7 +428,34 @@ function updateLayerVisibility() {
   }
 });
 }
+// Function to generate the interactive list
+function generateList(data) {
+    const listContainer = document.getElementById('list');
+    const features = data.features;
 
+    // Sort the features alphabetically by name
+    const sortedFeatures = features.sort((a, b) => a.properties.name.localeCompare(b.properties.name));
+
+    sortedFeatures.forEach((feature) => {
+        const name = feature.properties.name;
+        const coordinates = feature.geometry.coordinates;
+
+        // Create a list item for each feature
+        const listItem = document.createElement('div');
+        listItem.className = 'list-item';
+        listItem.textContent = name;
+
+        // Click event to zoom to the marker when clicked
+        listItem.addEventListener('click', () => {
+            const marker = markers[name];
+            if (marker) {
+                map.setView(marker.getLatLng(), 15); // Zoom to marker
+            }
+        });
+
+        listContainer.appendChild(listItem);
+    });
+}
 
 // Load the GeoJSON data and add it to the map
 $.getJSON("orte.geojson")
@@ -479,7 +476,7 @@ $.getJSON("orte.geojson")
 // Listen for zoom changes and update layer visibility
 map.on('zoomend', updateLayerVisibility);
 
-//properties.weight 
+
 
 //---------------------------------   POLYGON LAYER   --------------------------------------------
 
