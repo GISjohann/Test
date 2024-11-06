@@ -202,7 +202,28 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
         
-  
+.info.interactive-list {
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+.list-item {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.list-item:hover {
+  background-color: #f0f0f0;
+}
 
 
 	  
@@ -308,10 +329,43 @@ function updateRightPopup(properties, latlng) {
   var subtext = properties.words || ''; // Show subtext if available
   rightPopupDiv.innerHTML = '<h2>' + properties.name + '</h2> \n <img src="fotos/' + properties.abv + '.jpeg" alt="404" style="width: 100%; height: auto; object-fit: contain;"> \n <p>' + subtext + '</p> \n <button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
 }
+
+
+
+//---------------------------LIST LAYER---------------------------------//
+
+// Define a function to add the interactive list
+function addInteractiveList() {
+  // Create a container element (e.g., a div) for the list
+  var listContainer = L.DomUtil.create('div', 'info interactive-list');
+  listContainer.innerHTML = "<h3>Locations</h3>";
+
+  // Append the list container to the map's overlay
+  L.DomUtil.get(map.getContainer()).appendChild(listContainer);
+
+  // Create a list of feature names in the container
+  geoJsonData.features.forEach(function(feature) {
+    var listItem = document.createElement('div');
+    listItem.className = 'list-item';
+    listItem.textContent = feature.properties.name;
+
+    // Add an event listener to zoom to the feature when clicked
+    listItem.addEventListener('click', function() {
+      var coords = feature.geometry.coordinates;
+      var latLng = L.latLng(coords[1], coords[0]); // Convert GeoJSON [lng, lat] to Leaflet's [lat, lng]
+      
+      map.setView(latLng, 8); // Set zoom level (adjust as needed)
+  
+      // Append the item to the container
+  listContainer.appendChild(listItem);
+  }); }); }
+
+
+
 //---------------------------------   POINT LAYER   --------------------------------------------
 
 // Marker icons for different states
- var DefaultMarkerIcon = L.icon({
+var DefaultMarkerIcon = L.icon({
   iconUrl: 'beeIconMod.png',
   iconSize: [50, 50]
 });
@@ -420,6 +474,7 @@ $.getJSON("orte.geojson")
     geoJsonData = loadedData; // Store loaded data globally
     console.log("GeoJSON data loaded: ", geoJsonData); // Log the loaded data
     addGeoJsonLayer(); // Add the GeoJSON layer after the data is loaded
+    addInteractiveList(); // Create the interactive list
 
     // Initialize visibility based on the initial zoom level
     updateLayerVisibility();
@@ -475,6 +530,8 @@ map.on('zoomend', adjustOpacityBasedOnZoom);
 // Adjust opacity initially
 adjustOpacityBasedOnZoom();
 });
+
+
 </script>
 <div id="bottom-div">
 	  
