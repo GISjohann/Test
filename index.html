@@ -1,7 +1,7 @@
 
 <html>
   <head> <!--this is metadata -->
-    <title>test</title>
+    <title>Test</title>
     <!-- Include Leaflet CSS and JS -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -22,13 +22,10 @@
 	 html, body {
             height: 100%;
             margin: 0;
-            font-family: Brush Script MT, sans-serif;
+            font-family: Arial, Helvetica, sans-serif
         }
 
         header {
-            /*position: fixed;  Keep the header fixed at the top */
-            top: 0;
-            left: 0;
             width: 100%; /* Full width */
             background-color: yellow; /* Background color */
             padding: 10px; /* Space inside the header */
@@ -37,29 +34,30 @@
         }
 
         body {
-            display: flex;
+            display: flex; /* used to say block;*/
 	          flex-direction: column;
             justify-content: center;
             align-items: center;
         }
-	#top-div {
-            width: 1000px;
-            height: 800px; /*can#t go more than this for some reason*/
-            background-color: white;
+	#map{ /*used to be called top-div, with map css following*/
+    position: relative; /* Set the map's position to relative */
+    width: 100%;   /*The map should take up the full width of its container */
+    height: 100%;
+  }
+    /*width: 1200px;
+    height: 850px; /*can#t go more than this for some reason*/
+    /*background-color: white;/*
 	}  
 
-  /* Ensure the map container is set to fill the available screen space */
+  /* Ensure the map container is set to fill the available screen space 
       #map {
-            width: 100%;  /* The map should take up the full width of its container */
-            height: 120%;
-}
-
-
-
+        width: 100%;   The map should take up the full width of its container 
+        height: 100%;
+}*/
 
 	    #bottom-div {
             width: 1000px;
-            height: 250px;
+            height: 5px;
             background-color: yellow;
 	}	
         h1 {
@@ -72,14 +70,14 @@
 	    
 	h2 {
             color: black;
-            font-family: Brush Script MT, sans-serif;
+            font-family: Mochiy Pop One;
             font-size: 250%;
             text-align: center;
             margin: 0;
         }
 	p {
             color: black;
-            font-family: Brush Script MT, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
 	}
 	.mochiy-pop-one-regular {
   font-family: "Mochiy Pop One", sans-serif;
@@ -88,50 +86,54 @@
 }
 
 .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
-    border: #ffffff00;
+    border: #ff00a2;
     background-clip: padding-box;
 }
+
+
 
 		/* Change the popup background color and text color */
 .leaflet-tooltip {
       margin-top: -30px; /* Move tooltip content 30px up */
       background-color: yellow; 
-      border-radius: 5px; /* Rounded corners */
-      border: 2px solid black; /* Dark grey border */
+      border-radius: 6px; /* Rounded corners */
+      border: 2px solid black;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
       text-align: center;  /* Center the content */
       color: black; /* Dark text */
       font-size: 12pt;
       font-weight: bold; /* Bold text */
-      font-family: Comic-Sans MS;
+      font-family: Mochiy Pop One;
   } 
-	    	  
 	  
  /* Custom popup style on the right side inside the map frame */
     .leaflet-right-popup {
-    /*position: absolute;*/
-    min-width: 75% !important;/* Set the width to 25% of the map's width */ 
-    right: 5px;
+    position: absolute;
+    display: block; /* Ensure it's not hidden */
+    visibility: visible;
+    width:25vw;/*fit-content;*/
+    max-width:50vw !important; /* Set the width to 30% of the map's width */ 
+    right: 0px;
     top: 5px;/*this is offset*/
     background: yellow;
-    border: 2px solid black; /* Dark grey border */
-    padding: 1px; /*inside content*/
-    border-radius: 8px;
+    border: 2px solid black;
+    /* padding: 1px; /*inside content*/
+    border-radius: 6px; /* Rounded corners */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     z-index: 1000;
-    font-family: Mochiy Pop One;
-    font-size: 12pt;
-    
+
     /* Scrollbar settings */
-    max-height: 400px; /* Adjust this value to control the popup height */
-    overflow-y: auto; /* Add vertical scroll if content overflows */
+    height: fit-content;
+    max-height: 95vh; /*Adjust this value to control the popup height */
+    overflow-y:auto; /* Add vertical scroll if content overflows */
     /* Add padding to make scrollbar fit within rounded edges */
-    padding-right: 10px;
 }
+
+
 
 /* WebKit browsers */
 .leaflet-right-popup::-webkit-scrollbar {
-    width: 10px; /* Width of the scrollbar */
+    width: 30px; /* Width of the scrollbar */
     border-radius: 8px; /* Round the scrollbar to match the popup */
 }
 
@@ -141,7 +143,7 @@
 }
 
 .leaflet-right-popup::-webkit-scrollbar-track {
-    background: transparent; /* Transparent track to blend with the background */
+    background: yellow; /* Transparent track to blend with the background */
     border-radius: 8px; /* Round the track as well */
 }
 
@@ -161,15 +163,17 @@
 	    background-color: rgb(202, 133, 6);
             color: black;
             font-family: Mochiy Pop One;
+            font-size: 10px;
             padding: 10px;
             border: black;
             cursor: pointer;
             text-align: center;
             border-radius: 5px;
-          display: block;
-          margin: 10px auto; /* Center the button horizontally with auto margins */
+            display: block;
+            margin: 10px auto; /* Center the button horizontally with auto margins */
             width: fit-content; /* Set button width based on its content */
 }
+
 .leaflet-control-zoom-in {
 	background-color: yellow !important;  
     color: black;
@@ -197,9 +201,9 @@
     border-radius: 20px !important;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
-#list { max-height: 400px; overflow-y: auto; }
-        .list-item { cursor: pointer; padding: 5px; }
-        .list-item:hover { background-color: #f0f0f0; }
+        
+  
+
 
 	  
     </style>
@@ -207,15 +211,13 @@
  
   <body>
     <header>
-      <h1>testing 1x🐝</h1>
+      <h1>🐝T🐝 E 🐝 S 🐝 T 🐝</h1>
     </header>
-    <!-- The map container -->
-    <div id="top-div">
-      <div id="list"></div>     <!-- JOHANN to edit --> 
-	    <div id="map"></div> 
+    <!-- The map container   <div id="top-div">-->
+    <div id="map"></div>
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" />
     <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
-	</div>
+	  </div>
     <script>
   // Initialize the map and set its view to the center of Europe with an appropriate zoom level
   var startingZoomLevel = 5;
@@ -225,20 +227,15 @@
   //Add the OpenStreetMap tile layer
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>',
-	maxZoom: 15,
+	maxZoom: 12,
       	minZoom: 5
 }).addTo(map);
-
 
 
 //L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 //attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   //}).addTo(map);
   
-let geoJsonData = {}; // This will store the GeoJSON data globally
-const markers = {}; // Store marker references for list interaction
-
-
  // Add fullscreen control to the map
 L.control.fullscreen().addTo(map);
 
@@ -265,7 +262,7 @@ map.on('exitFullscreen', function(){
 var lastClickedMarker = null;
 
 // Default content for the right-hand popup
-var DefaultPopupContent = '<h3>Zoom in, then click a 🐝 to see where I was.</h3>\n<div id="location-list-container"><ul id="location-list"></ul></div>' + 
+var DefaultPopupContent = '<h3>Zoom in, then click a 🐝 to see where I was.</h3>' + 
   '<button class="button" onclick="setLegendPopupContent()">View Legend</button>';
 
 // Create a custom control for the right-hand side popup
@@ -297,7 +294,7 @@ function setDefaultPopupContent() {
 // Function to set the legend content in the right-hand popup
 function setLegendPopupContent() {
   rightPopupDiv.innerHTML = '<h3>Legend:</h3>' + 
-    '<img src="BeeKey.jpeg" style="width: 100%; height: auto;">' + 
+    '<img src="BeeKey.jpeg" style="width: auto; height: auto;">' + 
     '<button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
   
   if (lastClickedMarker) {
@@ -309,18 +306,8 @@ function setLegendPopupContent() {
 // Function to update the right-hand popup content with marker info
 function updateRightPopup(properties, latlng) {
   var subtext = properties.words || ''; // Show subtext if available
-  rightPopupDiv.innerHTML = '<h2>' + properties.name + '</h2>' +
-    '<img src="fotos/' + properties.abv + '.jpeg" alt="nope" style="width: 100%; height: auto;">\n<div id="list"></div>'
-    +  subtext +
-    '<button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
+  rightPopupDiv.innerHTML = '<h2>' + properties.name + '</h2> \n <img src="fotos/' + properties.abv + '.jpeg" alt="404" style="width: 100%; height: auto; object-fit: contain;"> \n <p>' + subtext + '</p> \n <button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
 }
-
-
-//---------------------------------   INTERACTIVE LIST   --------------------------------------------
-
-
-
-
 //---------------------------------   POINT LAYER   --------------------------------------------
 
 // Marker icons for different states
@@ -343,9 +330,6 @@ var PopupMarkerIcon = L.icon({
 function addGeoJsonLayer() {
   geoJsonLayer = L.geoJSON(geoJsonData, {
     pointToLayer: function(feature, latlng) {
-      //store each marker with a unique name for the list interaction
-      const name = feature.properties.name;
-      markers[name] = layer; //save layer with name as key
       var marker = L.marker(latlng, { icon: DefaultMarkerIcon });
 
       var HoverContent = feature.properties.name;
@@ -399,13 +383,13 @@ function updateLayerVisibility() {
   var weight = layer.feature.properties.weight; // Get the weight of each layer
 
   // Remove all layers if zoom is less than 7
-  if (zoom < 7) {
+  if (zoom < 6) {
     if (map.hasLayer(layer)) {
       map.removeLayer(layer); // Remove any layers that are already added
     }
   } 
   // Show only layers with weight 1 if zoom is 7 or more
-  else if (zoom >= 7 && zoom < 9) {
+  else if (zoom >= 6 && zoom < 7) {
     if (weight === 1 && !map.hasLayer(layer)) {
       map.addLayer(layer); // Add layer with weight 1
     } else if (weight !== 1 && map.hasLayer(layer)) {
@@ -413,7 +397,7 @@ function updateLayerVisibility() {
     }
   } 
   // Show layers with weight 1 and 2 if zoom is 9 or more
-  else if (zoom >= 9 && zoom < 10) {
+  else if (zoom >= 7 && zoom < 8) {
     if ((weight === 1 || weight === 2) && !map.hasLayer(layer)) {
       map.addLayer(layer); // Add layers with weight 1 or 2
     } else if (weight > 2 && map.hasLayer(layer)) {
@@ -428,42 +412,14 @@ function updateLayerVisibility() {
   }
 });
 }
-// Function to generate the interactive list
-function generateList(data) {
-    const listContainer = document.getElementById('list');
-    const features = data.features;
 
-    // Sort the features alphabetically by name
-    const sortedFeatures = features.sort((a, b) => a.properties.name.localeCompare(b.properties.name));
-
-    sortedFeatures.forEach((feature) => {
-        const name = feature.properties.name;
-        const coordinates = feature.geometry.coordinates;
-
-        // Create a list item for each feature
-        const listItem = document.createElement('div');
-        listItem.className = 'list-item';
-        listItem.textContent = name;
-
-        // Click event to zoom to the marker when clicked
-        listItem.addEventListener('click', () => {
-            const marker = markers[name];
-            if (marker) {
-                map.setView(marker.getLatLng(), 15); // Zoom to marker
-            }
-        });
-
-        listContainer.appendChild(listItem);
-    });
-}
 
 // Load the GeoJSON data and add it to the map
 $.getJSON("orte.geojson")
   .done(function(loadedData) {
     geoJsonData = loadedData; // Store loaded data globally
     console.log("GeoJSON data loaded: ", geoJsonData); // Log the loaded data
-    addGeoJsonLayer();
-    generateList(loadedData); // Add the GeoJSON layer after the data is loaded
+    addGeoJsonLayer(); // Add the GeoJSON layer after the data is loaded
 
     // Initialize visibility based on the initial zoom level
     updateLayerVisibility();
@@ -476,7 +432,7 @@ $.getJSON("orte.geojson")
 // Listen for zoom changes and update layer visibility
 map.on('zoomend', updateLayerVisibility);
 
-
+//properties.weight 
 
 //---------------------------------   POLYGON LAYER   --------------------------------------------
 
@@ -519,9 +475,7 @@ map.on('zoomend', adjustOpacityBasedOnZoom);
 // Adjust opacity initially
 adjustOpacityBasedOnZoom();
 });
-
 </script>
-
 <div id="bottom-div">
 	  
 	<h2><br>Du hast Hummeln im Hintern🐝</h2>
@@ -531,3 +485,4 @@ adjustOpacityBasedOnZoom();
 </div>  	  
   </body>
 </html>
+
