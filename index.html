@@ -440,8 +440,7 @@ $.getJSON("orte.geojson")
     addGeoJsonLayer(); // Add the GeoJSON layer after the data is loaded
     addInteractiveList(); // Create the interactive list
 
-    // Initialize visibility based on the initial zoom level
-    //updateLayerVisibility();
+  updateLayerVisibility();
   })
   .fail(function(jqxhr, textStatus, error) {
     var err = textStatus + ", " + error;
