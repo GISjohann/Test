@@ -334,21 +334,6 @@ function updateRightPopup(properties, latlng) {
 
 //---------------------------LIST LAYER---------------------------------//
 
-// Extract and sort names
-const features = geojsonLayer.features;
-        const sortedFeatures = features.sort((a, b) => a.properties.name.localeCompare(b.properties.name));
-
-        // Generate clickable list
-        const listDiv = document.getElementById('list');
-        sortedFeatures.forEach((feature, index) => {
-            const listItem = document.createElement('li');
-            listItem.textContent = feature.properties.name;
-            listItem.onclick = () => {
-                const coords = feature.geometry.coordinates;
-                map.setView([coords[1], coords[0]], 7);  // Navigate to the point
-            };
-            listDiv.appendChild(listItem);
-        });
 
 //---------------------------------   POINT LAYER   --------------------------------------------
 
