@@ -324,6 +324,17 @@ function setLegendPopupContent() {
   }
 }
 
+// Function to set the list content in the right-hand popup
+function setListContent() {
+  rightPopupDiv.innerHTML = '<h3>Places:</h3> \n <div id="list"></div> \n <button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
+  
+  if (lastClickedMarker) {
+    lastClickedMarker.setIcon(DefaultMarkerIcon);
+    lastClickedMarker = null;
+  }
+}
+
+
 // Function to update the right-hand popup content with marker info
 function updateRightPopup(properties, latlng) {
   var subtext = properties.words || ''; // Show subtext if available
@@ -531,7 +542,6 @@ adjustOpacityBasedOnZoom();
 
 
 </script>
-<div id="list"></div>
 <div id="bottom-div">
 	  
 	<h2><br>Du hast Hummeln im Hintern🐝</h2>
