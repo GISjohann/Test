@@ -232,7 +232,7 @@
  
   <body>
     <header>
-      <h1>11🐝T🐝 E 🐝 S 🐝 T 🐝</h1>
+      <h1>🐝T🐝 E 🐝 S 🐝 T 🐝</h1>
     </header>
     <!-- The map container   <div id="top-div">-->
     <div id="map"></div>
@@ -455,6 +455,7 @@ function updateLayerVisibility() {
 });
 }
 
+let geoJsonData; // Declare globally to store GeoJSON
 
 // Load the GeoJSON data and add it to the map
 $.getJSON("orte.geojson")
@@ -475,7 +476,31 @@ $.getJSON("orte.geojson")
 // Listen for zoom changes and update layer visibility
 map.on('zoomend', updateLayerVisibility);
 
-//properties.weight 
+// Function to create the clickable, sorted list
+function addInteractiveList() {
+  const listDiv = document.getElementById('list');
+  listDiv.innerHTML = ""; // Clear existing list
+
+  // Extract and sort features by the 'name' property
+  const sortedFeatures = geoJsonData.features.sort((a, b) => 
+    a.properties.name.localeCompare(b.properties.name)
+  );
+
+  // Generate the list
+  sortedFeatures.forEach((feature) => {
+    const listItem = document.createElement('li');
+    listItem.textContent = feature.properties.name;
+    listItem.style.cursor = 'pointer';
+
+    // Click event: Navigate to the point on the map
+    listItem.onclick = () => {
+      const coords = feature.geometry.coordinates;
+      map.setView([coords[1], coords[0]], 8);  // Adjust zoom level if needed
+    };
+
+    listDiv.appendChild(listItem);
+  });
+}
 
 //---------------------------------   POLYGON LAYER   --------------------------------------------
 
