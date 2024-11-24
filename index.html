@@ -419,42 +419,13 @@ function addGeoJsonLayer() {
 function updateLayerVisibility() {
   const zoom = map.getZoom();  // Get the current zoom level
 
+
   geoJsonLayer.eachLayer(function(layer) {
-    const weight = layer.feature.properties.weight;  // Get the weight of each feature
-
-    // Debugging: Log each feature's weight
-    console.log(`Zoom: ${zoom}, Feature Weight: ${weight}`);
-
-    // Hide all layers if zoom is less than 6
-    if (zoom < 6) {
-      layer.setOpacity(0);  // Hide all markers
-    } 
-    // Show only layers with weight 1 if zoom is between 6 and 7
-    else if (zoom >= 6 && zoom < 7) {
-      if (weight === 1) {
-        layer.setOpacity(1);  // Show markers with weight 1
-      } else {
-        layer.setOpacity(0);  // Hide others
-      }
-    } 
-    // Show layers with weight 1 or 2 if zoom is between 7 and 8
-    else if (zoom >= 7 && zoom < 8) {
-      if (weight === 1 || weight === 2) {
-        layer.setOpacity(1);  // Show markers with weight 1 or 2
-      } else {
-        layer.setOpacity(0);  // Hide others
-      }
-    } 
-    // Show layers with weight 1, 2, or 3 if zoom is 8 or more
-    else if (zoom >= 8) {
-      if (weight === 1 || weight === 2 || weight === 3) {
-        layer.setOpacity(1);  // Show markers with weight 1, 2, or 3
-      } else {
-        layer.setOpacity(0);  // Hide others
-      }
-    }
-  });
+  layer.setOpacity(1);  // Make all markers fully visible
+});
 }
+
+ 
 
 // Attach the function to the map's zoom event
 map.on('zoomend', updateLayerVisibility);
