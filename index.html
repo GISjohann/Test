@@ -415,15 +415,7 @@ function addGeoJsonLayer() {
 });
 }
 
-// Function to handle layer visibility based on zoom level and feature properties. THIS IS BIG CHANGE
-function updateLayerVisibility() {
-  const zoom = map.getZoom();  // Get the current zoom level
 
-
-  geoJsonLayer.eachLayer(function(layer) {
-  layer.setOpacity(1);  // Make all markers fully visible
-});
-}
 
  
 
