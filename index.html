@@ -206,7 +206,7 @@
   position: absolute;
   top: 50px;
   right: 10px;
-  background-color: white;
+  background-color: rgb(76, 219, 20);
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -334,33 +334,21 @@ function updateRightPopup(properties, latlng) {
 
 //---------------------------LIST LAYER---------------------------------//
 
-// Define a function to add the interactive list
-function addInteractiveList() {
-  // Create a container element (e.g., a div) for the list
-  var listContainer = L.DomUtil.create('div', 'info interactive-list');
-  listContainer.innerHTML = "<h3>Locations</h3>";
+// Extract and sort names
+const features = geojsonData.features;
+        const sortedFeatures = features.sort((a, b) => a.properties.name.localeCompare(b.properties.name));
 
-  // Append the list container to the map's overlay
-  L.DomUtil.get(map.getContainer()).appendChild(listContainer);
-
-  // Create a list of feature names in the container
-  geoJsonData.features.forEach(function(feature) {
-    var listItem = document.createElement('div');
-    listItem.className = 'list-item';
-    listItem.textContent = feature.properties.name;
-
-    // Add an event listener to zoom to the feature when clicked
-    listItem.addEventListener('click', function() {
-      var coords = feature.geometry.coordinates;
-      var latLng = L.latLng(coords[1], coords[0]); // Convert GeoJSON [lng, lat] to Leaflet's [lat, lng]
-      
-      map.setView(latLng, 8); // Set zoom level (adjust as needed)
-  
-      // Append the item to the container
-  listContainer.appendChild(listItem);
-  }); }); }
-
-
+        // Generate clickable list
+        const listDiv = document.getElementById('list');
+        sortedFeatures.forEach((feature, index) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = feature.properties.name;
+            listItem.onclick = () => {
+                const coords = feature.geometry.coordinates;
+                map.setView([coords[1], coords[0]], 7);  // Navigate to the point
+            };
+            listDiv.appendChild(listItem);
+        });
 
 //---------------------------------   POINT LAYER   --------------------------------------------
 
@@ -533,6 +521,7 @@ adjustOpacityBasedOnZoom();
 
 
 </script>
+<div id="list"></div>
 <div id="bottom-div">
 	  
 	<h2><br>Du hast Hummeln im Hintern🐝</h2>
