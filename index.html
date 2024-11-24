@@ -422,6 +422,9 @@ function updateLayerVisibility() {
   geoJsonLayer.eachLayer(function(layer) {
     const weight = layer.feature.properties.weight;  // Get the weight of each feature
 
+    // Debugging: Log each feature's weight
+    console.log(`Zoom: ${zoom}, Feature Weight: ${weight}`);
+
     // Hide all layers if zoom is less than 6
     if (zoom < 6) {
       layer.setOpacity(0);  // Hide all markers
@@ -547,6 +550,7 @@ adjustOpacityBasedOnZoom();
 
 
 </script>
+<div id="list"></div>
 <div id="bottom-div">
 	  
 	<h2><br>Du hast Hummeln im Hintern🐝</h2>
