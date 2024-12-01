@@ -63,10 +63,31 @@
 	}	
 
       #nameList {
-                width: 1000px;
-                height: 1000px;
-                background-color: white;
-              }
+                background-color: yellow;
+                width: 250px; /* Adjust the width to fit your layout */
+                height: 400px; /* Set a fixed height to allow scrolling */
+                overflow-y: auto; /* Allow vertical scrolling */
+                font-family: Mochiy Pop One;
+}
+
+      /* Style for individual name items */
+      .name-item {
+        padding: 8px;
+        margin-bottom: 5px;
+        background-color: black; /* Light gray background for each name item */
+        border-radius: 4px; /* Slightly rounded corners for each item */
+        cursor: pointer;
+        transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+        font-size: 14px; /* Set a reasonable font size */
+        color: yellow;
+      }
+
+      /* Hover effect for name items */
+      .name-item:hover {
+        background-color: yellow; /* Blue background when hovering */
+        color: black; /* White text on hover */
+      }
+              
 
       h1 {
           color: black;
