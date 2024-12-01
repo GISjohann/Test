@@ -332,12 +332,6 @@ function setLegendPopupContent() {
   }
 }
 
-function setListPopupContent() {
-  rightPopupDiv.innerHTML = '<h3>List:</h3>' + 
-    '<img src="BeeKey.jpeg" style="width: auto; height: auto;">' + 
-    '<button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
-}
-
 // Function to update the right-hand popup content with marker info
 function updateRightPopup(properties, latlng) {
   var subtext = properties.words || ''; // Show subtext if available
