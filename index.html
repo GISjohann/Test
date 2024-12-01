@@ -355,6 +355,10 @@ var PopupMarkerIcon = L.icon({
   iconSize: [80, 75]
 });
 
+var geoJsonLayer;  // GeoJSON Layer
+var markers = {};   // Store markers by name for easy lookup
+var lastClickedMarker = null; // To keep track of the last clicked marker
+
 // Function to add GeoJSON layer but not immediately to the map
 function addGeoJsonLayer() {
   geoJsonLayer = L.geoJSON(geoJsonData, {
@@ -373,15 +377,8 @@ function addGeoJsonLayer() {
 
       // Event listener for marker click (updates right-hand popup and changes icon)
       marker.on('click', function() {
-        if (lastClickedMarker && lastClickedMarker !== marker) {
-          lastClickedMarker.setIcon(DefaultMarkerIcon); // Reset previous marker
-        }
-
-        lastClickedMarker = marker; // Set the current marker as last clicked
-
-        this.setIcon(PopupMarkerIcon); // Change to popup icon
-
-        updateRightPopup(feature.properties, latlng); // Update popup
+        // Same behavior as clicking the name from the list
+        handleMarkerClick(marker, feature, latlng);
       });
 
       // Hover behavior
@@ -399,11 +396,74 @@ function addGeoJsonLayer() {
         }
       });
 
+      // Store marker in global markers object by name
+      markers[feature.properties.name] = marker;
+
       // Return marker without adding it to the map yet
       return marker;
     }
-});
+  });
+
+  // After layer is added to map, create the clickable list
+  geoJsonLayer.addTo(map);
+  createClickableList();
 }
+
+// Function to handle actions when a marker is clicked or a name is clicked from the list
+function handleMarkerClick(marker, feature, latlng) {
+  // Reset the last clicked marker if necessary
+  if (lastClickedMarker && lastClickedMarker !== marker) {
+    lastClickedMarker.setIcon(DefaultMarkerIcon); // Reset previous marker
+  }
+
+  lastClickedMarker = marker; // Set the current marker as last clicked
+  marker.setIcon(PopupMarkerIcon); // Change to popup icon
+  marker.openPopup(); // Open the popup for the clicked marker
+
+  updateRightPopup(feature.properties, latlng); // Update the right-side popup
+}
+
+// Create the clickable list from GeoJSON properties
+function createClickableList() {
+  var nameListDiv = $('#nameList');
+  var names = [];
+
+  // Loop through GeoJSON features and collect names
+  geoJsonData.features.forEach(function(feature) {
+    if (feature.properties && feature.properties.name) {
+      names.push({
+        name: feature.properties.name,
+        latlng: feature.geometry.coordinates ? L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]) : null
+      });
+    }
+  });
+
+  // Sort the names alphabetically
+  names.sort(function(a, b) {
+    return a.name.localeCompare(b.name);
+  });
+
+  // Create list items for each name
+  names.forEach(function(item) {
+    var listItem = $('<div class="name-item">').text(item.name);
+    listItem.on('click', function() {
+      var marker = markers[item.name]; // Retrieve the marker by name
+      if (marker) {
+        handleMarkerClick(marker, geoJsonData.features.find(f => f.properties.name === item.name), item.latlng); // Trigger the marker click behavior
+        map.setView(item.latlng, 10); // Zoom to the location and set view
+      }
+    });
+    nameListDiv.append(listItem);
+  });
+}
+
+// Function to update the right-hand popup (this would be your existing function for displaying info)
+function updateRightPopup(properties, latlng) {
+  // Custom logic for updating your popup (example below)
+  // You can replace this with your existing function
+  console.log("Popup updated with properties:", properties);
+}
+
 
 // Function to handle layer visibility based on zoom level and feature properties
 function updateLayerVisibility() {
@@ -464,37 +524,7 @@ $.getJSON("orte.geojson")
 // Listen for zoom changes and update layer visibility
 map.on('zoomend', updateLayerVisibility);
 
-  // Create a clickable list from GeoJSON properties
-  function createClickableList() {
-      var nameListDiv = $('#nameList');
-      var names = [];
-
-      // Loop through GeoJSON features and collect names
-      geoJsonData.features.forEach(function(feature) {
-        if (feature.properties && feature.properties.name) {
-          names.push({
-            name: feature.properties.name,
-            latlng: feature.geometry.coordinates ? L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]) : null
-          });
-        }
-      });
-
-      // Sort the names alphabetically
-      names.sort(function(a, b) {
-        return a.name.localeCompare(b.name);
-      });
-
-      // Create list items for each name
-      names.forEach(function(item) {
-        var listItem = $('<div class="name-item">').text(item.name);
-        listItem.on('click', function() {
-          if (item.latlng) {
-            map.setView(item.latlng, 14); // Zoom to the location and set view
-          }
-        });
-        nameListDiv.append(listItem);
-      });
-    }
+  
 
 //---------------------------------   POLYGON LAYER   --------------------------------------------
 
