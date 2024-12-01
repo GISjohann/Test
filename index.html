@@ -332,6 +332,12 @@ function setLegendPopupContent() {
   }
 }
 
+function setListPopupContent() {
+  rightPopupDiv.innerHTML = '<h3>List:</h3>' + 
+    '<div id="nameList"></div>  ' + 
+    '<button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
+}
+
 // Function to update the right-hand popup content with marker info
 function updateRightPopup(properties, latlng) {
   var subtext = properties.words || ''; // Show subtext if available
@@ -579,8 +585,6 @@ adjustOpacityBasedOnZoom();
 	<p>This expression, out of the many I have learnt while on my OE, left a lasting impression and inspired the theme of this map. <br> 
 		Translated to English, it means you got bees in your bottom. Still confused? So was I, so it was further explained that your bottom is at such a risk of beeing stung that your always moving. In my case, traveling through 11 countires.  </p>
 </div>
-
-<div id="nameList"></div>  
 	  
 </body>
 </html>
