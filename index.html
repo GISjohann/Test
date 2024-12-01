@@ -292,7 +292,8 @@ var lastClickedMarker = null;
 
 // Default content for the right-hand popup
 var DefaultPopupContent = '<h3>Zoom in, then click a 🐝 to see where I was.</h3>' + 
-  '<button class="button" onclick="setLegendPopupContent()">View Legend</button>';
+  '<button class="button" onclick="setLegendPopupContent()">View Legend</button>' +
+  '<button class="button" onclick="setListPopupContent()">View List of places</button>';
 
 // Create a custom control for the right-hand side popup
 var rightSidePopup = L.Control.extend({
