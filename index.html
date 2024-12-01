@@ -337,6 +337,81 @@ function setListPopupContent() {
   rightPopupDiv.innerHTML = '<h3>List:</h3>' + 
     '<div id="nameList"></div>  ' + 
     '<button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
+
+  // Now, after setting the basic HTML, create the list dynamically
+  createClickableList(); // This function should populate #nameList with items}
+}
+
+
+// Function to populate the list dynamically
+function createClickableList() {
+  var nameListDiv = document.getElementById('nameList');
+  var names = [];
+
+  // Loop through GeoJSON data and create a list of names
+  geoJsonData.features.forEach(function(feature) {
+    if (feature.properties && feature.properties.name) {
+      names.push({
+        name: feature.properties.name,
+        latlng: feature.geometry.coordinates ? L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]) : null
+      });
+    }
+  });
+}
+
+// Sort names alphabetically
+names.sort(function(a, b) {
+    return a.name.localeCompare(b.name);
+  });
+
+  // Create a list item for each name
+  names.forEach(function(item) {
+    var listItem = document.createElement('div');
+    listItem.classList.add('name-item');
+    listItem.textContent = item.name;
+    
+    // When a name is clicked, zoom to the marker and trigger the same behavior as a marker click
+    listItem.addEventListener('click', function() {
+      var marker = markers[item.name]; // Retrieve marker from the global markers object
+      if (marker) {
+        handleMarkerClick(marker, geoJsonData.features.find(f => f.properties.name === item.name), item.latlng);
+        map.setView(item.latlng, 14); // Zoom to the location
+      }
+    });
+
+    // Append the list item to the name list container
+    nameListDiv.appendChild(listItem);
+  });
+
+
+// Function to handle what happens when a marker is clicked (also triggered from list click)
+function handleMarkerClick(marker, feature, latlng) {
+  if (lastClickedMarker && lastClickedMarker !== marker) {
+    lastClickedMarker.setIcon(DefaultMarkerIcon); // Reset previous marker
+  }
+
+  lastClickedMarker = marker;
+  marker.setIcon(PopupMarkerIcon); // Change to popup icon
+  marker.openPopup(); // Open popup
+
+  updateRightPopup(feature.properties, latlng); // Update the content on the right panel
+}
+
+// Function to update the popup with detailed information (you can customize this)
+function updateRightPopup(properties, latlng) {
+  // You can customize this function to update more detailed info in the right-side panel
+  console.log("Popup updated with properties:", properties);
+  // For example, you can display the name and other properties:
+  var popupContent = `
+    <h4>${properties.name}</h4>
+    <p>Additional info here...</p>
+  `;
+  rightPopupDiv.innerHTML = popupContent;
+}
+
+// Sample function to reset the content on the right panel (e.g., when clicking "Buzz off" button)
+function setDefaultPopupContent() {
+  rightPopupDiv.innerHTML = '<h3>Welcome to the Right Panel!</h3>';
 }
 
 // Function to update the right-hand popup content with marker info
