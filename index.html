@@ -202,28 +202,7 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
         
-.info.interactive-list {
-  position: absolute;
-  top: 50px;
-  right: 10px;
-  background-color: rgb(76, 219, 20);
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  max-height: 300px;
-  overflow-y: auto;
-  font-size: 14px;
-}
-
-.list-item {
-  padding: 5px;
-  cursor: pointer;
-}
-
-.list-item:hover {
-  background-color: #f0f0f0;
-}
+  
 
 
 	  
@@ -232,7 +211,7 @@
  
   <body>
     <header>
-      <h1>🐝T🐝 E 🐝 S 🐝 T 🐝</h1>
+      <h1>Testing</h1>
     </header>
     <!-- The map container   <div id="top-div">-->
     <div id="map"></div>
@@ -284,8 +263,7 @@ var lastClickedMarker = null;
 
 // Default content for the right-hand popup
 var DefaultPopupContent = '<h3>Zoom in, then click a 🐝 to see where I was.</h3>' + 
-  '<button class="button" onclick="setLegendPopupContent()">View Legend</button> \n '+
-  '<button class="button" onclick="setListContent()">View List of Places</button>';
+  '<button class="button" onclick="setLegendPopupContent()">View Legend</button>';
 
 // Create a custom control for the right-hand side popup
 var rightSidePopup = L.Control.extend({
@@ -325,32 +303,15 @@ function setLegendPopupContent() {
   }
 }
 
-// Function to set the list content in the right-hand popup
-function setListContent() {
-  rightPopupDiv.innerHTML = '<h3>Places:</h3> \n <div id="list"></div> \n <button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
-  
-  if (lastClickedMarker) {
-    lastClickedMarker.setIcon(DefaultMarkerIcon);
-    lastClickedMarker = null;
-  }
-}
-
-
 // Function to update the right-hand popup content with marker info
 function updateRightPopup(properties, latlng) {
   var subtext = properties.words || ''; // Show subtext if available
   rightPopupDiv.innerHTML = '<h2>' + properties.name + '</h2> \n <img src="fotos/' + properties.abv + '.jpeg" alt="404" style="width: 100%; height: auto; object-fit: contain;"> \n <p>' + subtext + '</p> \n <button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
 }
-
-
-
-//---------------------------LIST LAYER---------------------------------//
-
-
 //---------------------------------   POINT LAYER   --------------------------------------------
 
 // Marker icons for different states
-var DefaultMarkerIcon = L.icon({
+ var DefaultMarkerIcon = L.icon({
   iconUrl: 'beeIconMod.png',
   iconSize: [50, 50]
 });
@@ -415,11 +376,43 @@ function addGeoJsonLayer() {
 });
 }
 
+// Function to handle layer visibility based on zoom level and feature properties
+function updateLayerVisibility() {
+  var zoom = map.getZoom();
+  geoJsonLayer.eachLayer(function(layer) {
+  var weight = layer.feature.properties.weight; // Get the weight of each layer
 
+  // Remove all layers if zoom is less than 7
+  if (zoom < 6) {
+    if (map.hasLayer(layer)) {
+      map.removeLayer(layer); // Remove any layers that are already added
+    }
+  } 
+  // Show only layers with weight 1 if zoom is 7 or more
+  else if (zoom >= 6 && zoom < 7) {
+    if (weight === 1 && !map.hasLayer(layer)) {
+      map.addLayer(layer); // Add layer with weight 1
+    } else if (weight !== 1 && map.hasLayer(layer)) {
+      map.removeLayer(layer); // Remove layers that don't have weight 1
+    }
+  } 
+  // Show layers with weight 1 and 2 if zoom is 9 or more
+  else if (zoom >= 7 && zoom < 8) {
+    if ((weight === 1 || weight === 2) && !map.hasLayer(layer)) {
+      map.addLayer(layer); // Add layers with weight 1 or 2
+    } else if (weight > 2 && map.hasLayer(layer)) {
+      map.removeLayer(layer); // Remove layers that don't match the weight condition
+    }
+  } 
+  // Show layers with weight 1, 2, and 3 if zoom is 10 or more
+  else if (zoom >= 10) {
+    if ((weight === 1 || weight === 2 || weight === 3) && !map.hasLayer(layer)) {
+      map.addLayer(layer); // Add layers with weight 1, 2, or 3
+    }
+  }
+});
+}
 
-
-
-let geoJsonData; // Declare globally to store GeoJSON
 
 // Load the GeoJSON data and add it to the map
 $.getJSON("orte.geojson")
@@ -427,9 +420,9 @@ $.getJSON("orte.geojson")
     geoJsonData = loadedData; // Store loaded data globally
     console.log("GeoJSON data loaded: ", geoJsonData); // Log the loaded data
     addGeoJsonLayer(); // Add the GeoJSON layer after the data is loaded
-    addInteractiveList(); // Create the interactive list
 
-
+    // Initialize visibility based on the initial zoom level
+    updateLayerVisibility();
   })
   .fail(function(jqxhr, textStatus, error) {
     var err = textStatus + ", " + error;
@@ -437,33 +430,9 @@ $.getJSON("orte.geojson")
   });
 
 // Listen for zoom changes and update layer visibility
-//map.on('zoomend', updateLayerVisibility);
+map.on('zoomend', updateLayerVisibility);
 
-// Function to create the clickable, sorted list
-function addInteractiveList() {
-  const listDiv = document.getElementById('list');
-  listDiv.innerHTML = ""; // Clear existing list
-
-  // Extract and sort features by the 'name' property
-  const sortedFeatures = geoJsonData.features.sort((a, b) => 
-    a.properties.name.localeCompare(b.properties.name)
-  );
-
-  // Generate the list
-  sortedFeatures.forEach((feature) => {
-    const listItem = document.createElement('li');
-    listItem.textContent = feature.properties.name;
-    listItem.style.cursor = 'pointer';
-
-    // Click event: Navigate to the point on the map
-    listItem.onclick = () => {
-      const coords = feature.geometry.coordinates;
-      map.setView([coords[1], coords[0]], 8);  // Adjust zoom level if needed
-    };
-
-    listDiv.appendChild(listItem);
-  });
-}
+//properties.weight 
 
 //---------------------------------   POLYGON LAYER   --------------------------------------------
 
@@ -506,10 +475,7 @@ map.on('zoomend', adjustOpacityBasedOnZoom);
 // Adjust opacity initially
 adjustOpacityBasedOnZoom();
 });
-
-
 </script>
-<div id="list"></div>
 <div id="bottom-div">
 	  
 	<h2><br>Du hast Hummeln im Hintern🐝</h2>
