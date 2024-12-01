@@ -457,12 +457,15 @@ function createClickableList() {
   });
 }
 
-// Function to update the right-hand popup (this would be your existing function for displaying info)
+
+// Function to update the right-hand popup content with marker info
 function updateRightPopup(properties, latlng) {
-  // Custom logic for updating your popup (example below)
-  // You can replace this with your existing function
-  console.log("Popup updated with properties:", properties);
+  var subtext = properties.words || ''; // Show subtext if available
+  rightPopupDiv.innerHTML = '<h2>' + properties.name + '</h2> \n <img src="fotos/' + properties.abv + '.jpeg" alt="404" style="width: 100%; height: auto; object-fit: contain;"> \n <p>' + subtext + '</p> \n <button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
 }
+
+
+
 
 
 // Function to handle layer visibility based on zoom level and feature properties
