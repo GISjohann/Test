@@ -292,9 +292,7 @@ var lastClickedMarker = null;
 
 // Default content for the right-hand popup
 var DefaultPopupContent = '<h3>Zoom in, then click a 🐝 to see where I was.</h3>' + 
-    <div id="nameList"></div> +
-  '<button class="button" onclick="setLegendPopupContent()">View Legend</button>' +
-  '<button class="button" onclick="setListPopupContent()">View List of places</button>';
+  '<button class="button" onclick="setLegendPopupContent()">View Legend</button>';
 
 // Create a custom control for the right-hand side popup
 var rightSidePopup = L.Control.extend({
@@ -303,7 +301,6 @@ var rightSidePopup = L.Control.extend({
     div.innerHTML = DefaultPopupContent; // Set default content initially
     return div;
   }
-
 });
 
 // Add the control to the map
@@ -335,9 +332,11 @@ function setLegendPopupContent() {
   }
 }
 
-///function setListPopupContent() {rightPopupDiv.innerHTML = '<h3>List:</h3>' + '<div id="nameList"></div>  ' + '<button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
-
-
+function setListPopupContent() {
+  rightPopupDiv.innerHTML = '<h3>List:</h3>' + 
+    '<img src="BeeKey.jpeg" style="width: auto; height: auto;">' + 
+    '<button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
+}
 
 // Function to update the right-hand popup content with marker info
 function updateRightPopup(properties, latlng) {
@@ -586,6 +585,8 @@ adjustOpacityBasedOnZoom();
 	<p>This expression, out of the many I have learnt while on my OE, left a lasting impression and inspired the theme of this map. <br> 
 		Translated to English, it means you got bees in your bottom. Still confused? So was I, so it was further explained that your bottom is at such a risk of beeing stung that your always moving. In my case, traveling through 11 countires.  </p>
 </div>
+
+<div id="nameList"></div>  
 	  
 </body>
 </html>
