@@ -459,13 +459,27 @@ names.forEach(function(item) {
       var marker = markers[item.name];  // Retrieve marker by name
       if (marker) {
         handleMarkerClick(marker, geoJsonData.features.find(f => f.properties.name === item.name));
-        map.setView(item.latlng, 8);  // Zoom to the marker
+        map.setView(item.latlng, 9);  // Zoom to the marker
       }
     });
 
     // Append the list item to the #nameList div inside the popup
     nameListDiv.appendChild(listItem);
   });
+}
+
+// Function to handle the actions when a marker is clicked (also triggered from list click)
+function handleMarkerClick(marker, feature) {
+  // Set the icon of the clicked marker and open the popup
+  marker.setIcon(L.icon({ iconUrl: 'BuzzBee40.gif' })); // Change icon (use your own popup icon here)
+  marker.openPopup();
+
+  // Update the content of the right panel with detailed info (optional)
+  var content = '<h4>' + feature.properties.name + '</h4>' +
+                    '<p>' + feature.properties.description + '</p>'; // Customize this based on your GeoJSON data
+
+  // Update the content of the side panel or right popup
+  $('#sidePanel').append('<div class="popup-content">' + content + '</div>');
 }
 //----- //continue here maybe
 
