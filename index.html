@@ -1,7 +1,7 @@
 
 <html>
   <head> <!--this is metadata -->
-    <title>Test</title>
+    <title>Test Map - nearly there I'm buzzing</title>
     <!-- Include Leaflet CSS and JS -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -59,10 +59,9 @@
             width: 1000px;
             height: 5px;
             background-color: yellow;
-      
 	}	
 
-      #nameList {
+  #nameList {
                 background-color: black;
                 width: 250px; /* Adjust the width to fit your layout */
                 height: 400px; /* Set a fixed height to allow scrolling */
@@ -87,23 +86,23 @@
         background-color: rgb(202, 133, 6); /* Blue background when hovering */
         color: black; /* White text on hover */
       }
-              
 
-      h1 {
-          color: black;
-          font-family: Mochiy Pop One;
-          font-size: 400%;
-          text-align: center;
-          margin: 0;
-      }
+
+        h1 {
+            color: black;
+            font-family: Mochiy Pop One;
+            font-size: 400%;
+            text-align: center;
+            margin: 0;
+        }
 	    
-      h2 {
-                color: black;
-                font-family: Mochiy Pop One;
-                font-size: 250%;
-                text-align: center;
-                margin: 0;
-            }
+	h2 {
+            color: black;
+            font-family: Mochiy Pop One;
+            font-size: 250%;
+            text-align: center;
+            margin: 0;
+        }
 	p {
             color: black;
             font-family: Arial, Helvetica, sans-serif;
@@ -240,7 +239,7 @@
  
   <body>
     <header>
-      <h1>Testing</h1>
+      <h1>Test Map - nearly there I'm buzzing</h1>
     </header>
     <!-- The map container   <div id="top-div">-->
     <div id="map"></div>
@@ -332,6 +331,7 @@ function setLegendPopupContent() {
     lastClickedMarker = null;
   }
 }
+
 // Function to set the list content inside the popup
 function setListPopupContent() {
   // Set the HTML content of the popup, including a header and a button
@@ -344,14 +344,12 @@ function setListPopupContent() {
   // Now, after setting the popup content, create the list dynamically
   createClickableList(); // This function will populate the list inside #nameList
 }
+
 // Function to update the right-hand popup content with marker info
 function updateRightPopup(properties, latlng) {
   var subtext = properties.words || ''; // Show subtext if available
   rightPopupDiv.innerHTML = '<h2>' + properties.name + '</h2> \n <img src="fotos/' + properties.abv + '.jpeg" alt="404" style="width: 100%; height: auto; object-fit: contain;"> \n <p>' + subtext + '</p> \n <button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
 }
-
-
-
 //---------------------------------   POINT LAYER   --------------------------------------------
 
 // Marker icons for different states
@@ -411,17 +409,18 @@ function addGeoJsonLayer() {
         }
       });
 
-      // Store marker in global markers object by name
-      markers[feature.properties.name] = marker;
+    // Store marker in global markers object by name
+    markers[feature.properties.name] = marker;
 
       // Return marker without adding it to the map yet
       return marker;
     }
-  });
+});
 
-  // After layer is added to map, create the clickable list
-  geoJsonLayer.addTo(map);
+// After layer is added to map, create the clickable list
+geoJsonLayer.addTo(map);
   createClickableList();
+
 }
 
 // Function to handle actions when a marker is clicked or a name is clicked from the list
@@ -458,8 +457,8 @@ function createClickableList() {
     return a.name.localeCompare(b.name);
   });
 
-  // Create list items for each name
-  names.forEach(function(item) {
+// Create list items for each name and add them to the popup content
+names.forEach(function(item) {
     var listItem = document.createElement('div');
     listItem.classList.add('name-item');
     listItem.textContent = item.name;
@@ -477,31 +476,6 @@ function createClickableList() {
     nameListDiv.appendChild(listItem);
   });
 }
-//------- 
-// Function to handle the actions when a marker is clicked (also triggered from list click)
-function handleMarkerClick(marker, feature) {
-  // Set the icon of the clicked marker and open the popup
-  marker.setIcon(L.icon({ iconUrl: 'BuzzBee40.gif' })); // Change icon
-  marker.openPopup();
-  updateRightPopup(feature.properties, latlng); // Update the right-side popup
-  // Update the content of the right panel with detailed info (optional)
-  //var content = '<h4>' + feature.properties.name + '</h4>' +
-                    //'<p>' + feature.properties.description + '</p>'; // Customize this based on your GeoJSON data
-
-  // Update the content of the side panel or right popup
-  //$('#sidePanel').append('<div class="popup-content">' + content + '</div>');
-}
-//----- 
-
-// Function to update the right-hand popup content with marker info
-//function updateRightPopup(properties, latlng) {
-  //var subtext = properties.words || ''; // Show subtext if available
-  //rightPopupDiv.innerHTML = '<h2>' + properties.name + '</h2> \n <img src="fotos/' + properties.abv + '.jpeg" alt="404" style="width: 100%; height: auto; object-fit: contain;"> \n <p>' + subtext + '</p> \n <button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
-//}
-
--//-----
-
-
 
 // Function to handle layer visibility based on zoom level and feature properties
 function updateLayerVisibility() {
@@ -547,9 +521,6 @@ $.getJSON("orte.geojson")
     geoJsonData = loadedData; // Store loaded data globally
     console.log("GeoJSON data loaded: ", geoJsonData); // Log the loaded data
     addGeoJsonLayer(); // Add the GeoJSON layer after the data is loaded
-    
-    // Create a list of names and add click functionality
-    createClickableList();
 
     // Initialize visibility based on the initial zoom level
     updateLayerVisibility();
@@ -562,7 +533,7 @@ $.getJSON("orte.geojson")
 // Listen for zoom changes and update layer visibility
 map.on('zoomend', updateLayerVisibility);
 
-  
+
 
 //---------------------------------   POLYGON LAYER   --------------------------------------------
 
@@ -605,7 +576,6 @@ map.on('zoomend', adjustOpacityBasedOnZoom);
 // Adjust opacity initially
 adjustOpacityBasedOnZoom();
 });
-
 </script>
 <div id="bottom-div">
 	  
@@ -613,7 +583,7 @@ adjustOpacityBasedOnZoom();
 	  
 	<p>This expression, out of the many I have learnt while on my OE, left a lasting impression and inspired the theme of this map. <br> 
 		Translated to English, it means you got bees in your bottom. Still confused? So was I, so it was further explained that your bottom is at such a risk of beeing stung that your always moving. In my case, traveling through 11 countires.  </p>
-</div>
-</body>
+</div>  	  
+  </body>
 </html>
 
