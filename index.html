@@ -414,7 +414,7 @@ function addGeoJsonLayer() {
 
       // Return marker without adding it to the map yet
       return marker;
-      createClickableList();
+
     }
 });
 
@@ -521,6 +521,7 @@ $.getJSON("orte.geojson")
 
     // Initialize visibility based on the initial zoom level
     updateLayerVisibility();
+    createClickableList();
   })
   .fail(function(jqxhr, textStatus, error) {
     var err = textStatus + ", " + error;
