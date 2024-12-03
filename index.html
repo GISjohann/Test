@@ -84,7 +84,7 @@
       /* Hover effect for name items */
       .name-item:hover {
         background-color: rgb(202, 133, 6); 
-        transform: scale(1.15); /* Increase size by 15% (3px more in every direction) */
+        transform: scaleY(1.15); /* Increase Y size by 15% */
 }
       
 
@@ -218,7 +218,6 @@
 }
 
 .leaflet-control-zoom-in:hover {
-  background-color: rgb(202, 133, 6) !important;
   transform: scale(1.2); /* Increase size by 20% (6px more in every direction) */
 }
 
@@ -232,7 +231,6 @@
 }
 
 .leaflet-control-zoom-out:hover {
-  background-color: rgb(202, 133, 6) !important;
   transform: scale(1.2); /* Increase size by 20% (6px more in every direction) */
 }
 
@@ -247,7 +245,7 @@
 }
 
 .leaflet-control-fullscreen a:hover {
-  background-color: rgb(202, 133, 6) !important;
+
   transform: scale(1.2); /* Increase size by 20% (6px more in every direction) */
 }
         
@@ -490,6 +488,7 @@ function handleMarkerClick(marker, feature, latlng) {
   marker.openPopup(); // Open the popup for the clicked marker
 
   updateRightPopup(feature.properties, latlng); // Update the right-side popup
+  updateLayerVisibility();
 }
 
 // Create the clickable list from GeoJSON properties
