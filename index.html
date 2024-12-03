@@ -414,15 +414,11 @@ function addGeoJsonLayer() {
 
       // Return marker without adding it to the map yet
       return marker;
+      createClickableList();
     }
 });
 
-// After layer is added to map, create the clickable list. Is this the problemm?
-geoJsonLayer.addTo(map);
-  createClickableList();
-
 }
-
 
 // Function to handle layer visibility based on zoom level and feature properties
 function updateLayerVisibility() {
