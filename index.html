@@ -1,7 +1,7 @@
 
 <html>
-  <head> <!--this is metadata -->
-    <title>Test Map - nearly there I'm buzzing</title>
+  <head> 
+    <title>Travel Map</title>
     <!-- Include Leaflet CSS and JS -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -18,7 +18,12 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap" rel="stylesheet">
     	<style>
-		
+        :root {
+          --myyellow: #f2c91c; /* rgb(242, 201, 28); */
+          --newyellow:#ffb02e;
+        }
+
+
 	 html, body {
             height: 100%;
             margin: 0;
@@ -31,19 +36,27 @@
             padding: 10px; /* Space inside the header */
             box-sizing: border-box;
             z-index: 1000; /* Ensure it stays above other content */
+            
         }
 
         body {
+            background-color: yellow; /* Background color */
             display: flex; /* used to say block;*/
 	          flex-direction: column;
             justify-content: center;
             align-items: center;
+            height: 100vh; /* 100% of the viewport height */
+            
         }
+
 	#map{ /*used to be called top-div, with map css following*/
+    border: 2px solid black;
     position: relative; /* Set the map's position to relative */
     width: 100%;   /*The map should take up the full width of its container */
     height: 100%;
+
   }
+
     /*width: 1200px;
     height: 850px; /*can#t go more than this for some reason*/
     /*background-color: white;/*
@@ -53,28 +66,33 @@
       #map {
         width: 100%;   The map should take up the full width of its container 
         height: 100%;
-}*/
+}
 
 	    #bottom-div {
-            width: 1000px;
-            height: 5px;
-            background-color: yellow;
+            width: 100%;
+            height: 10px;
+            background-color: var(--myyellow);
 	}	
-
+*/
   #nameList {
-                background-color: black;
-                width: 250px; /* Adjust the width to fit your layout */
-                height: 450px; /* Set a fixed height to allow scrolling */
+                background-color: var(--myyellow);
+                position: relative;
+                justify-content: center;
+                height: 390px; /* Set a fixed height to allow scrolling */
+                padding-left: 15px;
                 overflow-y: auto; /* Allow vertical scrolling */
                 font-family: Mochiy Pop One;
 }
 
       /* Style for individual name items */
       .name-item {
-        padding: 8px;
-        margin-bottom: 5px;
-        background-color: yellow; /* Light gray background for each name item */
+        width:200px;
+        padding: 10px;
+        margin-bottom: 7px;
+        background-color: var(--newyellow); 
         border-radius: 4px; /* Slightly rounded corners for each item */
+        border: 2px solid black;
+        text-align: center;
         cursor: pointer;
         transition: background-color 0.3s ease; /* Smooth transition for hover effect */
         font-size: 14px; /* Set a reasonable font size */
@@ -82,9 +100,10 @@
       }
 
       /* Hover effect for name items */
-      .name-item:hover {
-        background-color: rgb(202, 133, 6); 
-        transform: scaleY(1.15); /* Increase Y size by 15% */
+      .name-item:hover { 
+        transform: scaleY(1.2);
+        transform: scaleX(1.1);
+       
 }
       
 
@@ -114,17 +133,16 @@
   font-style: normal;
 }
 
+
 .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
-    border: #ff00a2;
-    background-clip: padding-box;
+    border: #00000000;
+    background-clip: padding-box; /* removes ugly box around the buttons */
 }
-
-
 
 		/* Change the popup background color and text color */
 .leaflet-tooltip {
       margin-top: -30px; /* Move tooltip content 30px up */
-      background-color: yellow; 
+      background-color:yellow; 
       border-radius: 6px; /* Rounded corners */
       border: 2px solid black;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -146,32 +164,39 @@
     top: 5px;/*this is offset*/
     background: yellow;
     border: 2px solid black;
-    /* padding: 1px; /*inside content*/
+    padding: 10px; /*inside content*/
     border-radius: 6px; /* Rounded corners */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
+    z-index: 9999;
 
     /* Scrollbar settings */
     height: fit-content;
-    max-height: 95vh; /*Adjust this value to control the popup height */
-    overflow-y:auto; /* Add vertical scroll if content overflows */
-    /* Add padding to make scrollbar fit within rounded edges */
+    max-height: 70vh !important; /*Adjust this value to control the popup height */
+    overflow-y: auto !important; 
+    /*overflow-y:auto;  Add vertical scroll if content overflows */
+
+}
+
+/* Style for the popup content inside */
+.leaflet-popup-content {
+    /*max-height: 50vh; /* Limit the content height */
+  /* Allow scrolling inside the popup if content exceeds the height */
+    word-wrap: break-word; /* Ensure long text breaks to fit inside the container */
 }
 
 
-
 /* WebKit browsers */
-::-webkit-scrollbar {
+#nameList::-webkit-scrollbar {
     width: 30px; /* Width of the scrollbar */
     border-radius: 8px; /* Round the scrollbar to match the popup */
 }
 
-::-webkit-scrollbar-thumb {
+#nameList::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.5); /* Color of the scrollbar thumb */
     border-radius: 8px; /* Match the rounded corners */
 }
 
-::-webkit-scrollbar-track {
+#nameList::-webkit-scrollbar-track {
     background: yellow; /* Transparent track to blend with the background */
     border-radius: 8px; /* Round the track as well */
 }
@@ -189,12 +214,12 @@
 
 /* Button styling */
         .button {
-	    background-color: rgb(202, 133, 6);
+	        background-color: var(--newyellow);
             color: black;
             font-family: Mochiy Pop One;
             font-size: 10px;
             padding: 10px;
-            border: black;
+            border: 2px solid black;
             cursor: pointer;
             text-align: center;
             border-radius: 5px;
@@ -209,7 +234,7 @@
 
 
 .leaflet-control-zoom-in {
-	background-color: yellow !important;  
+	background-color: yellow  !important;  
     color: black;
     border: 2px solid black !important;
     margin-bottom: 10px !important;
@@ -218,9 +243,8 @@
 }
 
 .leaflet-control-zoom-in:hover {
-  transform: scale(1.2); /* Increase size by 20% (6px more in every direction) */
+  transform: scale(1.25); /* Increase size by 25% */
 }
-
 
 .leaflet-control-zoom-out{
 	background-color: yellow !important;  
@@ -231,7 +255,7 @@
 }
 
 .leaflet-control-zoom-out:hover {
-  transform: scale(1.2); /* Increase size by 20% (6px more in every direction) */
+  transform: scale(1.25); /* Increase size by 25 */
 }
 
 /* Style the fullscreen button */
@@ -246,7 +270,7 @@
 
 .leaflet-control-fullscreen a:hover {
 
-  transform: scale(1.2); /* Increase size by 20% (6px more in every direction) */
+  transform: scale(1.25); /* Increase size by 25% */
 }
         
   
@@ -258,7 +282,7 @@
  
   <body>
     <header>
-      <h1>Test Map - nearly there I'm buzzing</h1>
+      <h1>Travel Map - nearly there I'm buzzing</h1>
     </header>
     <!-- The map container   <div id="top-div">-->
     <div id="map"></div>
@@ -272,16 +296,16 @@
 	
   
   //Add the OpenStreetMap tile layer
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>',
-	maxZoom: 12,
-      	minZoom: 5
-}).addTo(map);
+//L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+    //attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>',
+	//maxZoom: 12,
+      	//minZoom: 5
+//}).addTo(map);
 
 
-//L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-//attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  //}).addTo(map);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
   
  // Add fullscreen control to the map
 L.control.fullscreen().addTo(map);
@@ -342,7 +366,7 @@ function setDefaultPopupContent() {
 // Function to set the legend content in the right-hand popup
 function setLegendPopupContent() {
   rightPopupDiv.innerHTML = '<h3>Legend:</h3>' + 
-    '<img src="BeeKey.jpeg" style="width: auto; height: auto;">' + 
+    '<img src="BeeKey.png" style="width: auto; height: auto;">' + '<p> Map inspired by the German idiom - "Du hast hummeln im Hintern🐝" <br> This expression, out of the many I have learnt while on my OE, left a lasting impression and inspired the theme of this map. <br> Translated to English, it means you got bees in your bottom. Still confused? So was I, so it was further explained that your bottom is at such a risk of beeing stung that your always moving. In my case, traveling through 11 countires.  </p>'
     '<button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
   
   if (lastClickedMarker) {
@@ -379,179 +403,6 @@ function updateRightPopup(properties, latlng) {
   iconSize: [50, 50]
 });
 
-var HoverMarkerIcon = L.icon({
-  iconUrl: 'beeIconMod.png',
-  iconSize: [75, 75]
-});
-
-var PopupMarkerIcon = L.icon({
-  iconUrl: 'BuzzBee40.gif',
-  iconSize: [80, 75]
-});
-
-var geoJsonLayer;  // GeoJSON Layer
-var markers = {};   // Store markers by name for easy lookup
-var lastClickedMarker = null; // To keep track of the last clicked marker
-
-// Function to add GeoJSON layer but not immediately to the map
-function addGeoJsonLayer() {
-  geoJsonLayer = L.geoJSON(geoJsonData, {
-    pointToLayer: function(feature, latlng) {
-      var marker = L.marker(latlng, { icon: DefaultMarkerIcon });
-
-      var HoverContent = feature.properties.name;
-
-      // Bind tooltip (shown on hover)
-      marker.bindTooltip(HoverContent, {
-        offset: [0, -30],
-        permanent: false,
-        direction: 'top',
-        className: 'custom-tooltip'
-      });
-
-      // Event listener for marker click (updates right-hand popup and changes icon)
-      marker.on('click', function() {
-        // Same behavior as clicking the name from the list
-        handleMarkerClick(marker, feature, latlng);
-      });
-
-      // Hover behavior
-      marker.on('mouseover', function() {
-        if (!this.isPopupOpen() && this !== lastClickedMarker) {
-          this.setIcon(HoverMarkerIcon);
-          this.openTooltip();
-        }
-      });
-
-      marker.on('mouseout', function() {
-        if (!this.isPopupOpen() && this !== lastClickedMarker) {
-          this.setIcon(DefaultMarkerIcon);
-          this.closeTooltip();
-        }
-      });
-
-    // Store marker in global markers object by name
-    markers[feature.properties.name] = marker;
-
-      // Return marker without adding it to the map yet
-      return marker;
-
-    }
-});
-
-}
-
-// Function to handle layer visibility based on zoom level and feature properties
-function updateLayerVisibility() {
-  var zoom = map.getZoom();
-  geoJsonLayer.eachLayer(function(layer) {
-  var weight = layer.feature.properties.weight; // Get the weight of each layer
-
-  // Remove all layers if zoom is less than 7
-  if (zoom < 6) {
-    if (map.hasLayer(layer)) {
-      map.removeLayer(layer); // Remove any layers that are already added
-    }
-  } 
-  // Show only layers with weight 1 if zoom is 7 or more
-  else if (zoom >= 6 && zoom < 7) {
-    if (weight === 1 && !map.hasLayer(layer)) {
-      map.addLayer(layer); // Add layer with weight 1
-    } else if (weight !== 1 && map.hasLayer(layer)) {
-      map.removeLayer(layer); // Remove layers that don't have weight 1
-    }
-  } 
-  // Show layers with weight 1 and 2 if zoom is 9 or more
-  else if (zoom >= 7 && zoom < 8) {
-    if ((weight === 1 || weight === 2) && !map.hasLayer(layer)) {
-      map.addLayer(layer); // Add layers with weight 1 or 2
-    } else if (weight > 2 && map.hasLayer(layer)) {
-      map.removeLayer(layer); // Remove layers that don't match the weight condition
-    }
-  } 
-  // Show layers with weight 1, 2, and 3 if zoom is 10 or more
-  else if (zoom >= 10) {
-    if ((weight === 1 || weight === 2 || weight === 3) && !map.hasLayer(layer)) {
-      map.addLayer(layer); // Add layers with weight 1, 2, or 3
-    }
-  }
-});
-}
-
-// Function to handle actions when a marker is clicked or a name is clicked from the list
-function handleMarkerClick(marker, feature, latlng) {
-  // Reset the last clicked marker if necessary
-  if (lastClickedMarker && lastClickedMarker !== marker) {
-    lastClickedMarker.setIcon(DefaultMarkerIcon); // Reset previous marker
-  }
-
-  lastClickedMarker = marker; // Set the current marker as last clicked
-  marker.setIcon(PopupMarkerIcon); // Change to popup icon
-  marker.openPopup(); // Open the popup for the clicked marker
-
-  updateRightPopup(feature.properties, latlng); // Update the right-side popup
-  updateLayerVisibility();
-}
-
-// Create the clickable list from GeoJSON properties
-function createClickableList() {
-  var nameListDiv = document.getElementById('nameList');
-  var names = [];
-
-  // Loop through GeoJSON features and collect names
-  geoJsonData.features.forEach(function(feature) {
-    if (feature.properties && feature.properties.name) {
-      names.push({
-        name: feature.properties.name,
-        latlng: feature.geometry.coordinates ? L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]) : null
-      });
-    }
-  });
-
-  // Sort the names alphabetically
-  names.sort(function(a, b) {
-    return a.name.localeCompare(b.name);
-  });
-
-// Create list items for each name and add them to the popup content
-names.forEach(function(item) {
-    var listItem = document.createElement('div');
-    listItem.classList.add('name-item');
-    listItem.textContent = item.name;
-    
-    // When a name is clicked, zoom to the marker and trigger the same behavior as a marker click
-    listItem.addEventListener('click', function() {
-      var marker = markers[item.name];  // Retrieve marker by name
-      if (marker) {
-        handleMarkerClick(marker, geoJsonData.features.find(f => f.properties.name === item.name));
-        map.setView(item.latlng, 9);  // Zoom to the marker
-      }
-    });
-
-    // Append the list item to the #nameList div inside the popup
-    nameListDiv.appendChild(listItem);
-  });
-}
-
-
-// Load the GeoJSON data and add it to the map
-$.getJSON("orte.geojson")
-  .done(function(loadedData) {
-    geoJsonData = loadedData; // Store loaded data globally
-    console.log("GeoJSON data loaded: ", geoJsonData); // Log the loaded data
-    addGeoJsonLayer(); // Add the GeoJSON layer after the data is loaded
-
-    // Initialize visibility based on the initial zoom level
-    updateLayerVisibility();
-    createClickableList();
-  })
-  .fail(function(jqxhr, textStatus, error) {
-    var err = textStatus + ", " + error;
-    console.error("GeoJSON load failed: " + err); // Log the error
-  });
-
-// Listen for zoom changes and update layer visibility
-map.on('zoomend', updateLayerVisibility);
 
 
 
@@ -560,7 +411,7 @@ map.on('zoomend', updateLayerVisibility);
 // Define the initial style for the polygon
 var initialOpacity = 0.8; // Fully opaque	    
 //adding hexpolygons
-var GeoJsonSource = $.getJSON("Hex_cells.geojson", function(data) {
+var GeoJsonSource = $.getJSON("Hex_cells_legend_as.geojson", function(data) {
   var HexLayer = L.geoJSON(data, {
     style: function(feature) {
 	var fillColor,
@@ -599,11 +450,9 @@ adjustOpacityBasedOnZoom();
 </script>
 <div id="bottom-div">
 	  
-	<h2><br>Du hast Hummeln im Hintern🐝</h2>
-	  
-	<p>This expression, out of the many I have learnt while on my OE, left a lasting impression and inspired the theme of this map. <br> 
-		Translated to English, it means you got bees in your bottom. Still confused? So was I, so it was further explained that your bottom is at such a risk of beeing stung that your always moving. In my case, traveling through 11 countires.  </p>
-</div>  	  
+	<p>Johann Kissick, 2024 </p>
+
+  </div>  	  
   </body>
 </html>
 
