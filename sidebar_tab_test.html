@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Leaflet SidePanel Tabs</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- SidePanel CSS -->
+  <link rel="stylesheet" href="https://maxwell-ilai.github.io/Leaflet.SidePanel/src/leaflet-sidepanel.css" />
+
+  <!-- Fullscreen Plugin CSS -->
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" />
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    #map {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    #sidepanel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 90%;
+      margin: 10px;
+      width: 25%;
+      z-index: 1 !important;
+      background: #f8f9fa;
+      border: 3px solid black;
+      border-radius: 10pt;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .tab-buttons {
+      display: flex;
+      justify-content: space-around;
+      margin: 10px 0;
+    }
+
+    .tab-btn {
+      padding: 6px 12px;
+      background: #ddd;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .tab-btn:hover {
+      background-color: #ccc;
+    }
+
+    .tab-btn.active {
+      background-color: #bbb;
+      font-weight: bold;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Map Container -->
+  <div id="map"></div>
+
+  <!-- Side Panel -->
+  <div id="sidepanel" class="leaflet-sidepanel">
+    <button class="sidepanel-toggle-button" style="display: none;"></button> <!-- Prevent error -->
+
+    <div class="leaflet-sidepanel-header">
+      <h1>Side Panel</h1>
+      <button id="close-btn" class="leaflet-sidepanel-close">&times;</button>
+    </div>
+
+    <!-- Tab Buttons -->
+    <div class="tab-buttons">
+      <button class="tab-btn active" data-tab="intro">Intro</button>
+      <button class="tab-btn" data-tab="legend">Legend</button>
+      <button class="tab-btn" data-tab="description">Description</button>
+    </div>
+
+    <!-- Tab Contents -->
+    <div class="leaflet-sidepanel-content">
+      <div class="tab-content active" id="tab-intro">
+        <p>Welcome to the map! This is the introduction section.</p>
+      </div>
+      <div class="tab-content" id="tab-legend">
+        <p><strong>Legend:</strong><br>🟢 Park<br>🔵 Water<br>🔴 Danger zone</p>
+      </div>
+      <div class="tab-content" id="tab-description">
+        <p>This map displays points of interest in the selected area. Click on markers to see more.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Fullscreen plugin JS -->
+  <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
+
+  <!-- SidePanel JS -->
+  <script src="https://maxwell-ilai.github.io/Leaflet.SidePanel/src/leaflet-sidepanel.js"></script>
+
+  <script>
+    // Initialize map
+    const map = L.map('map').setView([51.505, -0.09], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+    }).addTo(map);
+
+    // Add fullscreen control
+    L.control.fullscreen().addTo(map);
+
+    // Create sidepanel
+    const panel = L.control.sidepanel('sidepanel', {
+      position: 'right'
+    }).addTo(map);
+
+    // Event listeners for fullscreen
+    map.on('enterFullscreen', function () {
+      console.log('Entered fullscreen');
+    });
+
+    map.on('exitFullscreen', function () {
+      console.log('Exited fullscreen');
+    });
+
+    // Close panel button
+    document.getElementById('close-btn').addEventListener('click', () => {
+      panel.hide();
+    });
+
+    // Add marker and open panel on click
+    const marker = L.marker([51.5, -0.09]).addTo(map);
+    marker.on('click', () => {
+      // Show panel and switch to "Description" tab
+      panel.show();
+      setActiveTab("description");
+    });
+
+    // Tab switch logic
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const selected = btn.getAttribute('data-tab');
+        setActiveTab(selected);
+      });
+    });
+
+    function setActiveTab(tabName) {
+      tabContents.forEach(content => {
+        content.classList.remove('active');
+        if (content.id === `tab-${tabName}`) {
+          content.classList.add('active');
+        }
+      });
+
+      tabButtons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-tab') === tabName) {
+          btn.classList.add('active');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
