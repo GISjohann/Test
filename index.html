@@ -1,7 +1,7 @@
 
 <html>
 <head> 
-<title>Travel Map</title>
+<title>copied from Travel Map, and thusly edited</title>
 <!-- Include Leaflet CSS and JS -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -9,6 +9,9 @@
 <!-- Fullscreen plugin CSS and JS -->
 <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" />
 <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
+
+<!-- SidePanel CSS -->
+<link rel="stylesheet" href="https://maxwell-ilai.github.io/Leaflet.SidePanel/src/leaflet-sidepanel.css" />
 
 <!-- JQuery -->
 <script src="jquery-2.1.1.min.js"></script> 
@@ -59,6 +62,20 @@ height: 100%;
 
 }
 
+#sidepanel {
+      position: absolute;
+      color:black;
+      top: 0;
+      right: 0;
+      height: 90%;
+      margin: 10px;
+      width: 25%;
+      z-index: 99 !important;
+      background: #08c708;
+      border: 3px solid black;
+      border-radius: 10pt;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
 
 /*width: 1200px;
    height: 850px; /*can#t go more than this for some reason*/
@@ -288,10 +305,44 @@ transform: scale(1.25); /* Increase size by 25% */
 
 <body>
 <header>
-<h1>🐝 Travel Map 🐝</h1>
+<h1>🐝patient -  test phase</h1>
 </header>
 <!-- The map container   <div id="top-div">-->
 <div id="map"></div>
+
+<!-- Side Panel -->
+<div id="sidepanel" class="leaflet-sidepanel">
+  <button class="sidepanel-toggle-button" style="display: none;"></button> <!-- Prevent error -->
+
+  <div class="leaflet-sidepanel-header">
+    <h1>Side Panel</h1>
+    <button id="close-btn" class="leaflet-sidepanel-close">&times;</button>
+  </div>
+
+  <!-- Tab Buttons -->
+  <div class="tab-buttons">
+    <button class="tab-btn active" data-tab="intro">Intro</button>
+    <button class="tab-btn" data-tab="legend">Legend</button>
+    <button class="tab-btn" data-tab="description">Description</button>
+  </div>
+
+  <!-- Tab Contents -->
+  <div class="leaflet-sidepanel-content">
+    <div class="tab-content active" id="tab-intro">
+      <p>Welcome to the map! This is the introduction section.</p>
+    </div>
+    <div class="tab-content" id="tab-legend">
+      <p><strong>Legend:</strong><br>🟢 Park<br>🔵 Water<br>🔴 Danger zone</p>
+    </div>
+    <div class="tab-content" id="tab-description">
+      <p>This map displays points of interest in the selected area. Click on markers to see more.</p>
+    </div>
+  </div>
+</div>
+
+
+
+
 <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" />
 <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
 </div>
@@ -327,6 +378,10 @@ map.on('exitFullscreen', function(){
 console.log('Exited fullscreen');
 });	    
 
+// Create sidepanel
+const panel = L.control.sidepanel('sidepanel', {
+      position: 'right'
+    }).addTo(map);
 
 
 
