@@ -54,8 +54,8 @@
     position: relative; /* Set the map's position to relative */
     width: 100%;   /*The map should take up the full width of its container */
     height: 100%;
-
   }
+
 
     /*width: 1200px;
     height: 850px; /*can#t go more than this for some reason*/
@@ -75,11 +75,11 @@
 	}	
 */
   #nameList {
-                background-color: var(--myyellow);
+                background-color: yellow;
                 position: relative;
                 justify-content: center;
-                height: 390px; /* Set a fixed height to allow scrolling */
-                padding-left: 15px;
+                height: fit-content; /* Set a fixed height to allow scrolling */
+                padding-left: 40px;
                 overflow-y: auto; /* Allow vertical scrolling */
                 font-family: Mochiy Pop One;
 }
@@ -170,13 +170,14 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     z-index: 9999;
 
-    /* Scrollbar settings */
-    height: fit-content;
-    max-height: 70vh !important; /*Adjust this value to control the popup height */
+    /* Scrollbar settings     height: fit-content;*/
+
+    height: 70vh !important; /*Adjust this value to control the popup height */
     overflow-y: auto !important; 
     /*overflow-y:auto;  Add vertical scroll if content overflows */
 
 }
+
 
 /* Style for the popup content inside */
 .leaflet-popup-content {
@@ -184,6 +185,7 @@
   /* Allow scrolling inside the popup if content exceeds the height */
     word-wrap: break-word; /* Ensure long text breaks to fit inside the container */
 }
+
 
 
 /* WebKit browsers */
@@ -276,14 +278,13 @@
         
   
 
-
-	  
+  
     </style>
   </head>
  
   <body>
     <header>
-      <h1>Travel Map - nearly there I'm buzzing</h1>
+      <h1>Johanns Bee-utiful Travel Map</h1>
     </header>
     <!-- The map container   <div id="top-div">-->
     <div id="map"></div>
@@ -305,10 +306,13 @@
 
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	maxZoom: 12,
+  minZoom: 5,
   }).addTo(map);
-  
- // Add fullscreen control to the map
+ 
+
+  // Add fullscreen control to the map
 L.control.fullscreen().addTo(map);
 
 // Handle events when entering/exiting fullscreen mode (optional)
@@ -319,7 +323,6 @@ map.on('enterFullscreen', function(){
 map.on('exitFullscreen', function(){
     console.log('Exited fullscreen');
 });	    
-
 
 
 
@@ -334,7 +337,7 @@ map.on('exitFullscreen', function(){
 var lastClickedMarker = null;
 
 // Default content for the right-hand popup
-var DefaultPopupContent = '<h3>Zoom in, then click a 🐝 to see where I was.</h3>' + 
+var DefaultPopupContent = '<h2>?!</h2><p>Zoom in and click on a 🐝, or navigate the list :)</p>' + 
   '<button class="button" onclick="setLegendPopupContent()">View Legend</button>' +
   '<button class="button" onclick="setListPopupContent()">View List</button>';
 
@@ -366,8 +369,8 @@ function setDefaultPopupContent() {
 
 // Function to set the legend content in the right-hand popup
 function setLegendPopupContent() {
-  rightPopupDiv.innerHTML = '<h3>Legend:</h3>' + 
-    '<img src="MyBeeKey.png" style="width: auto; height: auto;">' + '<p> Map inspired by the German idiom - "Du hast hummeln im Hintern🐝" <br> This expression, out of the many I have learnt while on my OE, left a lasting impression and inspired the theme of this map. <br> Translated to English, it means you got bees in your bottom. Still confused? So was I, so it was further explained that your bottom is at such a risk of beeing stung that your always moving. In my case, traveling through 11 countires.  </p>'
+  rightPopupDiv.innerHTML = '<h2>Legend:</h2>' + 
+    '<img src="MyBeeKey.png" style="width: auto; height: auto;">' + '<p> Map inspired by the German idiom - "Du hast hummeln im Hintern🐝" <br> This expression, out of the many I have learnt while on my OE, left a lasting impression and inspired the theme of this map. <br> Translated to English, it means you got bees in your bottom. Still confused? So was I, so it was further explained that your bottom is at such a risk of beeing stung that your always moving. In my case, traveling through 11 countires.  </p>'+
     '<button class="button" onclick="setDefaultPopupContent()">Buzz off</button>';
   
   if (lastClickedMarker) {
@@ -380,7 +383,7 @@ function setLegendPopupContent() {
 function setListPopupContent() {
   // Set the HTML content of the popup, including a header and a button
   rightPopupDiv.innerHTML = `
-    <h3>Places I have 🐝-n</h3>
+    <h2>Places I have 🐝-n</h2>
     <div id="nameList"></div> <!-- This is where the list will be inserted -->
     <button class="button" onclick="setDefaultPopupContent()">Buzz off</button>
   `;
@@ -392,19 +395,28 @@ function setListPopupContent() {
 // Function to update the right-hand popup content with marker info
 function updateRightPopup(properties, latlng) {
   var subtext = properties.words || ''; // Show subtext if available
-  rightPopupDiv.innerHTML = '<h2>' + properties.name + '</h2> \n <img src="fotos/' + properties.abv + '.jpeg" alt="404" style="width: 100%;'+
+  rightPopupDiv.innerHTML = '<h2>' + properties.name + '</h2> \n <img src="fotos/' + properties.abv + '.jpeg" alt="4🐝4" style="width: 100%;'+
   'height: auto; object-fit: contain;"> \n <p>' + subtext + '</p> \n <button class="button" onclick="setDefaultPopupContent()">Buzz off</button>'+
   '<button class="button" onclick="setListPopupContent()">View List</button>';
 }
+
 //---------------------------------   POINT LAYER   --------------------------------------------
 
-
 // Marker icons for different states
-var DefaultMarkerIcon = L.icon({
+ var DefaultMarkerIcon = L.icon({
   iconUrl: 'beeIconMod.png',
   iconSize: [50, 50]
 });
 
+var HoverMarkerIcon = L.icon({
+  iconUrl: 'beeIconMod.png',
+  iconSize: [75, 75]
+});
+
+var PopupMarkerIcon = L.icon({
+  iconUrl: 'BuzzBee40.gif',
+  iconSize: [80, 75]
+});
 
 var geoJsonLayer;  // GeoJSON Layer
 var markers = {};   // Store markers by name for easy lookup
@@ -421,7 +433,7 @@ function addGeoJsonLayer() {
       // Bind tooltip (shown on hover)
       marker.bindTooltip(HoverContent, {
         offset: [0, -10], // Just a little bit up
-        permanent: true,
+        permanent: false,
         direction: 'top',
         className: 'custom-tooltip'
       });
@@ -465,11 +477,35 @@ function updateLayerVisibility() {
   var weight = layer.feature.properties.weight; // Get the weight of each layer
 
   // Remove all layers if zoom is less than 7
-
+  if (zoom < 6) {
+    if (map.hasLayer(layer)) {
+      map.removeLayer(layer); // Remove any layers that are already added
+    }
+  } 
+  // Show only layers with weight 1 if zoom is 7 or more
+  else if (zoom >= 6 && zoom < 7) {
+    if (weight === 1 && !map.hasLayer(layer)) {
+      map.addLayer(layer); // Add layer with weight 1
+    } else if (weight !== 1 && map.hasLayer(layer)) {
+      map.removeLayer(layer); // Remove layers that don't have weight 1
+    }
+  } 
+  // Show layers with weight 1 and 2 if zoom is 9 or more
+  else if (zoom >= 7 && zoom < 8) {
+    if ((weight === 1 || weight === 2) && !map.hasLayer(layer)) {
+      map.addLayer(layer); // Add layers with weight 1 or 2
+    } else if (weight > 2 && map.hasLayer(layer)) {
+      map.removeLayer(layer); // Remove layers that don't match the weight condition
+    }
+  } 
+  // Show layers with weight 1, 2, and 3 if zoom is 10 or more
+  else if (zoom >= 10) {
+    if ((weight === 1 || weight === 2 || weight === 3) && !map.hasLayer(layer)) {
       map.addLayer(layer); // Add layers with weight 1, 2, or 3
-    });
+    }
   }
-
+});
+}
 
 // Function to handle actions when a marker is clicked or a name is clicked from the list
 function handleMarkerClick(marker, feature, latlng) {
@@ -528,7 +564,7 @@ names.forEach(function(item) {
 
 
 // Load the GeoJSON data and add it to the map
-$.getJSON("bee_demo.geojson")
+$.getJSON("orte.geojson")
   .done(function(loadedData) {
     geoJsonData = loadedData; // Store loaded data globally
     console.log("GeoJSON data loaded: ", geoJsonData); // Log the loaded data
@@ -548,13 +584,12 @@ map.on('zoomend', updateLayerVisibility);
 
 
 
-
 //---------------------------------   POLYGON LAYER   --------------------------------------------
 
 // Define the initial style for the polygon
 var initialOpacity = 0.8; // Fully opaque	    
 //adding hexpolygons
-var GeoJsonSource = $.getJSON("Hex_cells_legend_as_r.geojson", function(data) {
+var GeoJsonSource = $.getJSON("Hex_cells.geojson", function(data) {
   var HexLayer = L.geoJSON(data, {
     style: function(feature) {
 	var fillColor,
@@ -593,7 +628,7 @@ adjustOpacityBasedOnZoom();
 </script>
 <div id="bottom-div">
 	  
-	<p>Johann Kissick, 2024 </p>
+	<p>Johann Rosteck | Kissick, 2025 </p>
 
   </div>  	  
   </body>
