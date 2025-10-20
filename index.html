@@ -100,10 +100,32 @@
     .tab-content.active {
       display: block;
     }
+
+    .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+      border: #00000000;
+      background-clip: padding-box; /* removes ugly box around the buttons */
+    }
+
+    /* Change the popup background color and text color */
+    .leaflet-tooltip {
+      margin-top: -30px; /* Move tooltip content 30px up */
+      background-color:yellow; 
+      border-radius: 6px; /* Rounded corners */
+      border: 2px solid black;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      text-align: center;  /* Center the content */
+      color: black; /* Dark text */
+      font-size: 12pt;
+      font-weight: bold; /* Bold text */
+      font-family: Mochiy Pop One;
+    }
+
   </style>
 </head>
 <body>
-
+  <header>
+    <h1>🐝 Testing ... it's a Map 🐝</h1>
+  </header>
   <!-- Map Container -->
   <div id="map">
     <!-- Side Panel (moved INSIDE map container) -->
