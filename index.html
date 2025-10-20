@@ -24,280 +24,280 @@
 
 
 <style>
-:root {
---myyellow: #f2c91c; /* rgb(242, 201, 28); */
---newyellow:#ffb02e;
-}
+  :root {
+  --myyellow: #f2c91c; /* rgb(242, 201, 28); */
+  --newyellow:#ffb02e;
+  }
 
 
-html, body {
-height: 100%;
-margin: 0;
-font-family: Arial, Helvetica, sans-serif
-}
-
-header {
-width: 100%; /* Full width */
-background-color: yellow; /* Background color */
-padding: 10px; /* Space inside the header */
-box-sizing: border-box;
-z-index: 1000; /* Ensure it stays above other content */
-
-}
-
-body {
-background-color: yellow; /* Background color */
-display: flex; /* used to say block;*/
-flex-direction: column;
-justify-content: center;
-align-items: center;
-height: 100vh; /* 100% of the viewport height */
-
-}
-
-#map { /*used to be called top-div, with map css following*/
+  html, body {
   height: 100%;
-  width: 100%;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif
+  }
+
+  header {
+  width: 100%; /* Full width */
+  background-color: yellow; /* Background color */
+  padding: 10px; /* Space inside the header */
+  box-sizing: border-box;
+  z-index: 1000; /* Ensure it stays above other content */
+
+  }
+
+  body {
+  background-color: yellow; /* Background color */
+  display: flex; /* used to say block;*/
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* 100% of the viewport height */
+
+  }
+
+  #map { /*used to be called top-div, with map css following*/
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    pointer-events: auto !important;  /* Allows interaction with the popup */
+    touch-action: auto;  /* Allows interaction with the popup */
+  }
+
+  #sidepanel {
+        position: absolute;
+        color: black;
+        top: 0;
+        right: 0;
+        height: 90%;
+        margin: 10px;
+        width: 25%;
+        z-index: 1001; /* higher than map layers */
+        background: yellow;
+        border: 3px solid black;
+        border-radius: 10pt;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  /*width: 1200px;
+    height: 850px; /*can#t go more than this for some reason*/
+  /*background-color: white;/*
+    }  
+
+  /* Ensure the map container is set to fill the available screen space 
+      #map {
+        width: 100%;   The map should take up the full width of its container 
+        height: 100%;
+  }
+
+        #bottom-div {
+            width: 100%;
+            height: 10px;
+            background-color: var(--myyellow);
+    }	
+  */
+  #nameList {
+  background-color: yellow;
+  position: relative;
+  justify-content: center;
+  height: fit-content; /* Set a fixed height to allow scrolling */
+  padding-left: 40px;
+  overflow-y: auto; /* Allow vertical scrolling */
+  font-family: Mochiy Pop One;
+  }
+
+  /* Style for individual name items */
+  .name-item {
+  width:200px;
+  padding: 10px;
+  margin-bottom: 7px;
+  background-color: var(--newyellow); 
+  border-radius: 4px; /* Slightly rounded corners for each item */
+  border: 2px solid black;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  font-size: 14px; /* Set a reasonable font size */
+  color: black;
+  }
+
+  /* Hover effect for name items */
+  .name-item:hover { 
+  transform: scaleY(1.2);
+  transform: scaleX(1.1);
+
+  }
+
+
+  h1 {
+  color: black;
+  font-family: Mochiy Pop One;
+  font-size: 400%;
+  text-align: center;
+  margin: 0;
+  }
+
+  h2 {
+  color: black;
+  font-family: Mochiy Pop One;
+  font-size: 250%;
+  text-align: center;
+  margin: 0;
+  }
+  p {
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold; /* Bold text */
+  }
+  .mochiy-pop-one-regular {
+  font-family: "Mochiy Pop One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  }
+
+
+  .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+  border: #00000000;
+  background-clip: padding-box; /* removes ugly box around the buttons */
+  }
+
+  /* Change the popup background color and text color */
+  .leaflet-tooltip {
+  margin-top: -30px; /* Move tooltip content 30px up */
+  background-color:yellow; 
+  border-radius: 6px; /* Rounded corners */
+  border: 2px solid black;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;  /* Center the content */
+  color: black; /* Dark text */
+  font-size: 12pt;
+  font-weight: bold; /* Bold text */
+  font-family: Mochiy Pop One;
+  } 
+
+  /* Custom popup style on the right side inside the map frame */
+  .leaflet-right-popup {
   position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
-  pointer-events: auto !important;  /* Allows interaction with the popup */
-  touch-action: auto;  /* Allows interaction with the popup */
-}
+  display: block; /* Ensure it's not hidden */
+  visibility: visible;
+  width:25vw;/*fit-content;*/
+  max-width:50vw !important; /* Set the width to 30% of the map's width */ 
+  right: 0px;
+  top: 5px;/*this is offset*/
+  background: yellow;
+  border: 2px solid black;
+  padding: 10px; /*inside content*/
+  border-radius: 6px; /* Rounded corners */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  z-index: 10000 !important;
 
-#sidepanel {
-      position: absolute;
-      color:black;
-      top: 0;
-      right: 0;
-      height: 90%;
-      margin: 10px;
-      width: 25%;
-      z-index: 5000 !important;
-      background: var(--myyellow);
-      border: 3px solid black;
-      border-radius: 10pt;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    }
+  /* Scrollbar settings     height: fit-content;*/
 
-/*width: 1200px;
-   height: 850px; /*can#t go more than this for some reason*/
-/*background-color: white;/*
-	}  
+  height: 70vh !important; /*Adjust this value to control the popup height */
+  overflow-y: auto !important; 
+  /*overflow-y:auto;  Add vertical scroll if content overflows */
 
- /* Ensure the map container is set to fill the available screen space 
-     #map {
-       width: 100%;   The map should take up the full width of its container 
-       height: 100%;
-}
-
-	    #bottom-div {
-           width: 100%;
-           height: 10px;
-           background-color: var(--myyellow);
-	}	
-*/
-#nameList {
-background-color: yellow;
-position: relative;
-justify-content: center;
-height: fit-content; /* Set a fixed height to allow scrolling */
-padding-left: 40px;
-overflow-y: auto; /* Allow vertical scrolling */
-font-family: Mochiy Pop One;
-}
-
-/* Style for individual name items */
-.name-item {
-width:200px;
-padding: 10px;
-margin-bottom: 7px;
-background-color: var(--newyellow); 
-border-radius: 4px; /* Slightly rounded corners for each item */
-border: 2px solid black;
-text-align: center;
-cursor: pointer;
-transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-font-size: 14px; /* Set a reasonable font size */
-color: black;
-}
-
-/* Hover effect for name items */
-.name-item:hover { 
-transform: scaleY(1.2);
-transform: scaleX(1.1);
-
-}
+  }
 
 
-h1 {
-color: black;
-font-family: Mochiy Pop One;
-font-size: 400%;
-text-align: center;
-margin: 0;
-}
-
-h2 {
-color: black;
-font-family: Mochiy Pop One;
-font-size: 250%;
-text-align: center;
-margin: 0;
-}
-p {
-color: black;
-font-family: Arial, Helvetica, sans-serif;
-font-weight: bold; /* Bold text */
-}
-.mochiy-pop-one-regular {
-font-family: "Mochiy Pop One", sans-serif;
-font-weight: 400;
-font-style: normal;
-}
-
-
-.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
-border: #00000000;
-background-clip: padding-box; /* removes ugly box around the buttons */
-}
-
-/* Change the popup background color and text color */
-.leaflet-tooltip {
-margin-top: -30px; /* Move tooltip content 30px up */
-background-color:yellow; 
-border-radius: 6px; /* Rounded corners */
-border: 2px solid black;
-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-text-align: center;  /* Center the content */
-color: black; /* Dark text */
-font-size: 12pt;
-font-weight: bold; /* Bold text */
-font-family: Mochiy Pop One;
-} 
-
-/* Custom popup style on the right side inside the map frame */
-.leaflet-right-popup {
-position: absolute;
-display: block; /* Ensure it's not hidden */
-visibility: visible;
-width:25vw;/*fit-content;*/
-max-width:50vw !important; /* Set the width to 30% of the map's width */ 
-right: 0px;
-top: 5px;/*this is offset*/
-background: yellow;
-border: 2px solid black;
-padding: 10px; /*inside content*/
-border-radius: 6px; /* Rounded corners */
-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-z-index: 10000 !important;
-
-/* Scrollbar settings     height: fit-content;*/
-
-height: 70vh !important; /*Adjust this value to control the popup height */
-overflow-y: auto !important; 
-/*overflow-y:auto;  Add vertical scroll if content overflows */
-
-}
-
-
-/* Style for the popup content inside */
-.leaflet-popup-content {
-/*max-height: 50vh; /* Limit the content height */
-/* Allow scrolling inside the popup if content exceeds the height */
-word-wrap: break-word; /* Ensure long text breaks to fit inside the container */
-}
+  /* Style for the popup content inside */
+  .leaflet-popup-content {
+  /*max-height: 50vh; /* Limit the content height */
+  /* Allow scrolling inside the popup if content exceeds the height */
+  word-wrap: break-word; /* Ensure long text breaks to fit inside the container */
+  }
 
 
 
-/* WebKit browsers */
-#nameList::-webkit-scrollbar {
-width: 30px; /* Width of the scrollbar */
-border-radius: 8px; /* Round the scrollbar to match the popup */
-}
+  /* WebKit browsers */
+  #nameList::-webkit-scrollbar {
+  width: 30px; /* Width of the scrollbar */
+  border-radius: 8px; /* Round the scrollbar to match the popup */
+  }
 
-#nameList::-webkit-scrollbar-thumb {
-background-color: rgba(0, 0, 0, 0.5); /* Color of the scrollbar thumb */
-border-radius: 8px; /* Match the rounded corners */
-}
+  #nameList::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5); /* Color of the scrollbar thumb */
+  border-radius: 8px; /* Match the rounded corners */
+  }
 
-#nameList::-webkit-scrollbar-track {
-background: yellow; /* Transparent track to blend with the background */
-border-radius: 8px; /* Round the track as well */
-}
+  #nameList::-webkit-scrollbar-track {
+  background: yellow; /* Transparent track to blend with the background */
+  border-radius: 8px; /* Round the track as well */
+  }
 
-/* For Firefox */
-.leaflet-right-popup {
-scrollbar-width: thin;
-scrollbar-color: rgba(0, 0, 0, 0.5) transparent; /* Thumb and track colors */
-}
+  /* For Firefox */
+  .leaflet-right-popup {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.5) transparent; /* Thumb and track colors */
+  }
 
-/* Scrollbar thumb for Firefox */
-.leaflet-right-popup::-webkit-scrollbar-thumb {
-border-radius: 8px; /* Rounded corners */
-}
+  /* Scrollbar thumb for Firefox */
+  .leaflet-right-popup::-webkit-scrollbar-thumb {
+  border-radius: 8px; /* Rounded corners */
+  }
 
-/* Button styling */
-.button {
-background-color: var(--newyellow);
-color: black;
-font-family: Mochiy Pop One;
-font-size: 10px;
-padding: 10px;
-border: 2px solid black;
-cursor: pointer;
-text-align: center;
-border-radius: 5px;
-display: block;
-margin: 10px auto; /* Center the button horizontally with auto margins */
-width: fit-content; /* Set button width based on its content */
-}
-/* Button hover effect */
-.button:hover {
-transform: scale(1.15); /* Increase size by 15% (3px more in every direction) */
-}
+  /* Button styling */
+  .button {
+  background-color: var(--newyellow);
+  color: black;
+  font-family: Mochiy Pop One;
+  font-size: 10px;
+  padding: 10px;
+  border: 2px solid black;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  display: block;
+  margin: 10px auto; /* Center the button horizontally with auto margins */
+  width: fit-content; /* Set button width based on its content */
+  }
+  /* Button hover effect */
+  .button:hover {
+  transform: scale(1.15); /* Increase size by 15% (3px more in every direction) */
+  }
 
 
-.leaflet-control-zoom-in {
-background-color: yellow  !important;  
-color: black;
-border: 2px solid black !important;
-margin-bottom: 10px !important;
-border-radius: 20px !important;
-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
+  .leaflet-control-zoom-in {
+  background-color: yellow  !important;  
+  color: black;
+  border: 2px solid black !important;
+  margin-bottom: 10px !important;
+  border-radius: 20px !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
 
-.leaflet-control-zoom-in:hover {
-transform: scale(1.25); /* Increase size by 25% */
-}
+  .leaflet-control-zoom-in:hover {
+  transform: scale(1.25); /* Increase size by 25% */
+  }
 
-.leaflet-control-zoom-out{
-background-color: yellow !important;  
-color: black;
-border: 2px solid black !important;
-border-radius: 20px !important;
-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
+  .leaflet-control-zoom-out{
+  background-color: yellow !important;  
+  color: black;
+  border: 2px solid black !important;
+  border-radius: 20px !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
 
-.leaflet-control-zoom-out:hover {
-transform: scale(1.25); /* Increase size by 25 */
-}
+  .leaflet-control-zoom-out:hover {
+  transform: scale(1.25); /* Increase size by 25 */
+  }
 
-/* Style the fullscreen button */
-.leaflet-control-fullscreen a {
-background-color: yellow !important;  
-color: black;
-border: 2px solid black !important;
-border-bottom: 2px solid black !important;
-border-radius: 20px !important;
-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
+  /* Style the fullscreen button */
+  .leaflet-control-fullscreen a {
+  background-color: yellow !important;  
+  color: black;
+  border: 2px solid black !important;
+  border-bottom: 2px solid black !important;
+  border-radius: 20px !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
 
-.leaflet-control-fullscreen a:hover {
+  .leaflet-control-fullscreen a:hover {
 
-transform: scale(1.25); /* Increase size by 25% */
-}
+  transform: scale(1.25); /* Increase size by 25% */
+  }
 
 
 
