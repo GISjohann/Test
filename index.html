@@ -81,7 +81,7 @@
       display: flex;
       justify-content: space-around;
       margin: 10px 0;
-      color: green;
+      color: var(--myyellow);
     }
 
     .tab-btn {
@@ -90,15 +90,14 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      color: blue;
+      color: black;
     }
 
     .tab-btn:hover {
-      background-color: #ccc;
+      transform: scale(1.25); /* Increase size by 25% */
     }
 
     .tab-btn.active {
-      background-color: #bbb;
       font-weight: bold;
     }
 
@@ -187,7 +186,8 @@
     p {
       color: black;
       font-family: Arial, Helvetica, sans-serif;
-      font-weight: bold; /* Bold text */
+      font-weight: bold;
+      text-align: center;
     }
 
     .mochiy-pop-one-regular {
@@ -214,9 +214,9 @@
       </div>
 
       <div class="tab-buttons">
-        <button class="tab-btn active" data-tab="intro">Intro</button>
-        <button class="tab-btn" data-tab="legend">Legend</button>
-        <button class="tab-btn" data-tab="description">Description</button>
+        <button class="tab-btn active" data-tab="Legend">Legend</button>
+        <button class="tab-btn" data-tab="List">List</button>
+        <button class="tab-btn" data-tab="List2">List2</button>
       </div>
 
       <div class="leaflet-sidepanel-content">
@@ -224,7 +224,7 @@
           <p>Welcome to the map! This is the introduction section.</p>
         </div>
         <div class="tab-content" id="tab-legend">
-          <p><strong>Legend:</strong><br>🟢 Park<br>🔵 Water<br>🔴 Danger zone</p>
+          <p><strong>Legend:</strong><br>Park<br>🔵<br>🔴</p>
         </div>
         <div class="tab-content" id="tab-description">
           <p>This map displays points of interest in the selected area. Click on markers to see more.</p>
@@ -233,7 +233,7 @@
     </div>
   </div>
   <div id="bottom-div">
-    <p>Johann Rosteck | Kissick, 2025 </p>
+    <p>Johann Rosteck | Kissick, 2025</p>
   </div>  	
 
   <!-- Leaflet JS -->
