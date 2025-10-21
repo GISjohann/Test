@@ -246,9 +246,9 @@
   <script src="https://maxwell-ilai.github.io/Leaflet.SidePanel/src/leaflet-sidepanel.js"></script>
 
   <script>
-    const map = L.map('map').setView([51.505, -0.09], 5);
+    const map = L.map('map').setView([48.1657, 9.9515], 5);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
+      maxZoom: 12,
     }).addTo(map);
 
     L.control.fullscreen().addTo(map);
@@ -267,11 +267,11 @@
       panel.hide();
     });
 
-    const marker = L.marker([51.5, -0.09]).addTo(map);
-    marker.on('click', () => {
-      panel.show();
-      setActiveTab("description");
-    });
+    //const marker = L.marker([51.5, -0.09]).addTo(map);
+    //marker.on('click', () => {
+      //panel.show();
+      //setActiveTab("description");
+    //});
 
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
