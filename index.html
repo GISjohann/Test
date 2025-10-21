@@ -51,7 +51,7 @@
     }
 
     #map {
-      height: 82%;
+      height: 80%;
       width: 100%;
       border: 3px solid black;
       top: 0;
@@ -75,7 +75,7 @@
     }
 
     #bottom-div {
-      height: 3%;
+      height: 5%;
       position: bottom;
     }
 
@@ -308,22 +308,21 @@
   
     //---------------------------------   POLYGON LAYER   --------------------------------------------
 
-    // Load your GeoJSON using jQuery
+   // Load your GeoJSON using jQuery
     $.getJSON("Hex_cells.geojson", function(data) {
     // Create a Leaflet GeoJSON layer
-      const HexLayer = L.geoJSON(data, {
+    const HexLayer = L.geoJSON(data, {
       style: function(feature) {
-        return {
-          color: 'black',        // polygon outline
-          weight: 1,
-          fillColor: 'blue',     // fill color
-          fillOpacity: 0.5
-        };
-      },
-      
-    }).addTo(map);
+      return {
+        color: 'black',        // polygon outline
+        weight: 1,
+        fillColor: 'blue',     // fill color
+        fillOpacity: 0.5
+      };
+      }
+      }).addTo(map);
+    });
 
-  });
   </script>
 </body>
 </html>
