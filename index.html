@@ -50,12 +50,9 @@
       z-index: 1000; /* Ensure it stays above other content */
     }
 
-    
-
     #map {
       height: 85%;
       width: 100%;
-      position: bottom;
       border: 3px solid black;
       top: 0;
       left: 0;
@@ -79,6 +76,7 @@
 
     #bottom-div {
       height: 15px;
+      position: bottom;
     }
 
     .tab-buttons {
@@ -249,6 +247,9 @@
   <!-- SidePanel JS -->
   <script src="https://maxwell-ilai.github.io/Leaflet.SidePanel/src/leaflet-sidepanel.js"></script>
 
+  <!-- Include jQuery (required for $.getJSON) -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
   <script>
     const map = L.map('map').setView([48.1657, 9.9515], 5);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -314,8 +315,7 @@
     var GeoJsonSource = $.getJSON("Hex_cells.geojson", function(data) {
     var HexLayer = L.geoJSON(data, {
     style: function(feature) {
-    var fillColor,
-    density = feature.properties.NUMPOINTS;
+    var fillColor, density = feature.properties.NUMPOINTS;
     if ( density >= 6.0 ) fillColor = "orange";
     else if ( density >= 5.0 ) fillColor = "#ff841f";
     else if ( density >= 4.0 ) fillColor = "#ffb61f";
@@ -347,9 +347,7 @@
     // Adjust opacity initially
     adjustOpacityBasedOnZoom();
     });
-
-
-
+   
 
   </script>
 </body>
