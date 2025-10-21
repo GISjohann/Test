@@ -309,23 +309,38 @@
   
     //---------------------------------   POLYGON LAYER   --------------------------------------------
 
-    $.getJSON("Hex_cells.geojson", function(data) {
-      const HexLayer = L.geoJSON(data, {
-      style: function(feature) {
-        return {
-          color: 'black',
-          weight: 1,
-          fillColor: 'blue',
-          fillOpacity: 0.5
-        };
-      }
-      }).addTo(map);
+     // 2️⃣ Load and add your GeoJSON
+     $.getJSON("Hex_cells.geojson")
+      .done(function(data) {
+        console.log("✅ Hex_cells.geojson loaded!", data);
+
+        // 3️⃣ Create the layer with a style function
+        const hexLayer = L.geoJSON(data, {
+          style: function(feature) {
+            const density = feature.properties.NUMPOINTS || 0;
+            let fillColor;
+            if (density >= 6) fillColor = "orange";
+            else if (density >= 5) fillColor = "#ff841f";
+            else if (density >= 4) fillColor = "#ffb61f";
+            else if (density >= 3) fillColor = "#ffe91f";
+            else if (density >= 2) fillColor = "#ffff6a";
+            else if (density >= 1) fillColor = "#ffff9b";
+            else fillColor = "#cccccc"; // no data
+
+            return {
+              color: "black",      // polygon border
+              weight: 1,
+              fillColor: fillColor,
+              fillOpacity: 0.6
+            };
+          }
+        }).addTo(map);
+        
 
     // Zoom to your polygons
     map.fitBounds(HexLayer.getBounds());
     });
 
-</script>
 
   </script>
 </body>
