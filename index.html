@@ -77,6 +77,8 @@
     #bottom-div {
       height: 3%;
       position: bottom;
+      padding: 0px;
+      background:blueviolet;
     }
 
     .tab-buttons {
@@ -322,7 +324,17 @@
         }
       }).addTo(map);
 
-    });
+
+
+       // Zoom to the polygon bounds
+    map.fitBounds(hexLayer.getBounds());
+  })
+  .fail(function() {
+    console.error("❌ Failed to load GeoJSON file — check file path and server.");
+  });
+ 
+
+    
 
   </script>
 </body>
