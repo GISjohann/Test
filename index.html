@@ -310,9 +310,19 @@
     
   
     //---------------------------------   POLYGON LAYER   --------------------------------------------
+    const berlinCircle = L.circleMarker([52.5200, 13.4050], {
+  radius: 8,           // pixel radius
+  color: 'white',      // outline
+  weight: 2,
+  fillColor: 'blue',
+  fillOpacity: 0.9
+}).addTo(map);
 
+berlinCircle.bindPopup('Berlin — circle marker');
     $.getJSON("Hex_cells.geojson", function(data) {
       console.log("✅ GeoJSON loaded!", data);
+
+      
 
       // 4️⃣ Add polygons with simple styling
       const hexLayer = L.geoJSON(data, {
