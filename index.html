@@ -77,8 +77,7 @@
     #bottom-div {
       height: 5%;
       position: bottom;
-      background-color:green;
-      border:0px;
+      border:2px;
       /*margin: 0px*/
     }
 
@@ -247,7 +246,9 @@
       console.log('Exited fullscreen');
     });
 
-    L.marker([8.2200044, 53.1299986]).addTo(map)
+    L.marker([52.52, 13.405]).addTo(map)
+    .bindPopup("📍 Berlin")
+    .openPopup();
     
 
   </script>
