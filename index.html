@@ -77,8 +77,7 @@
     #bottom-div {
       height: 5%;
       position: bottom;
-      border:5px;
-      /*margin: 0px*/
+      margin: 15px
     }
 
     .tab-buttons {
@@ -205,11 +204,11 @@
 </head>
 <body>
   <header>
-    <h1>🐝 4 Testing ... it's a Map 🐝</h1>
+    <h1>🐝 1 Testing ... it's a Map 🐝</h1>
   </header>
   <div id="map">  <!-- Map Container -->
     <!-- Side Panel (moved INSIDE map container) -->
-    <div id="sidepanel" class="leaflet-sidepanel"></div>
+    <!--<div id="sidepanel" class="leaflet-sidepanel"></div>-->
   </div><!-- Map Container -->
   <div id="bottom-div">
     <p>Johann Rosteck | Kissick, 2025</p>
@@ -236,7 +235,7 @@
 
     L.control.fullscreen().addTo(map);
 
-    const panel = L.control.sidepanel('sidepanel', { position: 'right' }).addTo(map);
+    /*const panel = L.control.sidepanel('sidepanel', { position: 'right' }).addTo(map);*/
 
     map.on('enterFullscreen', function () {
       console.log('Entered fullscreen');
