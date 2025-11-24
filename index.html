@@ -204,6 +204,22 @@
       font-style: normal;
     }
 
+    #sidebar {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        height: 90%;
+        width: 300px;
+
+        background: yellow;
+        border: 3px solid black;
+        border-radius: 10pt;
+
+        z-index: 2000 !important;   /* FIX: above leaflet controls */
+        pointer-events: auto;        /* allow clicking inside */
+    }
+
+
   </style>
 </head>
 <body>
@@ -263,9 +279,9 @@
     
     
     
-    <!-- Side Panel (moved INSIDE map container) -->
+    <!-- Side Panel (moved INSIDE map container) 
     <div id="side-div"><class="leaflet-sidepanel"></class></div>    
-  </div><!-- Map Container -->
+  </div>-->
   <div id="bottom-div">
     <p>Johann Rosteck | Kissick, 2025</p>
   </div>  	
@@ -303,7 +319,8 @@
 
     var marker = L.marker([51.2, 7]).addTo(map);
 
-    var sidebar = L.control.sidebar('sidebar').addTo(map);
+    var sidebar = L.control.sidebar('sidebar',{
+      position: 'right'}).addTo(map);
     
 
   </script>
