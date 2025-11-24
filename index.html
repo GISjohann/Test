@@ -258,9 +258,9 @@
     
     
     
-    <!-- Side Panel (moved INSIDE map container) 
+    <!-- Side Panel (moved INSIDE map container) -->
     <div id="side-div"><class="leaflet-sidepanel"></class></div>    
-  </div>-->
+  </div>
   <div id="bottom-div">
     <p>Johann Rosteck | Kissick, 2025</p>
   </div>  	
@@ -301,6 +301,17 @@
     var sidebar = L.control.sidebar('sidebar',{
       position: 'right'}).addTo(map);
     
+      // Prevent map interactions while cursor is inside panel
+    const sidebar = document.getElementById('sidebar');
+
+    L.DomEvent.disableClickPropagation(sidebar);
+    L.DomEvent.disableScrollPropagation(sidebar);
+
+    // Prevent map interactions while cursor is inside panel
+    const original_sidebar = document.getElementById('side-div');
+
+    L.DomEvent.disableClickPropagation(original_sidebar);
+    L.DomEvent.disableScrollPropagation(original_sidebar);
 
   </script>
 </body>
