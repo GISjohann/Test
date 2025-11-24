@@ -301,11 +301,6 @@
     var sidebar = L.control.sidebar('sidebar',{
       position: 'right'}).addTo(map);
     
-      // Prevent map interactions while cursor is inside panel
-    const sidebar = document.getElementById('sidebar');
-
-    L.DomEvent.disableClickPropagation(sidebar);
-    L.DomEvent.disableScrollPropagation(sidebar);
 
     // Prevent map interactions while cursor is inside panel
     const original_sidebar = document.getElementById('side-div');
