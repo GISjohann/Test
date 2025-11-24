@@ -206,6 +206,7 @@
 
     #sidebar {
         position: absolute;
+        float:right;
         top: 10px;
         left: 10px;
         height: 90%;
@@ -216,7 +217,7 @@
         border-radius: 10pt;
 
         z-index: 2000 !important;   /* FIX: above leaflet controls */
-        pointer-events: auto;        /* allow clicking inside */
+        pointer-events: auto !important;        /* allow clicking inside */
     }
 
 
@@ -320,7 +321,7 @@
     var marker = L.marker([51.2, 7]).addTo(map);
 
     var sidebar = L.control.sidebar('sidebar',{
-      position: 'right'}).addTo(map);
+      position: 'top'}).addTo(map);
     
 
   </script>
